@@ -1759,6 +1759,46 @@ tinymce.create('static tinymce.util.XHR', {
 		uniqueId : function(p) {
 			return (!p ? 'mce_' : p) + (this.counter++);
 		},
+		
+		drawInCanvas : function () {
+			
+			if(tinyMCE.canvasParams != undefined) {	
+					
+				var tinyBody = tinyMCE.activeEditor.dom.doc.body;	
+				var canvas = tinyBody.getElementsByTagName('canvas');
+				for (i in canvas) {
+					if(canvas[i] != undefined && canvas[i].nodeType != undefined) {
+						var cp = canvas[i].parentNode;
+						while (cp.nodeName != 'DIV' || cp.getAttribute('id') != 'matchInteraction') {
+							cp = cp.parentNode;
+						}
+						cp = cp.previousSibling.data;
+						var id = cp.match(/<matchInteraction responseIdentifier="([^"]*)"[^>]*>/i);
+						canvas[i].setAttribute('id', 'canvas_' + id[1]);
+					}
+				}
+				for(i in tinyMCE.canvasParams) {
+					var canvas = tinyMCE.activeEditor.dom.get('canvas_' + i);
+					if(canvas != undefined) {
+						canvas.setAttribute('height', tinyMCE.canvasParams[i].maxElements * 21);
+						ctx = canvas.getContext("2d");
+						ctx.lineWidth = '2'; 
+						ctx.strokeStyle = "#2b6fb6";
+						ctx.lineCap = 'round';
+						for(j in tinyMCE.canvasParams[i].connections) {
+							var conn = tinyMCE.canvasParams[i].connections[j];
+							conn = conn.split(' ');
+							ctx.beginPath();
+							ctx.moveTo(0, (conn[0] * 21) + 10);
+							ctx.lineTo(200,(conn[1] * 21) + 10);
+							ctx.stroke();
+						}
+					}					
+				}
+				
+			}
+			
+		},
 
 		setHTML : function(e, h) {
 			var t = this;
@@ -1767,6 +1807,8 @@ tinymce.create('static tinymce.util.XHR', {
 				var x, i, nl, n, p, x;
 
 				h = t.processHTML(h);
+				
+				this.drawInCanvas();
 				
 				if (isIE) {
 					function set() {
@@ -1952,10 +1994,10 @@ tinymce.create('static tinymce.util.XHR', {
 			for(var i in answers) {
 				if(answers[i][1] != 'ordered') {
 					for(var j in answers[i][0]) {
-						var simpleChoice = new RegExp('(<simpleChoice identifier="' + answers[i][0][j] + '"[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleChoice>)(?! -->)', "gi");
+						var simpleChoice = new RegExp('(<simpleChoice identifier="' + answers[i][0][j] + '"[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)(<feedbackInline[^>]*>[^<]*<\/feedbackInline>)?<\/simpleChoice>)(?! -->)', "gi");
 						h = h.replace(simpleChoice, '<!-- $1 --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" checked="checked" />$2');
 					}
-					var sc = new RegExp('(<simpleChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleChoice>)(?! -->)', 'gi');
+					var sc = new RegExp('(<simpleChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)(<feedbackInline[^>]*>[^<]*<\/feedbackInline>)?<\/simpleChoice>)(?! -->)', 'gi');
 					h = h.replace(sc, '<!-- $1 --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" />$2');
 				}
 			}
@@ -1974,23 +2016,80 @@ tinymce.create('static tinymce.util.XHR', {
 			
 			//Match support
 			h = h.replace(/(<matchInteraction[^>]*>)(?! -->)/gi, '<!-- $1 --><div id="matchInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">');
-			h = h.replace(/(<prompt>([^<]*)<\/prompt>)(?=\s*<simpleMatchSet)/gi, '<p id="matchInteraction">$2</p><table width="100%" border=0 style="border: none;"><tbody><tr valign="top" style="border: none;">');
-			//for(var i in answers) {
-			//	if(answers[i][1] == 'multiple') {
-			//		for(var j in answers[i][0]) {
-			//			var idj = parseInt(j);
-			//			idj++;
-			//			var simpleChoice = new RegExp('(<simpleChoice identifier="' + answers[i][0][j] + '"[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleChoice>)(?! -->)', "gi");
-			//			h = h.replace(simpleChoice, '<!-- $1 --><div id="orderOption" name="' + idj + '" style="border: 1px solid green; margin: 2px;">$2</div>');
-			//		}
-			//	}
-			//}
-			h = h.replace(/(<simpleMatchSet>)(?! -->)/gi, '<!-- $1 --><td align="center" width="50%" style="border: none;"><table class="mceNonEditable" width="100%" border=0 style="border: none;"><tbody>');
-			h = h.replace(/(<simpleAssociableChoice identifier="[^"]*"[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleAssociableChoice>)(?! -->)/gi, '<!-- $1 --><tr style="border: none;"><td align="center" style="border: none;"><span id="matchInteraction" style="border: 1px solid blue; color: blue;">$2</span></td></tr>');
+			h = h.replace(/(<prompt>([^<]*)<\/prompt>)(?=\s*<simpleMatchSet)/gi, '<p id="matchInteraction">$2</p><table align="center" border=0 style="border: none;"><tbody><tr valign="top" style="border: none;">');
+			h = h.replace(/(<simpleMatchSet>)(?! -->)/gi, '<!-- $1 --><td align="center" style="border: none;"><table class="mceNonEditable" width="100%" border=0 style="border: none;"><tbody>');
+			h = h.replace(/(<simpleAssociableChoice identifier="([^"]*)" fixed="true"[^>]*>([^<]*)<\/simpleAssociableChoice>)(?! -->)/gi, '<!-- $1 --><tr id="matchset" style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">$2</span><span id="span_fixed" style="display: none;">true</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">$3</span></td></tr>');
+			h = h.replace(/(<simpleAssociableChoice identifier="([^"]*)" fixed="true"[^>]*>([^<]*)<img([^>]*)>([^<]*)<\/simpleAssociableChoice>)(?! -->)/gi, '<!-- $1 --><tr id="matchset" style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">$2</span><span id="span_fixed" style="display: none;">true</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">$3<img$4 height="16px">$5</span></td></tr>');
+			h = h.replace(/(<simpleAssociableChoice identifier="([^"]*)"[^>]*>([^<]*)<\/simpleAssociableChoice>)(?! -->)/gi, '<!-- $1 --><tr id="matchset" style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">$2</span><span id="span_fixed" style="display: none;">false</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">$3</span></td></tr>');
+			h = h.replace(/(<simpleAssociableChoice identifier="([^"]*)"[^>]*>([^<]*)<img([^>]*)>([^<]*)<\/simpleAssociableChoice>)(?! -->)/gi, '<!-- $1 --><tr id="matchset" style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">$2</span><span id="span_fixed" style="display: none;">false</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">$3<img$4 height="16px">$5</span></td></tr>');
 			h = h.replace(/(<\/simpleMatchSet>)(?! -->)/gi, '<!-- $1 --></tbody></table></td>');
+			h = h.replace(/(<!-- <\/simpleMatchSet> --><\/tbody><\/table><\/td>)[^<]*(<!-- <simpleMatchSet> --><td[^>]*>)/gi, '$1<td id="canvas_td" width="200px" style="border: none;"><canvas id="canvas" width="200px" style="border: 1px solid blue;"></canvas></td>$2');
 			h = h.replace(/(<\/matchInteraction>)(?! -->)/gi, '</tr></tbody></table></div><!-- end of matchInteraction -->');
+
+			//Modal feedbacks
+			h = h.replace(/(<modalFeedback[^>]*>[^<]*<\/modalFeedback>)/gi, '<!-- $1 -->');
 			
 			return h;
+			
+		},
+		
+		processQYComments : function(h) {
+			
+			h = h.replace(/<span (id="[0-9]+" class="qy_comment") style="">/gi, '<span $1 style="color: red; background-color: #f0f0f0">');
+			h = h.replace(/<qy:comment idref="([0-9]+)">([^<]*)<\/qy:comment>/gi, '<div id="ref_$1" class="mceNonEditable qy_comment" style="float: right; border: 1px solid red; background-color: #f0f0f0;">$2</div>');
+			return h;
+			
+		},
+		
+		setCanvasParams : function() {
+			
+			var canvasParams = new Array;
+			var matchInteractions = $('matchInteraction');
+			
+			matchInteractions.each(function(i) {
+				var rid = matchInteractions[i].getAttribute('responseIdentifier');
+				var sets = $('matchInteraction[responseIdentifier=\'' + rid + '\'] > simpleMatchSet');
+				if(sets[0].childElementCount > sets[1].childElementCount) {
+					var maxElements = sets[0].childElementCount;
+				} else {
+					var maxElements = sets[1].childElementCount;
+				}
+				
+				var connIndexes = new Array;
+				var connections = $('responseDeclaration[identifier=\'' + rid + '\'] > correctResponse').children();
+				connections.each(function(i) {
+					var conn = connections[i].innerHTML;
+					conn = conn.split(' ');
+					
+					var posLeft = 0;
+					for(i in sets[0].childNodes) {
+						if(sets[0].childNodes[i].nodeType == 1 && sets[0].childNodes[i].nodeName == 'SIMPLEASSOCIABLECHOICE') {
+							if(sets[0].childNodes[i].getAttribute('identifier') == conn[0]) {
+								break;
+							}
+							posLeft++;
+						}
+					}
+					
+					var posRight = 0;
+					for(i in sets[1].childNodes) {
+						if(sets[1].childNodes[i].nodeType == 1 && sets[1].childNodes[i].nodeName == 'SIMPLEASSOCIABLECHOICE') {
+							if(sets[1].childNodes[i].getAttribute('identifier') == conn[1]) {
+								break;
+							}
+							posRight++;
+						}
+					}
+					
+					connIndexes.push(String(posLeft) + ' ' + String(posRight));
+					
+				});
+				
+				canvasParams[rid] = {maxElements: maxElements, connections: connIndexes};
+				
+			});
+			
+			tinyMCE.canvasParams = canvasParams;
 			
 		},
 		
@@ -2000,7 +2099,10 @@ tinymce.create('static tinymce.util.XHR', {
 			if (!s.process_html)
 					return h;
 			
+			this.setCanvasParams();
+			
 			h = this.processQTI(h);
+			h = this.processQYComments(h);
 			
 			// Convert strong and em to b and i in FF since it can't handle them
 			if (tinymce.isGecko) {
@@ -6367,7 +6469,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			//Choices support
 			h = h.replace(/(?:<p>)?<!-- (<choiceInteraction[^>]*>) -->(?:<\/p>)?<div id="choiceInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">/gi, '$1');
 			h = h.replace(/<p id="choiceInteraction">([^<]*)<\/p>/gi, '<prompt>$1</prompt>');
-			h = h.replace(/<!-- (<simpleChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleChoice>) --><br \/><input id="choiceInteraction" [^>]*>(<img[^>]*>|[^<]*)/gi,'$1');
+			h = h.replace(/<!-- (<simpleChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)(<feedbackInline[^>]*>[^<]*<\/feedbackInline>)?<\/simpleChoice>) --><br \/><input id="choiceInteraction" [^>]*>(<img[^>]*>|[^<]*)/gi,'$1');
 			h = h.replace(/ mce_src="[^"]*"/gi,'');
 			h = h.replace(/<\/div><!-- end of choiceInteraction -->/gi,'</choiceInteraction>');
 			
@@ -6386,20 +6488,33 @@ window.tinymce.dom.Sizzle = Sizzle;
 			//Match support
 			h = h.replace(/<!-- (<matchInteraction[^>]*>) --><div id="matchInteraction" class="mceNonEditable"[^>]*>/gi, '$1');
 			h = h.replace(/<p id="matchInteraction">([^<]*)<\/p><table[^>]*><tbody><tr[^>]*>/gi, '<prompt>$1</prompt>');
+			h = h.replace(/<td id="canvas_td"[^>]*><canvas[^>]*><\/canvas><\/td>/gi, '');
 			h = h.replace(/<!-- (<simpleMatchSet>) --><td[^>]*><table class="mceNonEditable"[^>]*><tbody>/gi, '$1');
-			h = h.replace(/<!-- (<simpleAssociableChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleAssociableChoice>) --><tr[^>]*><td[^>]*><span[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/span><\/td><\/tr>/gi, '$1');
+			h = h.replace(/(<tr id="canvas_tr"[^>]*><td[^>]*><canvas id="canvas"[^>]*><\/canvas><\/td><\/tr>)/gi,'');
+			h = h.replace(/<!-- (<simpleAssociableChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleAssociableChoice>) --><tr[^>]*><td[^>]*><span[^>]*>[^<]*<\/span><span[^>]*>[^<]*<\/span><span[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/span><\/td><\/tr>/gi, '$1');
 			h = h.replace(/<!-- (<\/simpleMatchSet>) --><\/tbody><\/table><\/td>/gi, '$1');
 			h = h.replace(/<\/tr><\/tbody><\/table><\/div><!-- end of matchInteraction -->/gi, '</matchInteraction>');
 			
-			
+			//Modal feedbacks
+			h = h.replace(/(<!-- (<modalFeedback [^>]*>[^<]*<\/modalFeedback>) -->)(?! -->)/gi, '$2');
 			
 			return h;
+		},
+		
+		parseCommentsToQY : function(h) {
+			
+			h = h.replace(/<span (id="[0-9]+" class="qy_comment") style="[^"]*">/gi, '<span $1 style="">');
+			h = h.replace(/<div id="ref_([0-9]+)" class="mceNonEditable qy_comment" style="[^"]*">([^<]*)<\/div>/gi, '<qy:comment idref="$1">$2<\/qy:comment>');
+			return h;
+			
 		},
 		
 		_postProcess : function(o) {
 			var t = this, s = t.settings, h = o.content, sc = [], p;
 			
 			h = this.parseToQTI(h);
+			
+			h = this.parseCommentsToQY(h);
 			
 			if (o.format == 'html') {
 				// Protect some elements
@@ -6457,7 +6572,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 						h = h.replace(/<(inlineChoiceInteraction|choiceInteraction|orderInteraction|matchInteraction)([^>]*)>\s*/gi, '\n\n<$1$2>');
 						
 						// begin tags with one newline before
-						h = h.replace(/<(assessmentItem)([^>]*)>\s*/gi, '\n<$1$2>');
+						h = h.replace(/<(assessmentItem|modalFeedback)([^>]*)>\s*/gi, '\n<$1$2>');
 						
 						// begin tags with two newlines after
 						h = h.replace(/<(assessmentItem|itemBody)([^>]*)>\s*/gi, '<$1$2>\n\n');
