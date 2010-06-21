@@ -55,12 +55,20 @@ var choiceDialog = {
 					odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
 					src = odp.split('/');
 					src = src[src.length - 1];
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="hidden" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="point_' + q + '" type="' + type + '" name="points[]" style="margin: 0; padding: 0;"' + correct + '/></td><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="hidden" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="point_' + q + '" type="' + type + '" name="points[]" style="margin: 0; padding: 0;"' + correct + '/></td><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px"><img src="img/feedback.png" onclick="feedback(this);" title="Set feedback" alt="Set feedback"/></td></tr></table>';
 				} else {
 					f.images.checked = false;
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="point_' + q + '" type="' + type + '" name="points[]" style="margin: 0; padding: 0;"' + correct + '/></td><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="point_' + q + '" type="' + type + '" name="points[]" style="margin: 0; padding: 0;"' + correct + '/></td><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px"><img src="img/feedback.png" onclick="feedback(this);" title="Set feedback" alt="Set feedback"/></td></tr></table>';
 				}
 				document.getElementById('answer_list').appendChild(newDiv);
+				
+				if(data[8][q] != undefined) {
+					if(tinyMCE.feedback == undefined) {
+						tinyMCE.feedback = new Array;
+					}
+					tinyMCE.feedback[data[3][q]] = data[8][q];
+				}
+				
 			}
 		
 		} else {
@@ -83,12 +91,12 @@ var choiceDialog = {
 			
 			var newDiv = document.createElement('div');
 			newDiv.setAttribute('style', 'width: 100%; margin: 3px;');
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_0" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_0" name="ids[]" value="' + id_0 + '"/><td width="50px"><input id="point_0" type="radio" name="points[]" style="margin: 0; padding: 0;"/></td><td width="50px"><input id="fixed_0" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_0" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_0" name="ids[]" value="' + id_0 + '"/><td width="50px"><input id="point_0" type="radio" name="points[]" style="margin: 0; padding: 0;"/></td><td width="50px"><input id="fixed_0" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px"><img src="img/feedback.png" onclick="feedback(this);" title="Set feedback" alt="Set feedback"/></td></tr></table>';
 			document.getElementById('answer_list').appendChild(newDiv);
 			
 			var newDiv = document.createElement('div');
 			newDiv.setAttribute('style', 'width: 100%; margin: 3px;');
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_1" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_1" name="ids[]" value="' + id_1 + '"/><td width="50px"><input id="point_1" type="radio" name="points[]" style="margin: 0; padding: 0;"/></td><td width="50px"><input id="fixed_1" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_1" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_1" name="ids[]" value="' + id_1 + '"/><td width="50px"><input id="point_1" type="radio" name="points[]" style="margin: 0; padding: 0;"/></td><td width="50px"><input id="fixed_1" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px"><img src="img/feedback.png" onclick="feedback(this);" title="Set feedback" alt="Set feedback"/></td></tr></table>';
 			document.getElementById('answer_list').appendChild(newDiv);
 			
 			var removeButton = document.getElementById('remove_button');
@@ -182,14 +190,18 @@ var choiceDialog = {
 		
 		if(adding == 1) {
 			var choiceSection = '<p>&nbsp;</p><!-- <choiceInteraction responseIdentifier="' + identifier + '" shuffle="' + String(shuffle) + '" maxChoices="' + String(maxChoices) + '"> --><div id="choiceInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">';
-			choiceSection += '<p id="choiceInteraction">' + question + '</p><p id="choiceInteraction">';
+			choiceSection += '<p id="choiceInteraction">' + question + '</p>';
 			responseDeclaration = '<!-- <responseDeclaration identifier="' + identifier + '" cardinality="single" baseType="identifier"><correctResponse>';
 			for(i in answers) {
 				choiceSection += '<!-- <simpleChoice identifier="' + ids[i] + '"';
 				if(fixed[i] == 1) {
 					choiceSection += ' fixed="true" ';
 				}
-				choiceSection += '>' + answers[i] + '</simpleChoice> --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" ';
+				choiceSection += '>' + answers[i];
+				if(tinyMCE.feedback != undefined && tinyMCE.feedback[ids[i]] != undefined) {
+					choiceSection += '<feedbackInline identifier="' + ids[i] + '" showHide="show">' + tinyMCE.feedback[ids[i]] + '</feedbackInline>'
+				} 
+				choiceSection += '</simpleChoice> --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" ';
 				if(points[i] > 0) {
 					choiceSection += 'checked="checked" '
 				}
@@ -199,7 +211,7 @@ var choiceDialog = {
 				}
 			}
 			responseDeclaration += '</correctResponse></responseDeclaration> -->';
-			choiceSection += '</p></div><!-- end of choiceInteraction -->';
+			choiceSection += '</div><!-- end of choiceInteraction -->';
 			
 			choiceSection += '<p>&nbsp;</p>';
 			
@@ -227,13 +239,17 @@ var choiceDialog = {
 				var regexp = new RegExp(' <choiceInteraction responseIdentifier="' + identifier + '" shuffle="[^"]*" maxChoices="[^"]*"([^>]*)> ','gi');
 				nd.previousSibling.data = nd.previousSibling.data.replace(regexp, ' <choiceInteraction responseIdentifier="' + identifier + '" shuffle="' + String(shuffle) + '" maxChoices="' + String(maxChoices) + '"$1> ');
 			}
-			choiceSection = '<p id="choiceInteraction">' + question + '</p><p id="choiceInteraction">';
+			choiceSection = '<p id="choiceInteraction">' + question + '</p>';
 			for(i in answers) {
 				choiceSection += '<!-- <simpleChoice identifier="' + ids[i] + '"';
 				if(fixed[i] == 1) {
 					choiceSection += ' fixed="true" ';
 				}
-				choiceSection += '>' + answers[i] + '</simpleChoice> --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" ';
+				choiceSection += '>' + answers[i];
+				if(tinyMCE.feedback != undefined && tinyMCE.feedback[ids[i]] != undefined) {
+					choiceSection += '<feedbackInline identifier="' + ids[i] + '" showHide="show">' + tinyMCE.feedback[ids[i]] + '</feedbackInline>'
+				} 
+				choiceSection += '</simpleChoice> --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" ';
 				if(points[i] > 0) {
 					choiceSection += 'checked="checked" ';
 				}
@@ -242,7 +258,6 @@ var choiceDialog = {
 					responseDeclaration += '<value>' + ids[i] + '</value>';
 				}
 			}
-			choiceSection += '</p>';
 			nd.innerHTML = choiceSection;
 			
 			body = nd;
@@ -253,6 +268,10 @@ var choiceDialog = {
 			body.innerHTML = body.innerHTML.replace(regexp, '$1' + responseDeclaration + '$2');
 			
 		}
+		
+		if(tinyMCE.feedback != undefined) {
+			tinyMCE.feedback = new Array;
+		} 
 		
 		tinyMCEPopup.close();
 		return true;

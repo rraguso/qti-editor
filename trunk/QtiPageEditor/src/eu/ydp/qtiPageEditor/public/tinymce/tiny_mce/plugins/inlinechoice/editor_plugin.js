@@ -14,6 +14,14 @@
 		init : function(ed, url) {
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('mceInlineChoice', function(ui, data) {
+				
+				if(data != undefined) {
+					if(data[7] != undefined ) {
+						tinyMCE.feedback = new Array;
+						tinyMCE.feedback[data[4]] = data[7];
+					}
+				}
+				
 				ed.windowManager.open({
 					file : url + '/inlinechoice.htm',
 					width : 500,
@@ -44,8 +52,45 @@
 				
 				var rg = new RegExp('<!--[^<]*<responseDeclaration identifier="' + responseId[1] + '"[^>]*>[^<]*<correctResponse>[^<]*(?:<value>[^<]*<\/value>[^<]*)*<\/correctResponse>[^<]*<\/responseDeclaration>[^-]*-->', 'gi');
 				body.innerHTML = body.innerHTML.replace(rg,'');
+				var rg = new RegExp('<!-- <modalFeedback[^>]*senderIdentifier="' + responseId[1] + '"[^>]*>[^<]*<\/modalFeedback> -->', 'gi');
+				body.innerHTML = body.innerHTML.replace(rg,'');
 				
 				return true;
+				
+			});
+			
+			ed.addCommand('mceFeedbackInlinechoice', function(ui,data) {
+				
+				ed.windowManager.open({
+					file : url + '/feedback.htm',
+					width : 400,
+					height : 100,
+					inline : 1
+				}, {
+					plugin_url : url, // Plugin absolute URL
+					data: {identifier: data.identifier, feedback: data.feedback, exerciseid: data.exerciseid}
+				});
+				
+			});
+			
+			ed.addCommand('mceFeedbackInlinechoiceRemove', function(ui,data) {
+				
+				var form = data;
+				while(form.nodeName != 'FORM') {
+					form = form.parentNode;
+				}
+				
+				if(tinyMCE.feedback != undefined) {
+					if(tinyMCE.feedback[form.exerciseid.value] != undefined) {
+						var arr = new Array;
+						for(i in tinyMCE.feedback[form.exerciseid.value]) {
+							if(i != form.identifier.value) {
+								arr[i] = tinyMCE.feedback[form.exerciseid.value][i];
+							}
+						}
+						tinyMCE.feedback[form.exerciseid.value] = arr;
+					}
+				}
 				
 			});
 

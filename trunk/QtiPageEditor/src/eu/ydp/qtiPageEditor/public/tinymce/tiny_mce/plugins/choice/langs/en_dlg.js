@@ -17,3 +17,11 @@ tinyMCE.addI18n('en.choice_dlg',{
 	add_answer_button:"Add answer",
 	remove_answer_button:"Remove"
 });
+
+tinyMCE.addI18n('en.feedback_dlg',{
+	window_title:"Insert / modify choice feedback",
+	modify:"Save",
+	insert:"Insert",
+	remove:"Remove",
+	feedback_label:"Feedback"
+});

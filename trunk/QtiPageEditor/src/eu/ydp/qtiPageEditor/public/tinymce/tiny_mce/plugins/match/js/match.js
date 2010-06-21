@@ -17,6 +17,10 @@ var matchDialog = {
 		var ed = ed;
 		var f = document.forms[0]; 
 		var data = tinyMCEPopup.getWindowArg("matchdata");
+		matchDialog.data = data;
+		if(data != undefined) {
+			matchDialog.identifier = data[1];
+		}
 		var maxElementCount = 2;
 		
 		// exercise
@@ -202,6 +206,9 @@ var matchDialog = {
 			
 			var insertButton = document.getElementById('insert');
 			insertButton.setAttribute('value', 'Insert');
+			
+			var feedbacksButton = document.getElementById('feedbacks_button');
+			feedbacksButton.parentNode.removeChild(feedbacksButton);
 		
 		}
 		
@@ -390,14 +397,14 @@ var matchDialog = {
 				ctx_temp.fill();
 				
 				if(ctx_temp.isPointInPath(matchDialog.mouseX, matchDialog.mouseY)) {
-					if(confirm('Remove this connection?')) {
+					//if(confirm('Remove this connection?')) {
 						$('#middle_container > input[id=\'' + pairId + '\']').remove();
 						var images = $('#images');
 						images = images[0].checked;
 						ctx.clearRect(0,0,200,matchDialog.canvasHeight);
 						matchDialog.setElementFields(leftEl,rightEl, images);
 						matchDialog.remakeConnectionLines(images);
-					}
+					//}
 					ctx_temp.clearRect(0,0,200,matchDialog.canvasHeight);
 					return;
 				}
@@ -606,22 +613,38 @@ var matchDialog = {
 			for(i in answers_left) {
 				matchSection += '<!-- <simpleAssociableChoice identifier="' + ids_left[i] + '"';
 				if(fixed_left[i] == 1) {
+					var fx = 'true';
 					matchSection += ' fixed="true" ';
+				} else {
+					var fx = 'false';
 				}
-				matchSection += '>' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				matchSection += answers_left[i] + '</span></td></tr>';
+				matchSection += '>' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_left[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_left[i].match(/<img[^>]*>/i)) {
+					var an = answers_left[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+					matchSection += an + '</span></td></tr>';
+				} else {
+					matchSection += answers_left[i] + '</span></td></tr>';
+				}
 			}
 			matchSection += '<!-- </simpleMatchSet> --></tbody></table></td>';
-			
+			matchSection += '<td id="canvas_td" width="200px" style="border: none;"><canvas id="canvas" width="200px" style="border: 1px solid blue;"></canvas></td>';
 			// rozpoczecie prawego matchset
 			matchSection += '<!-- <simpleMatchSet> --><td align="center" width="50%" style="border: none;"><table class="mceNonEditable" width="100%" border=0 style="border: none;"><tbody>';
 			for(i in answers_right) {
 				matchSection += '<!-- <simpleAssociableChoice identifier="' + ids_right[i] + '"';
 				if(fixed_right[i] == 1) {
+					var fx = 'true';
 					matchSection += ' fixed="true" ';
+				} else {
+					var fx = 'false';
 				}
-				matchSection += '>' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				matchSection += answers_right[i] + '</span></td></tr>';
+				matchSection += '>' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_right[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_right[i].match(/<img[^>]*>/i)) {
+					var an = answers_right[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+					matchSection += an + '</span></td></tr>';
+				} else {
+					matchSection += answers_right[i] + '</span></td></tr>';
+				}
 			}
 			matchSection += '<!-- </simpleMatchSet> --></tbody></table></td>';
 			
@@ -676,22 +699,39 @@ var matchDialog = {
 			for(i in answers_left) {
 				matchSection += '<!-- <simpleAssociableChoice identifier="' + ids_left[i] + '"';
 				if(fixed_left[i] == 1) {
+					var fx = 'true';
 					matchSection += ' fixed="true" ';
+				} else {
+					var fx = 'false';
 				}
-				matchSection += '>' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				matchSection += answers_left[i] + '</span></td></tr>';
+				matchSection += '>' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_left[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_left[i].match(/<img[^>]*>/i)) {
+					var an = answers_left[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+					matchSection += an + '</span></td></tr>';
+				} else {
+					matchSection += answers_left[i] + '</span></td></tr>';
+				}
+				
 			}
 			matchSection += '<!-- </simpleMatchSet> --></tbody></table></td>';
-			
+			matchSection += '<td id="canvas_td" width="200px" style="border: none;"><canvas id="canvas" width="200px" style="border: 1px solid blue;"></canvas></td>';
 			// rozpoczecie prawego matchset
 			matchSection += '<!-- <simpleMatchSet> --><td align="center" width="50%" style="border: none;"><table class="mceNonEditable" width="100%" border=0 style="border: none;"><tbody>';
 			for(i in answers_right) {
 				matchSection += '<!-- <simpleAssociableChoice identifier="' + ids_right[i] + '"';
 				if(fixed_right[i] == 1) {
+					var fx = 'true';
 					matchSection += ' fixed="true" ';
+				} else {
+					var fx = 'false';
 				}
-				matchSection += '>' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				matchSection += answers_right[i] + '</span></td></tr>';
+				matchSection += '>' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_right[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_right[i].match(/<img[^>]*>/i)) {
+					var an = answers_right[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+					matchSection += an + '</span></td></tr>';
+				} else {
+					matchSection += answers_right[i] + '</span></td></tr>';
+				}
 			}
 			matchSection += '<!-- </simpleMatchSet> --></tbody></table></td>';
 			
@@ -714,6 +754,41 @@ var matchDialog = {
 			body.innerHTML = body.innerHTML.replace(regexp, '$1' + responseDeclaration + '$2');
 			
 		}
+		
+		if(tinyMCE.canvasParams[identifier] == undefined) {
+			tinyMCE.canvasParams[identifier] = {maxElements: 2, connections: new Array};
+		}
+		tinyMCE.canvasParams[identifier].maxElements = answers_left.length;
+		if(answers_right.length > answers_left.length) {
+			tinyMCE.canvasParams[identifier].maxElements = answers_right.length;
+		}
+		tinyMCE.canvasParams[identifier].connections = new Array;
+		for(i in pairs) {
+			var pair = pairs[i].split(' ');
+			tinyMCE.canvasParams[identifier].connections.push(String(ids_left.indexOf(pair[0]) + ' ' + ids_right.indexOf(pair[1])))
+		}
+		
+		tinyMCE.activeEditor.dom.drawInCanvas();
+		
+		if(tinyMCE.feedback != undefined) {
+			
+			var rg = new RegExp('<!-- <modalFeedback[^>]*senderIdentifier="' + identifier + '"[^>]*>[^<]*</modalFeedback> -->','gi');
+			if(rg.exec(tinyMCE.activeEditor.dom.doc.body.innerHTML) != '') {
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(rg,'');
+			}
+			
+			if(tinyMCE.feedback[identifier] != undefined) {
+				
+				var mf = '';
+				for (i in tinyMCE.feedback[identifier]) {
+					mf += '<!-- <modalFeedback senderIdentifier="' + identifier + '" identifier="' + i + '" showHide="show">' + tinyMCE.feedback[identifier][i] + '</modalFeedback> -->'
+				}
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(/(<!-- <\/itemBody> -->)/i, '$1' + mf);
+				tinyMCE.feedback = new Array;
+				
+			}
+			
+		} 
 		
 		tinyMCEPopup.close();
 		return true;

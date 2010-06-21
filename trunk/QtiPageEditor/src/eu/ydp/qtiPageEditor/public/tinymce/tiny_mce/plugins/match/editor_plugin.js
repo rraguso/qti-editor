@@ -15,6 +15,15 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('mceMatch', function(ui, data) {
 				
+				if(data != undefined) {
+					tinyMCE.feedback = new Array;
+					if(data[10] != undefined ) {
+						tinyMCE.feedback[data[1]] = data[10];
+					} else {
+						tinyMCE.feedback[data[1]] = new Array;
+					}
+				}
+				
 				ed.windowManager.open({
 					file : url + '/match.htm',
 					width : 800,
@@ -46,11 +55,27 @@
 				
 				var rg = new RegExp('<!--[^<]*<responseDeclaration identifier="' + responseId[1] + '"[^>]*>[^<]*<correctResponse>[^<]*(?:<value>[^<]*<\/value>[^<]*)*<\/correctResponse>[^<]*<\/responseDeclaration>[^-]*-->', 'gi');
 				body.innerHTML = body.innerHTML.replace(rg,'');
+				var rg = new RegExp('<!-- <modalFeedback[^>]*senderIdentifier="' + responseId[1] + '"[^>]*>[^<]*<\/modalFeedback> -->', 'gi');
+				body.innerHTML = body.innerHTML.replace(rg,'');
 				
 				return true;
 				
 			});
-
+			
+			ed.addCommand('mceMatchFeedbacks', function(ui,data) {
+				
+				ed.windowManager.open({
+					file : url + '/feedback.htm',
+					width : 600,
+					height : 300,
+					inline : 1
+				}, {
+					plugin_url : url, // Plugin absolute URL
+					data: data
+				});
+				
+			});
+			
 			// Register example button
 			ed.addButton('match', {
 				title : 'Insert match section',

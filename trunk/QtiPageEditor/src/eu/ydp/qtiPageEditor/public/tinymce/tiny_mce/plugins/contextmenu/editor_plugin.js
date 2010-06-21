@@ -164,6 +164,22 @@
 				
 			}
 			
+			if(tinymce.plugins.commentPlugin != undefined) {
+				
+				m.addSeparator();
+				
+				if(el.getAttribute('class') == 'mceNonEditable qy_comment') {
+					m.add({title : 'Insert / modify comment', icon : 'insertcomment', cmd : 'mceComment'}).setDisabled(true);
+					m.add({title : 'Remove comment', icon : 'removecomment', cmd : 'mceCommentRemove'});	
+				} else {
+					if(el.getAttribute('class') != 'qy_comment') {
+						m.add({title : 'Insert / modify comment', icon : 'insertcomment', cmd : 'mceComment'});
+					}
+					m.add({title : 'Remove comment', icon : 'removecomment', cmd : 'mceCommentRemove'}).setDisabled(true);	
+				}
+				
+			}
+			
 			return m;
 		}
 	});

@@ -1,5 +1,10 @@
 function add_answer_row(form, side) {
-
+	
+	var feedbacksButton = document.getElementById('feedbacks_button');
+	if(feedbacksButton != undefined) {
+		feedbacksButton.parentNode.removeChild(feedbacksButton);
+	}
+	
 	var randid = Math.random();
 	randid = String(randid);
 	var rg = new RegExp('0.([0-9]*)',"gi");
@@ -64,11 +69,26 @@ function add_answer_row(form, side) {
 }
 
 function remove_answer_row(row) {
-
+	
+	var feedbacksButton = document.getElementById('feedbacks_button');
+	if(feedbacksButton != undefined) {
+		feedbacksButton.parentNode.removeChild(feedbacksButton);
+	}
+	
 	// remove element
 	var div = row.parentNode.parentNode.parentNode.parentNode.parentNode;
 	var removedId = div.getAttribute('id');
 	div.parentNode.removeChild(div);
+	
+	// remove feedbacks
+	var tempArr = new Array;
+	for(idx in tinyMCE.feedback[matchDialog.identifier]) {
+		elements = idx.split(' ');
+		if(elements[0] != removedId && elements[1] != removedId) {
+			tempArr[idx] = tinyMCE.feedback[matchDialog.identifier][idx]
+		}
+	}
+	tinyMCE.feedback[matchDialog.identifier] = tempArr;
 	
 	// remove element connections
 	var connections = $('#middle_container').children();

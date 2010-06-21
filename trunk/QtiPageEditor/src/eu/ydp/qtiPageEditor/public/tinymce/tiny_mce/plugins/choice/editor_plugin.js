@@ -50,6 +50,39 @@
 				return true;
 				
 			});
+			
+			ed.addCommand('mceFeedbackChoice', function(ui,data) {
+				
+				ed.windowManager.open({
+					file : url + '/feedback.htm',
+					width : 400,
+					height : 100,
+					inline : 1
+				}, {
+					plugin_url : url, // Plugin absolute URL
+					data: {identifier: data.identifier, feedback: data.feedback}
+				});
+				
+			});
+			
+			ed.addCommand('mceFeedbackChoiceRemove', function(ui,data) {
+				
+				var form = data;
+				while(form.nodeName != 'FORM') {
+					form = form.parentNode;
+				}
+				if(tinyMCE.feedback != undefined) {
+					console.log(tinyMCE.feedback);
+					var tempArr = new Array;
+					for(i in tinyMCE.feedback) {
+						if(i != form.identifier.value) {
+							tempArr[i] = tinyMCE.feedback[i];
+						}
+					}
+					tinyMCE.feedback = tempArr;
+				}
+				
+			});
 
 			// Register example button
 			ed.addButton('choice', {

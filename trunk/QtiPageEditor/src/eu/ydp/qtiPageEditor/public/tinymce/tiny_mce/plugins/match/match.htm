@@ -164,6 +164,20 @@
 				font-weight: bold;
 				padding-bottom: 2px;" 
 			onclick="tinyMCE.execCommand('mceMatchRemove');tinyMCEPopup.close();" />
+			
+			<input type="button" id="feedbacks_button" name="feedbacks" value="{#match_dlg.feedbacks}" style="
+				border: none; 
+				width: 94px; 
+				height: 25px; 
+				background-attachment:scroll;
+				background-color:transparent;
+				background-image:url(img/buttons.png);
+				background-position:0 -26px;
+				background-repeat:repeat; 
+				margin: 2px; 
+				font-weight: bold;
+				padding-bottom: 2px;" 
+			onclick="tinyMCE.execCommand('mceMatchFeedbacks',false,matchDialog.data);" />
 		</div>
 
 		<div style="float: right">	

@@ -4,6 +4,7 @@
 	<title>{#order_dlg.window_title}</title>
 	<script type="text/javascript" src="../../tiny_mce_popup.js"></script>
 	<script type="text/javascript" src="../../../jquery/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="../../../jquery/jquery-ui-1.8.1.custom.min.js"></script>
 	<script type="text/javascript" src="../../utils/mctabs.js"></script>
 	<script type="text/javascript" src="../../utils/form_utils.js"></script>
 	<script type="text/javascript" src="js/utils.js"></script>
@@ -50,17 +51,20 @@
 		<fieldset id="answer_list" style="margin: 10px;">
 			<legend>{#order_dlg.answers_label}:</legend>
 			<div style="width: 100%; margin: 3px;">
-				<table><tr><td style="width: 255px;">
+				<table><tr>
+				<td style="width: 20px;">
+					
+				</td><td style="width: 255px;">
 					<div style="width: 100%; font-weight: bold;">{#order_dlg.answer_content}:</div>
-				</td><td style="width: 40px;">
-					<div style="width: 100%; font-weight: bold;">{#order_dlg.answer_order}:</div>
 				</td><td style="width: 50px;">
 					<div style="width: 100%; font-weight: bold;">{#order_dlg.answer_fixed}:</div>
 				</td><td style="width: 50px;">
 					<div style="width: 100%; font-weight: bold;">{#order_dlg.remove_answer_button}:</div>
 				</td></tr></table>
 			</div>
-			<!-- tutaj appendowane bêd¹ inputy z init()-->
+			<div id="answer_list_sortable">
+				<!-- tutaj appendowane bêd¹ inputy z init()-->
+			</div>
 		</fieldset>
 		
 		<div align="right" style="width: 100%;">
