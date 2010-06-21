@@ -48,7 +48,6 @@
 		// Private methods
 
 		_save : function() {
-			console.log('wywolanie save');
 			
 			tinyMCE.gwtProxy.savePage();
 			

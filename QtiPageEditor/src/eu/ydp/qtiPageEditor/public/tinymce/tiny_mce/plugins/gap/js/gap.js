@@ -59,6 +59,30 @@ var gapDialog = {
 				gapTag.previousSibling.data = gapTag.previousSibling.data.replace(/ <gap identifier="([^"]*)">[^<]*<\/gap> /gi, ' <gap identifier="$1">' + gap + '</gap> ');
 			}
 		}
+		
+		if(tinyMCE.feedback != undefined) {
+			
+			var rg_onok = new RegExp('<!-- <modalFeedback[^>]*outcomeIdentifier="' + identifier + '"[^>]*showHide="show"[^>]*>[^<]*</modalFeedback> -->','gi');
+			var rg_onwrong = new RegExp('<!-- <modalFeedback[^>]*outcomeIdentifier="' + identifier + '"[^>]*showHide="hide"[^>]*>[^<]*</modalFeedback> -->','gi');
+			if(rg_onok.exec(tinyMCE.activeEditor.dom.doc.body.innerHTML) != '') {
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(rg_onok,'');
+			}
+			if(rg_onwrong.exec(tinyMCE.activeEditor.dom.doc.body.innerHTML) != '') {
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(rg_onwrong,'');
+			}
+			
+			if(tinyMCE.feedback[identifier] != undefined) {
+				
+				var mf_onok = '<!-- <modalFeedback outcomeIdentifier="' + identifier + '" identifier="' + gap + '" showHide="show">' + tinyMCE.feedback[identifier].onok + '</modalFeedback> -->'
+				var mf_onwrong = '<!-- <modalFeedback outcomeIdentifier="' + identifier + '" identifier="' + gap + '" showHide="hide">' + tinyMCE.feedback[identifier].onwrong + '</modalFeedback> -->'
+				
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(/(<!-- <\/itemBody> -->)/i, '$1' + mf_onok + mf_onwrong);
+				tinyMCE.feedback = new Array;
+				
+			}
+			
+		} 
+		
 		tinyMCEPopup.close();
 		return true;
 		

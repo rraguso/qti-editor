@@ -15,5 +15,18 @@ tinyMCE.addI18n('en.match_dlg',{
 	answer_fixed:"Fixed",
 	add_answer_button:"Add element",
 	remove_answer_button:"Remove",
-	connections:"Connections"
+	connections:"Connections",
+	feedbacks:"Set feedbacks"
+});
+
+tinyMCE.addI18n('en.feedback_dlg',{
+	window_title:"Insert / modify match feedback",
+	modify:"Save",
+	insert:"Insert",
+	remove:"Remove",
+	feedback_label:"Make a connection to add a feedback, or click on existing connection to modify it",
+	feedback_addtext_label:"Set feedback content for the highlighted connection",
+	feedback_text:"Feedback text",
+	feedback_set_text_button:"Save feedback",
+	close:"Close"
 });

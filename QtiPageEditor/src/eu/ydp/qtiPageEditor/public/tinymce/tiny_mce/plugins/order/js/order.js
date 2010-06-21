@@ -29,7 +29,7 @@ var orderDialog = {
 		
 			for(q=0; q<data[1].length;q++) {
 				var newDiv = document.createElement('div');
-				newDiv.setAttribute('style', 'width: 100%; margin: 3px;');
+				newDiv.setAttribute('style', 'width: 100%; margin: 3px; background-image:url(img/move.png); padding-left: 20px; background-repeat: no-repeat;');
 				correct = data[2][q];
 				if(data[6][q] == 'true') {
 					fixed = ' checked';
@@ -42,12 +42,12 @@ var orderDialog = {
 					odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
 					src = odp.split('/');
 					src = src[src.length - 1];
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="hidden" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="point_' + q + '" type="text" name="points[]" style="margin-right: 5px; width: 30px;" value="' + correct + '"/></td><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+					newDiv.innerHTML = '<img src=""><table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="hidden" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
 				} else {
 					f.images.checked = false;
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="point_' + q + '" type="text" name="points[]" style="margin-right: 5px; width: 30px;" value="' + correct + '"/></td><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_' + q + '" name="answers[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td><input type="hidden" id="id_' + q + '" name="ids[]" value="' + data[3][q] + '"/><td width="50px"><input id="fixed_' + q + '" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
 				}
-				document.getElementById('answer_list').appendChild(newDiv);
+				document.getElementById('answer_list_sortable').appendChild(newDiv);
 			}
 		
 		} else {
@@ -69,14 +69,14 @@ var orderDialog = {
 			var id_1 = 'id_' + exec[1];
 			
 			var newDiv = document.createElement('div');
-			newDiv.setAttribute('style', 'width: 100%; margin: 3px;');
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_0" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_0" name="ids[]" value="' + id_0 + '"/><td width="50px"><input id="point_0" type="text" name="points[]" style="margin-right: 5px; width: 30px;" value=""/></td><td width="50px"><input id="fixed_0" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
-			document.getElementById('answer_list').appendChild(newDiv);
+			newDiv.setAttribute('style', 'width: 100%; margin: 3px; background-image:url(img/move.png); padding-left: 20px; background-repeat: no-repeat;');
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_0" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_0" name="ids[]" value="' + id_0 + '"/><td width="50px"><input id="fixed_0" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+			document.getElementById('answer_list_sortable').appendChild(newDiv);
 			
 			var newDiv = document.createElement('div');
-			newDiv.setAttribute('style', 'width: 100%; margin: 3px;');
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_1" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_1" name="ids[]" value="' + id_1 + '"/><td width="50px"><input id="point_1" type="text" name="points[]" style="margin-right: 5px; width: 30px;" value=""/></td><td width="50px"><input id="fixed_1" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
-			document.getElementById('answer_list').appendChild(newDiv);
+			newDiv.setAttribute('style', 'width: 100%; margin: 3px; background-image:url(img/move.png); padding-left: 20px; background-repeat: no-repeat;');
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="260px" style="padding-right: 5px;"><input type="text" id="answer_1" name="answers[]" style="width: 100%; margin-right: 5px;" value=""/></td><input type="hidden" id="id_1" name="ids[]" value="' + id_1 + '"/><td width="50px"><input id="fixed_1" type="checkbox" name="fixed[]" style="margin: 0; padding: 0;" /></td><td width="80px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+			document.getElementById('answer_list_sortable').appendChild(newDiv);
 			
 			var removeButton = document.getElementById('remove_button');
 			removeButton.parentNode.removeChild(removeButton);
@@ -86,6 +86,9 @@ var orderDialog = {
 		
 		}
 		
+		$("#answer_list_sortable").sortable();
+
+		
 	},
 
 	insertOrderSection : function(form) {
@@ -94,6 +97,8 @@ var orderDialog = {
 		var i = 0;
 		var adding = 0;
 		var skip_point = 0;
+		var ordering = 1;
+	
 		while(elements[i] != undefined) {
 			var element = elements[i];
 			if(element.getAttribute('name') == 'question') {
@@ -115,6 +120,8 @@ var orderDialog = {
 					} else {
 						answers.push(element.value);
 					}
+					points.push(ordering);
+					ordering++;
 				} else {
 					skip_point = 1;
 				}
@@ -122,13 +129,6 @@ var orderDialog = {
 			if(element.getAttribute('name') == 'ids[]') {
 				if(skip_point == 0) {
 					ids.push(element.value);
-				} else {
-					skip_point = 0;
-				}
-			}
-			if(element.getAttribute('name') == 'points[]') {
-				if(skip_point == 0) {
-					points.push(element.value);
 				} else {
 					skip_point = 0;
 				}
@@ -156,7 +156,7 @@ var orderDialog = {
 		
 		if(adding == 1) {
 			var orderSection = '<p>&nbsp;</p><!-- <orderInteraction responseIdentifier="' + identifier + '" shuffle="' + String(shuffle) + '"> --><div id="orderInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">';
-			orderSection += '<p id="choiceInteraction">' + question + '</p><p id="choiceInteraction"></p>';
+			orderSection += '<p id="choiceInteraction">' + question + '</p>';
 			responseDeclaration = '<!-- <responseDeclaration identifier="' + identifier + '" cardinality="ordered" baseType="identifier"><correctResponse>';
 			var responseOrder = new Array;
 			for(i in answers) {
@@ -200,7 +200,7 @@ var orderDialog = {
 				var regexp = new RegExp(' <orderInteraction responseIdentifier="' + identifier + '" shuffle="[^"]*"([^>]*)> ','gi');
 				nd.previousSibling.data = nd.previousSibling.data.replace(regexp, ' <orderInteraction responseIdentifier="' + identifier + '" shuffle="' + String(shuffle) + '"$1> ');
 			}
-			orderSection = '<p id="choiceInteraction">' + question + '</p><p id="choiceInteraction"></p>';
+			orderSection = '<p id="choiceInteraction">' + question + '</p>';
 			var responseOrder = new Array;
 			for(i in answers) {
 				orderSection += '<!-- <simpleChoice identifier="' + ids[i] + '"';

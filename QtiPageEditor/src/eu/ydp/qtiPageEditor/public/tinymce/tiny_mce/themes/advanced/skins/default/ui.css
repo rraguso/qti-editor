@@ -224,4 +224,6 @@
 .defaultSkin span.mce_removeordersection {background-position:-220px -40px}
 .defaultSkin span.mce_insertmatchsection {background-position:-240px -40px}
 .defaultSkin span.mce_removematchsection {background-position:-260px -40px}
+.defaultSkin span.mce_insertcomment{background-position:-280px -40px}
+.defaultSkin span.mce_removecomment {background-position:-300px -40px}
 .defaultSkin .mce_spellchecker span.mceAction {background-position:-540px -20px}
