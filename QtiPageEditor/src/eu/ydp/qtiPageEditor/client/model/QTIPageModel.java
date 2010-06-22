@@ -1,4 +1,5 @@
 package eu.ydp.qtiPageEditor.client.model;
+
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -15,17 +16,26 @@ public class QTIPageModel {
 		Document doc = XMLParser.createDocument();
 		Element item = doc.createElement("assessmentItem");
 		
+		item.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imsqti_v2p1");
+		item.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		item.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd");
+		item.setAttribute("identifier", "");
+		item.setAttribute("adaptive", "false");
+		item.setAttribute("timeDependent", "false");		
+		
 		doc.appendChild(item);
 		
 		Element body = doc.createElement("itemBody");		
 		item.appendChild(body);
 		
+		Element paragraph = doc.createElement("p");
+		body.appendChild(paragraph);
+		
 		Node text = doc.createTextNode(" ");
 		
-		body.appendChild(text);
+		paragraph.appendChild(text);
 		
-		_content = doc.toString();
-		
+		_content = doc.toString();		
 		
 	}
 	
@@ -58,8 +68,10 @@ public class QTIPageModel {
 	}
 	
 	public void setContent(String s)
-	{
+	{				
+		String title = getTitle();
 		_content = s;
+		setTitle(title);
 	}
 	
 	public String getContent()
