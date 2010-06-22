@@ -93,6 +93,14 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	}
 	
 	@SuppressWarnings("unchecked")
+	public void addPage(){		
+		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
+		
+		QTIPageModel page = new QTIPageModel();		
+		pages.add(page);		
+	}
+	
+	@SuppressWarnings("unchecked")
 	public void removePage(int ix){
 		
 		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();

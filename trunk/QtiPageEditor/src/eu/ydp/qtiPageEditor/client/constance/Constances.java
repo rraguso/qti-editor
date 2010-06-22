@@ -11,6 +11,8 @@ public class Constances {
 	public static final String PAGES_LOADED = "pagesLoaded";
 	public static final String LOAD_PAGE_ERROR = "loadPageError";
 	
+	public static final String INIT_EMPTY_PAGE = "initEmptyPage";
+	
 	public static final String SHOW_PAGE = "showPage";
 	
 	public static final String SAVE_PAGE = "savePage";
