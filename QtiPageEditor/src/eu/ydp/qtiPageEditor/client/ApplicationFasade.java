@@ -5,6 +5,7 @@ import org.puremvc.java.multicore.patterns.facade.Facade;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.ConfigurePageProxyCommand;
+import eu.ydp.qtiPageEditor.client.controller.InitEmptyPageCommand;
 import eu.ydp.qtiPageEditor.client.controller.LoadPagesCommand;
 import eu.ydp.qtiPageEditor.client.controller.SavePageCommand;
 import eu.ydp.qtiPageEditor.client.controller.StartupCommand;
@@ -31,8 +32,14 @@ public class ApplicationFasade extends Facade implements IFacade {
 		hrefs[0] = base.substring(base.lastIndexOf("/")+1);		
 		
 		sendNotification( STARTUP, cellId 	);		
-		sendNotification(CONFIGURE_PROXY, env);	
-		sendNotification(Constances.LOAD_PAGES, hrefs);
+		sendNotification(CONFIGURE_PROXY, env);
+		if(base != null)
+			sendNotification(Constances.LOAD_PAGES, hrefs);
+		else{
+			sendNotification(Constances.INIT_EMPTY_PAGE);
+			sendNotification(Constances.SHOW_PAGE,0);
+		}
+			
 	}
 	
 	
@@ -45,6 +52,7 @@ public class ApplicationFasade extends Facade implements IFacade {
 		registerCommand(Constances.LOAD_PAGES, new LoadPagesCommand());
 		registerCommand(Constances.UPDATE_PAGE_STATE, new UpdatePageCommand());
 		registerCommand(Constances.SAVE_PAGE, new SavePageCommand());
+		registerCommand(Constances.INIT_EMPTY_PAGE, new InitEmptyPageCommand());
 		
 	}
 	
