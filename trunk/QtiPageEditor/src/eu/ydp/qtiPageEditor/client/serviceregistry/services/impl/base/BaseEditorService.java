@@ -1,9 +1,11 @@
 package eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.base;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IEditorService;
 
-public class BaseEditorService implements IEditorService {
+public abstract class BaseEditorService implements IEditorService {
 
 	protected IEditorEnvirnoment _env;
 	
@@ -11,5 +13,9 @@ public class BaseEditorService implements IEditorService {
 		_env = env;		
 
 	}
+	
+	abstract public JavaScriptObject getJSO();
+		
+	
 
 }

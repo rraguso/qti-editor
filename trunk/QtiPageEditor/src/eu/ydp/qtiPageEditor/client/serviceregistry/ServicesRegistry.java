@@ -2,22 +2,16 @@ package eu.ydp.qtiPageEditor.client.serviceregistry;
 
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IEditorService;
-import eu.ydp.qtiPageEditor.client.serviceregistry.services.ISimpleService;
-import eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.SimpleService;
 
 public class ServicesRegistry {
 	
-	private String[] _services;
-	
+	private ServiceFactory _factory;
 	private IEditorEnvirnoment _env;
 	
-	public ServicesRegistry(){				
-				
-		_services = new String[1];		
-		_services[0] = ISimpleService.class.getName();
+	public ServicesRegistry(ServiceFactory factory){		
 		
-		publish();
-		
+		_factory = factory;
+		publish();		
 	}
 	
 	public void setEnv(IEditorEnvirnoment env)
@@ -27,16 +21,10 @@ public class ServicesRegistry {
 	
 	public Object getService(String name)
 	{
-		int i;
-		IEditorService service = null;		
-		for(i = 0; i < _services.length; i++)
-		{
-			if(_services[i] == ISimpleService.class.getName())
-			{				
-				service = new SimpleService(); 	
-				service.setEnvironment(_env);				
-			}
-		}
+		IEditorService service = _factory.getService(name);
+		
+		if(service != null)
+			service.setEnvironment(_env);		
 		
 		return service;
 	}
@@ -51,13 +39,19 @@ public class ServicesRegistry {
 		{
 			$wnd.qti_page_editor.ServicesRegistry = function () {    		
 	    		this.SIMPLE_SERVICE = "simpleService";
+	    		this.ASSET_BROWSER = "assetBrowser";	    		
 	    		this.getService = function(type)
 	    		{
 	    			var service;    			
 	    			if(type == this.SIMPLE_SERVICE)
-	    			{    				
-	    				service = doc.@eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry::getService(Ljava/lang/String;)("eu.ydp.qtiPageEditor.client.serviceregistry.services.ISimpleService");    				
+	    			{
+	    				service = doc.@eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry::getService(Ljava/lang/String;)("eu.ydp.qtiPageEditor.client.serviceregistry.services.ISimpleService");	    			
 	    				return  service.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.SimpleService::getJSO()();
+	    			}
+	    			else if(type == this.ASSET_BROWSER)
+	    			{
+	    				service = doc.@eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry::getService(Ljava/lang/String;)("eu.ydp.qtiPageEditor.client.serviceregistry.services.IAssetBrowser");
+	    				return service.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::getJSO()();
 	    			}
 	    		}		
 			}

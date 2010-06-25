@@ -1,6 +1,7 @@
 package eu.ydp.qtiPageEditor.client.view.component;
 
 
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -10,19 +11,24 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
+import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMceSaveEventHandler;
+import eu.ydp.qtiPageEditor.client.serviceregistry.services.IAssetBrowser;
+import eu.ydp.qtiPageEditor.client.serviceregistry.services.IEditorService;
 
 public class PageEditorView extends Composite {	
 	
 	 final private HandlerManager _handlerManager = new HandlerManager(this);
 	 private TextArea _textArea;
 	 private String _id;
+	 private IEditorEnvirnoment _env;
 
 	
-	public PageEditorView()
+	public PageEditorView(IEditorEnvirnoment env)
 	{
 		super();			
+		_env = env;
 		FormPanel panel = new FormPanel();
         panel.setWidth("100%");
 
@@ -174,6 +180,11 @@ public class PageEditorView extends Composite {
     	_handlerManager.fireEvent(event);    	
     }
     
+    protected JavaScriptObject getAssetBrowser(){
+    	IEditorService service = (IEditorService)_env.getService(IAssetBrowser.class.getName());
+    	return service.getJSO();
+    }
+    
     public void addTinyMceSaveHandler(TinyMceSaveEventHandler handler){
     	
     	_handlerManager.addHandler(TinyMceSaveEvent.TYPE, handler); 	
@@ -185,6 +196,11 @@ public class PageEditorView extends Composite {
     	    proxy.savePage = function(){
     	    	ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::onSavePage()();
     	    }
+    	    
+    	    proxy.getAssetBrowser = function(callback, fileFilter, filePath){
+    	    	return ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getAssetBrowser()()
+    	    }
+    	 
     	    
     	    if(typeof($wnd.tinyMCE.gwtProxy) != "object")
     	    	$wnd.tinyMCE.gwtProxy = proxy;

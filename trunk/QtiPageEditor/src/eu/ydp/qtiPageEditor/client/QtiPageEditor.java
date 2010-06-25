@@ -2,9 +2,11 @@ package eu.ydp.qtiPageEditor.client;
 
 import com.google.gwt.core.client.EntryPoint;
 
+import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.env.impl.EditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.model.jso.ModuleConfig;
+import eu.ydp.qtiPageEditor.client.serviceregistry.ServiceFactory;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry;
 import eu.ydp.webapistorage.client.storage.impl.Storage;
 
@@ -40,10 +42,10 @@ public class QtiPageEditor implements EntryPoint {
 	
 	private void register(ModuleConfig conf )
 	{	
-		ServicesRegistry sr = new ServicesRegistry();
-		IEditorEnvirnoment env = new EditorEnvirnoment(conf.getPageURL(), Storage.getInstance(), sr);
-		
-		ApplicationFasade.getInstance(ApplicationFasade.KEY).startup(env, conf.getCellId());			
+		ServicesRegistry sr = new ServicesRegistry(new ServiceFactory());
+		IEditorEnvirnoment env = new EditorEnvirnoment(conf.getPageURL(),"media", Storage.getInstance(), sr);
+		StartupData startupData = new StartupData(env, conf.getCellId());
+		ApplicationFasade.getInstance(ApplicationFasade.KEY).startup(startupData);			
 	}
 	
 }

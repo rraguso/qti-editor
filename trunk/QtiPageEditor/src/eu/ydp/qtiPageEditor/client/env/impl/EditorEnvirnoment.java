@@ -9,12 +9,14 @@ public class EditorEnvirnoment implements IEditorEnvirnoment {
 	String _basePath;
 	IStorage _storage;
 	ServicesRegistry _servicesRegistry;
+	String _mediaDirectory;
 	
-	public EditorEnvirnoment(String basePath, IStorage storage, ServicesRegistry reg)
+	public EditorEnvirnoment(String basePath, String mediaDirectory, IStorage storage, ServicesRegistry reg)
 	{		
 		_basePath = basePath;
 		_storage = storage;
 		_servicesRegistry = reg;
+		_mediaDirectory = mediaDirectory;
 		
 		reg.setEnv(this);
 	}
@@ -34,6 +36,11 @@ public class EditorEnvirnoment implements IEditorEnvirnoment {
 	public IStorage getStorage() {
 		
 		return _storage; 
+	}
+	
+	@Override
+	public String getMediaDirectory(){
+		return _mediaDirectory;
 	}
 
 }
