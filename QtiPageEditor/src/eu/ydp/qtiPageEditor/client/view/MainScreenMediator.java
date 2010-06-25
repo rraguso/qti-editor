@@ -6,6 +6,7 @@ import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import com.google.gwt.user.client.ui.RootPanel;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.view.component.AlertWindow;
 import eu.ydp.qtiPageEditor.client.view.component.MainScreenView;
 import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
@@ -16,20 +17,20 @@ public class MainScreenMediator extends Mediator implements IMediator {
 	 public static final String NAME = "ApplicationMediator";
 	 	  
 	 
-	 private String _cellId;
+	 private StartupData _startupData;
 	 
-	 public MainScreenMediator(String id)
+	 public MainScreenMediator(StartupData startup)
 	 {		 
 		 super(NAME, new MainScreenView());
-		 _cellId = id;
+		 _startupData = startup;
 		
 	 }
 	 
 	 public void onRegister()  
 	 {		
 		MainScreenView ms = (MainScreenView)getViewComponent();		
-		RootPanel.get(_cellId).add(ms);			
-		getFacade().registerMediator( new PageEditorViewMediator());		
+		RootPanel.get(_startupData.getCellId()).add(ms);			
+		getFacade().registerMediator( new PageEditorViewMediator(_startupData.getEnv()));		
 		PageEditorView editor = (PageEditorView)getFacade().retrieveMediator(PageEditorViewMediator.NAME).getViewComponent();
 		ms.add(editor);
 		

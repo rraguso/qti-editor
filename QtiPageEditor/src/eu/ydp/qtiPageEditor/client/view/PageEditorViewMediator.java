@@ -4,6 +4,7 @@ import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMceSaveEventHandler;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
@@ -13,9 +14,10 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	
 	public static final String NAME = "pageEditorViewMediator";	
 	
-	public PageEditorViewMediator()
+	public PageEditorViewMediator(IEditorEnvirnoment env)
 	{		
-		super(NAME, new PageEditorView());				
+		super(NAME, new PageEditorView(env));		
+		
 	}
 	
 	public void onRegister(){
