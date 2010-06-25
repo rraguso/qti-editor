@@ -9,6 +9,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.RootPanel;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.view.PageEditorViewMediator;
 import eu.ydp.qtiPageEditor.client.view.component.AlertWindow;
 import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
@@ -21,22 +22,23 @@ public class MainViewMediator extends Mediator implements IMediator {
 	
 	public static final String NAME = "MainViewMediator";
 	
-	private String _cellId;
+	private StartupData _startupData;
 	
-	public MainViewMediator(String id){
+	public MainViewMediator(StartupData startupData){
 		super(NAME, new MainView());
-		_cellId = id;
+		_startupData = startupData;
+		
 		
 	}
 	
 	public void onRegister()
 	{
 		MainView mv = (MainView)getViewComponent();		
-		RootPanel.get(_cellId).add(mv);
+		RootPanel.get(_startupData.getCellId()).add(mv);
 		
 		getFacade().registerMediator(new PageListBarMediator());
 		getFacade().registerMediator(new PageListMediator());
-		getFacade().registerMediator(new PageEditorViewMediator());
+		getFacade().registerMediator(new PageEditorViewMediator(_startupData.getEnv()));
 		
 		addView( retrieveView(PageEditorViewMediator.NAME));
 		addView( retrieveView(PageListBarMediator.NAME));
