@@ -143,12 +143,13 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	@SuppressWarnings("unchecked")
 	public void save(int ix){
 		
-		String basePath = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
+		//String basePath = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
 		String path;
 		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
 		QTIPageModel page = pages.get(ix);
 			
-		path = basePath + page.getPath();
+		path = page.getPath();
+		//path = basePath + page.getPath();
 		IResource resource = _storage.getResource(path);		
 		
 		resource.save(page.getContent(), new IResourceCallback() {
