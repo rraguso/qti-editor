@@ -26,10 +26,11 @@ import eu.ydp.webapistorage.client.storage.IResource;
 import eu.ydp.webapistorage.client.storage.apierror.IApiError;
 import eu.ydp.webapistorage.client.storage.callback.IResourceCallback;
 import eu.ydp.webapistorage.client.storage.callback.IResourceListDirCallback;
+import eu.ydp.webapistorage.client.storage.callback.IResourceUploadCallback;
 import eu.ydp.webapistorage.client.storage.resource.listdir.IListDirItemDescriptor;
 
 
-public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResourceCallback, IEditorService {
+public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResourceUploadCallback, IEditorService {
 	
 	private String _selectedFilePath;
 	
@@ -175,13 +176,13 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	
 	//--------------------- IResourceCallback-------------------------
 	@Override
-	public void onRequestError(IResource resource, String command,IApiError error) {
+	public void onUploadError(IResource resource,IApiError error) {
 		Window.alert(error.getDetails() +"\n" + "Error code:" + error.getErrorCode());		
 		
 	}
 	
 	@Override
-	public void onRequestComplete(IResource resource, String command) {	
+	public void onUploadComplete(IResource resource, String fileName) {	
 		
 	}
 	//----------------------------Click handler---------------------------------
