@@ -197,7 +197,7 @@ public class PageEditorView extends Composite {
     	    	ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::onSavePage()();
     	    }
     	    
-    	    proxy.getAssetBrowser = function(callback, fileFilter, filePath){
+    	    proxy.getAssetBrowser = function(){
     	    	return ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getAssetBrowser()()
     	    }
     	 

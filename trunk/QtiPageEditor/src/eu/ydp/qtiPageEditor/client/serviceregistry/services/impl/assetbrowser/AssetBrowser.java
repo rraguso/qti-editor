@@ -176,14 +176,12 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	//--------------------- IResourceCallback-------------------------
 	@Override
 	public void onRequestError(IResource resource, String command,IApiError error) {
-		AlertWindow alertWindow = new AlertWindow();
-		alertWindow.showErrorMessage(error.getType(), error.getDetails(), error.getErrorCode());
+		Window.alert(error.getDetails() +"\n" + "Error code:" + error.getErrorCode());		
 		
 	}
 	
 	@Override
-	public void onRequestComplete(IResource resource, String command) {
-		// TODO Auto-generated method stub
+	public void onRequestComplete(IResource resource, String command) {	
 		
 	}
 	//----------------------------Click handler---------------------------------
@@ -198,9 +196,7 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	
 	
 	private void onListDirErrorListener(IResource resource, IApiError error) {
-		
-		Window.alert(error.getDetails());
-		
+		Window.alert(error.getDetails() +"\n" + "Error code:" + error.getErrorCode());		
 	}
 	
 	
