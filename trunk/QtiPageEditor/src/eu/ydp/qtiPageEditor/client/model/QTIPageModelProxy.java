@@ -3,6 +3,8 @@ package eu.ydp.qtiPageEditor.client.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.google.gwt.user.client.Window;
+
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.webapistorage.client.storage.IResource;
 import eu.ydp.webapistorage.client.storage.apierror.IApiError;
@@ -85,7 +87,8 @@ public class QTIPageModelProxy extends QtiProxyBase{
 		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
 		
 		QTIPageModel page = new QTIPageModel();
-		page.setPath(href);
+		String basePath = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
+		page.setPath(basePath + href);
 		page.setTitle(href.substring(href.lastIndexOf("/")+1));
 		
 		pages.add(page);		
@@ -150,6 +153,7 @@ public class QTIPageModelProxy extends QtiProxyBase{
 			
 		path = page.getPath();
 		//path = basePath + page.getPath();
+		//Window.alert(basePath + "\n" + path);
 		IResource resource = _storage.getResource(path);		
 		
 		resource.save(page.getContent(), new IResourceCallback() {
