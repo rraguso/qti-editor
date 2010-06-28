@@ -68,10 +68,8 @@ public class QTIPageModel {
 	}
 	
 	public void setContent(String s)
-	{				
-		String title = getTitle();
-		_content = s;
-		setTitle(title);
+	{
+		_content = s;			
 	}
 	
 	public String getContent()
