@@ -33,6 +33,7 @@ import eu.ydp.webapistorage.client.storage.resource.listdir.IListDirItemDescript
 public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResourceUploadCallback, IEditorService {
 	
 	private String _selectedFilePath;
+	private String _mediaPath;
 	
 	private IEditorEnvirnoment _env;
 	
@@ -80,6 +81,7 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 		});
 		
 		_image = new Image();
+		_image.setPixelSize(150, 120);
 		
 		hListPanel.add(_listBox);
 		hListPanel.add(_image);
@@ -111,6 +113,8 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	@Override
 	public void setEnvironment(IEditorEnvirnoment env){
 		_env = env;
+		String basePath = _env.getBasePath();
+		_mediaPath = basePath.substring(0,basePath.lastIndexOf("/")+1) + _env.getMediaDirectory();
 		buildForm();
 	}	
 	
@@ -129,39 +133,24 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	}
 
 	@Override
-	public void browse(AssetBrowserCallback browseCallback, String[] fileFilter) {
+	public void browse(AssetBrowserCallback browseCallback, String[] fileFilter) {		
 		
-		String basePath = _env.getBasePath();
-		String mediaPath = basePath.substring(0,basePath.lastIndexOf("/")+1) + _env.getMediaDirectory();
-		
-		IResource uploadResource = _env.getStorage().getResource(mediaPath);
+		IResource uploadResource = _env.getStorage().getResource(_mediaPath);
 		if(fileFilter == null)
 			_uploadPanel = uploadResource.startPutDialog(this);
 		else
 			_uploadPanel = uploadResource.startPutDialog(this, fileFilter);
 		
-		_hFormUploadPanel.add(_uploadPanel);
+		_hFormUploadPanel.add(_uploadPanel);		
 		
 		this.center();
 		
 		if(fileFilter != null)
 			_fileFilter = fileFilter;		
 		
-		IResource listDirResource = _env.getStorage().getResource(mediaPath);
-		listDirResource.listDir(new IResourceListDirCallback() {			
-			@Override
-			public void onListDirError(IResource resource, IApiError error) {
-				onListDirErrorListener(resource, error);
-				
-			}
-			
-			@Override
-			public void onListDirComplete(IResource resource, List<IListDirItemDescriptor> dirList) {
-				onListDirCompleteListener(resource, dirList);
-				
-			}
-		});
+		listDir();
 	}
+
 
 	@Override
 	public String getSelectedAssetPath() {
@@ -182,8 +171,8 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	}
 	
 	@Override
-	public void onUploadComplete(IResource resource, String fileName) {	
-		
+	public void onUploadComplete(IResource resource, String fileName) {		
+		listDir();		
 	}
 	//----------------------------Click handler---------------------------------
 	
@@ -206,6 +195,9 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 		IListDirItemDescriptor item;
 		int i;
 		String fileName;
+		
+		_listBox.clear();
+		_image.setUrl("");
 		while(iterator.hasNext()){			
 			item =iterator.next();			
 			if(_fileFilter != null){
@@ -220,6 +212,23 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 			
 		}
 		
+	}
+	
+	private void listDir(){
+		IResource listDirResource = _env.getStorage().getResource(_mediaPath);
+		listDirResource.listDir(new IResourceListDirCallback() {			
+			@Override
+			public void onListDirError(IResource resource, IApiError error) {
+				onListDirErrorListener(resource, error);
+				
+			}
+			
+			@Override
+			public void onListDirComplete(IResource resource, List<IListDirItemDescriptor> dirList) {
+				onListDirCompleteListener(resource, dirList);
+				
+			}
+		});
 	}
 	
 	//----------------------------------------------------------------------
