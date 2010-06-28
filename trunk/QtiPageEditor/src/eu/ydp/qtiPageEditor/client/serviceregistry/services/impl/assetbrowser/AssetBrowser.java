@@ -86,7 +86,7 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 		});
 		
 		_image = new Image();
-		_image.setPixelSize(150, 120);
+		_image.setPixelSize(220, 180);
 		
 		hListPanel.setSpacing(4);		
 		hListPanel.add(_listBox);
