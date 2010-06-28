@@ -7,11 +7,11 @@ public class AssetBrowserCallback extends JavaScriptObject {
 	protected AssetBrowserCallback(){};
 	
 	public final native void onBrowseComplete(String filePath)/*-{
-		this.onFileSelected(filePath);
+		this.onBrowseComplete(filePath);
 	}-*/;
 	
 	public final native void onBrowseError(Object error)/*-{
-		this.onFileSelectError(error);
+		this.onBrowseError(error);
 	}-*/;
 
 		
