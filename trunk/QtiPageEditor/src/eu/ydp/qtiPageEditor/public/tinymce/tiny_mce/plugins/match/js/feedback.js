@@ -7,10 +7,11 @@ var feedbackDialog = {
 	mDownX : 0,
 	mDownY : 0,
 	canvasHeight : 200,
-	elementHeight : 20,
+	elementHeight : 42,
 	rightCoordinates : new Array,
 	leftCoordinates : new Array,
 	matchIdentifier: '',
+	images: false,
 	
 	init : function(ed) {
 		
@@ -21,23 +22,25 @@ var feedbackDialog = {
 		feedbackDialog.matchIdentifier = data[1];
 		var maxElementCount = 2;
 		
+		feedbackDialog.images = data[0];
+		
 		// left set elements
 		if(data != undefined && data[3].length > 0 && data[3].length == data[4].length) {
 			
 			maxElementCount = data[3].length;
 			for(q=0; q<data[3].length;q++) {
 				var newDiv = document.createElement('div');
-				newDiv.setAttribute('style', 'width: 100%; margin: 3px; height:17px;');
+				newDiv.setAttribute('style', 'width: 100%; margin: 3px; height:40px;');
 				newDiv.setAttribute('id', data[4][q]);
 				
 				var odp = data[3][q];
-				if(odp.match(/^<img[^>]*>$/i)) {
-					odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
-					src = odp.split('/');
-					src = src[src.length - 1];
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="hidden" id="answer_left_' + q + '" name="answers_left[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;"><img style="max-height: 16px; max-width: 80px;" src="' + odp + '"></div></td></tr></table>';
+				if(data[0] == true) {
+					if(odp.match(/^<img[^>]*>$/i)) {
+						odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
+					} 
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="hidden" id="answer_left_' + q + '" name="answers_left[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td></tr></table>';
 				} else {
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="text" id="answer_left_' + q + '" name="answers_left[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="text" disabled="disabled" id="answer_left_' + q + '" name="answers_left[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td></tr></table>';
 				}
 				document.getElementById('left_container').appendChild(newDiv);
 			}
@@ -52,16 +55,16 @@ var feedbackDialog = {
 			}
 			for(q=0; q<data[5].length;q++) {
 				var newDiv = document.createElement('div');
-				newDiv.setAttribute('style', 'width: 100%; margin: 3px; height:17px;');
+				newDiv.setAttribute('style', 'width: 100%; margin: 3px; height:40px;');
 				newDiv.setAttribute('id', data[6][q]);
 				var odp = data[5][q];
-				if(odp.match(/^<img[^>]*>$/i)) {
-					odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
-					src = odp.split('/');
-					src = src[src.length - 1];
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="hidden" id="answer_right_' + q + '" name="answers_right[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;"><img style="max-height: 16px; max-width: 80px;" src="' + odp + '"></div></td></tr></table>';
+				if(data[0] == true) {
+					if(odp.match(/^<img[^>]*>$/i)) {
+						odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
+					}
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="hidden" id="answer_right_' + q + '" name="answers_right[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td></tr></table>';
 				} else {
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="text" id="answer_right_' + q + '" name="answers_right[]" style="width: 100%; margin-right: 15px;" value="' + odp + '"/></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="160px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="text" disabled="disabled" id="answer_right_' + q + '" name="answers_right[]" style="width: 100%; margin-right: 15px;" value="' + odp + '"/></td></tr></table>';
 				}
 				document.getElementById('right_container').appendChild(newDiv);
 			}
@@ -127,16 +130,26 @@ var feedbackDialog = {
 		for (el in leftElements) {
 			ctx.fillStyle = 'green';
 			ctx.beginPath();
-			ctx.fillRect(0, (el * feedbackDialog.elementHeight) + 5,10,10);
-			feedbackDialog.leftCoordinates.push( {min: (el * feedbackDialog.elementHeight) + 5, max: (el * feedbackDialog.elementHeight) + 5 + 10, middle: (el * feedbackDialog.elementHeight) + 5 + 5} );
+			if(feedbackDialog.images == true) {
+				ctx.fillRect(0, (el * feedbackDialog.elementHeight) + 20,10,10);
+				feedbackDialog.leftCoordinates.push( {min: (el * feedbackDialog.elementHeight) + 20, max: (el * feedbackDialog.elementHeight) + 20 + 10, middle: (el * feedbackDialog.elementHeight) + 20 + 5} );
+			} else {
+				ctx.fillRect(0, (el * feedbackDialog.elementHeight) + 5,10,10);
+				feedbackDialog.leftCoordinates.push( {min: (el * feedbackDialog.elementHeight) + 5, max: (el * feedbackDialog.elementHeight) + 5 + 10, middle: (el * feedbackDialog.elementHeight) + 5 + 5} );
+			}
 			ctx.stroke();
 		}
 		
 		for (el in rightElements) {
 			ctx.fillStyle = 'green';
 			ctx.beginPath();
-			ctx.fillRect(190, (el * feedbackDialog.elementHeight) + 5,10,10);
-			feedbackDialog.rightCoordinates.push( {min: (el * feedbackDialog.elementHeight) + 5, max: (el * feedbackDialog.elementHeight) + 5 + 10, middle: (el * feedbackDialog.elementHeight) + 5 + 5} );
+			if(feedbackDialog.images == true) {
+				ctx.fillRect(190, (el * feedbackDialog.elementHeight) + 20,10,10);
+				feedbackDialog.rightCoordinates.push( {min: (el * feedbackDialog.elementHeight) + 20, max: (el * feedbackDialog.elementHeight) + 20 + 10, middle: (el * feedbackDialog.elementHeight) + 20 + 5} );
+			} else {
+				ctx.fillRect(190, (el * feedbackDialog.elementHeight) + 5,10,10);
+				feedbackDialog.rightCoordinates.push( {min: (el * feedbackDialog.elementHeight) + 5, max: (el * feedbackDialog.elementHeight) + 5 + 10, middle: (el * feedbackDialog.elementHeight) + 5 + 5} );
+			}
 			ctx.stroke();
 		}
 		

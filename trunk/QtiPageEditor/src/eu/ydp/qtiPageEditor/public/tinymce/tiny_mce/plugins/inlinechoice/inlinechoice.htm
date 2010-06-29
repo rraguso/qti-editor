@@ -31,7 +31,7 @@
 		<fieldset id="answer_list" style="margin: 10px;">
 			<legend>{#inlinechoice_dlg.answers_label}:</legend>
 			<div style="width: 100%; margin: 3px;">
-				<table><tr><td style="width: 255px;">
+				<table><tr><td style="width: 240px;">
 					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_content}:</div>
 				</td><td style="width: 40px;">
 					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_points}:</div>
@@ -39,7 +39,7 @@
 					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_fixed}:</div>
 				</td><td style="width: 50px;">
 					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.remove_answer_button}:</div>
-				</td><td style="width: 50px;">
+				</td><td style="width: 70px;">
 				</td></tr></table>
 			</div>
 			<!-- tutaj appendowane bêd¹ inputy z init()-->
@@ -82,7 +82,7 @@
 
 		<div style="float: right">	
 		
-			<input type="submit" id="insert" name="insert" value="{#inlinechoice_dlg.modify}" />
+			<input type="submit" id="insert" name="insert" value="{#inlinechoice_dlg.modify}" onclick="return validateExercise(document.forms[0]);"/>
 		
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" style="
 				border: none; 

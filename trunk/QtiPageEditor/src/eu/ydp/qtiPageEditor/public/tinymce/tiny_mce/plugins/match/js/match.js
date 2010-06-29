@@ -60,12 +60,12 @@ var matchDialog = {
 					fixed = '';
 				}
 				var odp = data[3][q];
-				if(odp.match(/^<img[^>]*>$/i)) {
+				if(odp.match(/^<img[^>]*\/>$/i)) {
 					f.images.checked = true;
-					odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
+					odp = odp.replace(/^<img src="([^"]*)"[^>]*\/>$/, '$1');
 					src = odp.split('/');
 					src = src[src.length - 1];
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="fixed_left_' + q + '" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="200px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="hidden" id="answer_left_' + q + '" name="answers_left[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="fixed_left_' + q + '" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="200px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="hidden" id="answer_left_' + q + '" name="answers_left[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"/></div></td></tr></table>';
 				} else {
 					f.images.checked = false;
 					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="fixed_left_' + q + '" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="200px" style="" align="right"><input type="hidden" id="id_left_' + q + '" name="ids_left[]" value="' + data[4][q] + '"/><input type="text" id="answer_left_' + q + '" name="answers_left[]" style="width: 100%; margin-right: 5px;" value="' + odp + '"/></td></tr></table>';
@@ -121,12 +121,12 @@ var matchDialog = {
 					fixed = '';
 				}
 				var odp = data[5][q];
-				if(odp.match(/^<img[^>]*>$/i)) {
+				if(odp.match(/^<img[^>]*\/>$/i)) {
 					f.images.checked = true;
-					odp = odp.replace(/^<img src="([^"]*)"[^>]*>$/, '$1');
+					odp = odp.replace(/^<img src="([^"]*)"[^>]*\/>$/, '$1');
 					src = odp.split('/');
 					src = src[src.length - 1];
-					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="hidden" id="answer_right_' + q + '" name="answers_right[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"></div></td><td width="50px" align="center"><input id="fixed_right_' + q + '" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="hidden" id="answer_right_' + q + '" name="answers_right[]" style="" value="' + odp + '"/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});"><img style="max-height: 40px; max-width: 80px;" src="' + odp + '"/></div></td><td width="50px" align="center"><input id="fixed_right_' + q + '" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
 				} else {
 					f.images.checked = false;
 					newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="id_right_' + q + '" name="ids_right[]" value="' + data[6][q] + '"/><input type="text" id="answer_right_' + q + '" name="answers_right[]" style="width: 100%; margin-right: 15px;" value="' + odp + '"/></td><td width="50px" align="center"><input id="fixed_right_' + q + '" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;" ' + fixed + '/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
@@ -207,8 +207,8 @@ var matchDialog = {
 			var insertButton = document.getElementById('insert');
 			insertButton.setAttribute('value', 'Insert');
 			
-			var feedbacksButton = document.getElementById('feedbacks_button');
-			feedbacksButton.parentNode.removeChild(feedbacksButton);
+			//var feedbacksButton = document.getElementById('feedbacks_button');
+			//feedbacksButton.parentNode.removeChild(feedbacksButton);
 		
 		}
 		
@@ -526,7 +526,7 @@ var matchDialog = {
 			if(element.getAttribute('name') == 'answers_left[]') {
 				if(element.value != '') {
 					if(images == true) {
-						answers_left.push('<img src="' + element.value + '">');
+						answers_left.push('<img src="' + element.value + '"/>');
 					} else {
 						answers_left.push(element.value);
 					}
@@ -537,7 +537,7 @@ var matchDialog = {
 			if(element.getAttribute('name') == 'answers_right[]') {
 				if(element.value != '') {
 					if(images == true) {
-						answers_right.push('<img src="' + element.value + '">');
+						answers_right.push('<img src="' + element.value + '"/>');
 					} else {
 						answers_right.push(element.value);
 					}
@@ -605,7 +605,7 @@ var matchDialog = {
 		// dodawanie nowego match
 		if(adding == 1) {
 			
-			var matchSection = '<p>&nbsp;</p><!-- <matchInteraction responseIdentifier="' + identifier + '" shuffle="' + String(shuffle) + '"> --><div id="matchInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">';
+			var matchSection = '<p>&nbsp;</p><!-- <matchInteraction responseIdentifier="' + identifier + '" shuffle="' + String(shuffle) + '" maxAssociations="4"> --><div id="matchInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">';
 			matchSection += '<p id="matchInteraction">' + question + '</p><table width="100%" border=0 style="border: none;"><tbody><tr valign="top" style="border: none;">';
 			
 			// rozpoczêcie lewego matchset
@@ -618,9 +618,9 @@ var matchDialog = {
 				} else {
 					var fx = 'false';
 				}
-				matchSection += '>' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_left[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				if(answers_left[i].match(/<img[^>]*>/i)) {
-					var an = answers_left[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+				matchSection += ' matchMax="0">' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_left[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_left[i].match(/<img[^>]*\/>/i)) {
+					var an = answers_left[i].replace(/([^<]*)<img([^>]*)\/>([^<]*)/i, '$1<img$2 height="16px"/>$3');
 					matchSection += an + '</span></td></tr>';
 				} else {
 					matchSection += answers_left[i] + '</span></td></tr>';
@@ -638,9 +638,9 @@ var matchDialog = {
 				} else {
 					var fx = 'false';
 				}
-				matchSection += '>' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_right[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				if(answers_right[i].match(/<img[^>]*>/i)) {
-					var an = answers_right[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+				matchSection += ' matchMax="0">' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_right[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_right[i].match(/<img[^>]*\/>/i)) {
+					var an = answers_right[i].replace(/([^<]*)<img([^>]*)\/>([^<]*)/i, '$1<img$2 height="16px"/>$3');
 					matchSection += an + '</span></td></tr>';
 				} else {
 					matchSection += answers_right[i] + '</span></td></tr>';
@@ -704,9 +704,9 @@ var matchDialog = {
 				} else {
 					var fx = 'false';
 				}
-				matchSection += '>' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_left[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				if(answers_left[i].match(/<img[^>]*>/i)) {
-					var an = answers_left[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+				matchSection += ' matchMax="0">' + answers_left[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_left[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_left[i].match(/<img[^>]*\/>/i)) {
+					var an = answers_left[i].replace(/([^<]*)<img([^>]*)\/>([^<]*)/i, '$1<img$2 height="16px"/>$3');
 					matchSection += an + '</span></td></tr>';
 				} else {
 					matchSection += answers_left[i] + '</span></td></tr>';
@@ -725,9 +725,9 @@ var matchDialog = {
 				} else {
 					var fx = 'false';
 				}
-				matchSection += '>' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_right[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
-				if(answers_right[i].match(/<img[^>]*>/i)) {
-					var an = answers_right[i].replace(/([^<]*)<img([^>]*)>([^<]*)/i, '$1<img$2 height="16px">$3');
+				matchSection += ' matchMax="0">' + answers_right[i] + '</simpleAssociableChoice> --><tr style="border: none;"><td align="center" style="border: none;"><span id="span_identifier" style="display: none;">' + ids_right[i] + '</span><span id="span_fixed" style="display: none;">' + fx + '</span><span id="matchInteraction" style="border: 1px solid blue; color: blue;">';
+				if(answers_right[i].match(/<img[^>]*\/>/i)) {
+					var an = answers_right[i].replace(/([^<]*)<img([^>]*)\/>([^<]*)/i, '$1<img$2 height="16px"/>$3');
 					matchSection += an + '</span></td></tr>';
 				} else {
 					matchSection += answers_right[i] + '</span></td></tr>';

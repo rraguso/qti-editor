@@ -1,10 +1,91 @@
-function actionOnQTI(e) {
 
-	//console.log(tinymce.EditorManager.activeEditor.dom.doc.body.innerHTML);
+function actionOnQTI(e) {
+	
+	var ed = tinymce.EditorManager.activeEditor;
+	
+	if(tinyMCE.changesTracking != undefined && tinyMCE.changesTracking) {
+		
+		if(tinyMCE.originalBookmark != undefined) {
+			ed.selection.moveToBookmark(tinyMCE.originalBookmark);
+			delete tinyMCE.originalBookmark;
+		}
+		
+		// Disable editing original content
+		if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().getAttribute('class') == 'changestracking_original') {
+			if(e.type == 'keypress' && (e.charCode != 0 || e.keyCode == 8 || e.keyCode == 88 || e.keyCode == 46 || e.keyCode == 86)) {
+				return false;
+			}
+		}
+		
+		// On typing text or pasting
+		if(e.type=='keypress' && (e.charCode != 0 || e.keyCode == 86)) {
+			if(ed.selection.getContent() != '') {
+				alert('Text replacing is not allowed in changes tracking mode');
+				return false;
+			} else if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().attributes != undefined && ed.selection.getNode().getAttribute('class') == 'changestracking_new') {
+				//reduceNumberOfSpans();
+				return true;
+			} else {
+				ed.selection.moveToBookmark(ed.selection.getBookmark());
+				tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_new" style="color: red; text-decoration: underline;" title="Changes tracking: new content">' + String.fromCharCode(e.charCode) + '</span>');
+				//reduceNumberOfSpans();
+				return false;
+			}
+		}
+		
+		// Actions on normal text
+		if(ed.selection.getNode().nodeName == undefined || ed.selection.getNode().nodeName != 'SPAN' || ed.selection.getNode().attributes == undefined || ed.selection.getNode().getAttribute('class') != 'changestracking_new') {
+		
+			// on backspace
+			if(e.type == 'keypress' && e.keyCode == 8) {
+				var content = ed.selection.getContent();
+				if(content != '') {
+					var myBookmark = ed.selection.getBookmark();
+					ed.selection.moveToBookmark(myBookmark);
+					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+					myBookmark.end = myBookmark.start;
+					ed.selection.moveToBookmark(myBookmark);
+				} else {
+					var myBookmark = ed.selection.getBookmark();
+					myBookmark.start = myBookmark.start - 1;
+					ed.selection.moveToBookmark(myBookmark);
+					var content = ed.selection.getContent();
+					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+					myBookmark.end = myBookmark.start;
+					ed.selection.moveToBookmark(myBookmark);
+				}
+				//reduceNumberOfSpans();
+				return false;
+			} // eof on backspace
+			
+			// on delete
+			if(e.type == 'keypress' && e.keyCode == 46) {
+				var content = ed.selection.getContent();
+				if(content != '') {
+					var myBookmark = ed.selection.getBookmark();
+					ed.selection.moveToBookmark(myBookmark);
+					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+					myBookmark.start = myBookmark.end;
+					ed.selection.moveToBookmark(myBookmark);
+				} else {
+					alert('Delete button is not working properly in changes tracking mode, due to technical reasons');
+					//var myBookmark = ed.selection.getBookmark();
+					//myBookmark.end = myBookmark.end + 1;
+					//ed.selection.moveToBookmark(myBookmark);
+					//var content = ed.selection.getContent();
+					//tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+					//myBookmark.start = myBookmark.end;
+					//ed.selection.moveToBookmark(myBookmark);
+				}
+				//reduceNumberOfSpans();
+				return false;
+			} // eof on delete
+		
+		} // eof actions on normal text
+		
+	} // eof changesTracking
 
 	if ((e.type == 'click' && e.button == 0) || (e.type == 'keypress' && e.keyCode == '113')) {
-		
-		var ed = tinymce.EditorManager.activeEditor;
 		
 		//QY Comments
 		if (ed.selection.getNode().nodeName == 'DIV' && ed.selection.getNode().getAttribute('class') == 'mceNonEditable qy_comment') {
@@ -37,7 +118,7 @@ function actionOnQTI(e) {
 		//Gap
 		if (ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().id == 'gap') {
 			var id = ed.selection.getNode().previousSibling.data;
-			rg = new RegExp('<gap identifier="([^"]*)"[^>]*>',"gi");
+			rg = new RegExp('<textEntryInteraction responseIdentifier="([^"]*)"[^>]*>',"gi");
 			id = rg.exec(id);
 			if(id[1] && id[1] != undefined && id[1] != '') {
 				id = id[1];
@@ -80,12 +161,17 @@ function actionOnQTI(e) {
 				inlineChoiceSpan = inlineChoiceSpan.parentNode;
 			}
 			var choiceSectionHTML = inlineChoiceSpan.innerHTML;
-			if(inlineChoiceSpan.previousSibling.nodeName == "P") {
-				var identifier = inlineChoiceSpan.previousSibling.innerHTML.match(/<inlineChoiceInteraction responseIdentifier="([^"]+)"[^>]*>/i);
-				var shuffle = inlineChoiceSpan.previousSibling.innerHTML.match(/<inlineChoiceInteraction.*?shuffle="([^"]*)"[^>]*>/i);
+			if(inlineChoiceSpan.previousSibling != undefined) {
+				if(inlineChoiceSpan.previousSibling.nodeName == "P") {
+					var identifier = inlineChoiceSpan.previousSibling.innerHTML.match(/<inlineChoiceInteraction responseIdentifier="([^"]+)"[^>]*>/i);
+					var shuffle = inlineChoiceSpan.previousSibling.innerHTML.match(/<inlineChoiceInteraction.*?shuffle="([^"]*)"[^>]*>/i);
+				} else {
+					var identifier = inlineChoiceSpan.previousSibling.data.match(/<inlineChoiceInteraction responseIdentifier="([^"]+)"[^>]*>/i);
+					var shuffle = inlineChoiceSpan.previousSibling.data.match(/<inlineChoiceInteraction.*?shuffle="([^"]*)"[^>]*>/i);
+				}
 			} else {
-				var identifier = inlineChoiceSpan.previousSibling.data.match(/<inlineChoiceInteraction responseIdentifier="([^"]+)"[^>]*>/i);
-				var shuffle = inlineChoiceSpan.previousSibling.data.match(/<inlineChoiceInteraction.*?shuffle="([^"]*)"[^>]*>/i);
+				var identifier = inlineChoiceSpan.parentNode.previousSibling.data.match(/<inlineChoiceInteraction responseIdentifier="([^"]+)"[^>]*>/i);
+				var shuffle = inlineChoiceSpan.parentNode.previousSibling.data.match(/<inlineChoiceInteraction.*?shuffle="([^"]*)"[^>]*>/i);
 			}
 			var answers_paragraph = choiceSectionHTML.match(/<!-- <inlineChoice identifier="[^"]*"[^>]*>[^<]*<\/inlineChoice> --><span id="inlineChoiceAnswer" style="[^"]*"[^>]*>([^<]*)(<span[^>]*>[^<]*<\/span>)?<\/span>/gi);
 			var values = new Array();
@@ -357,7 +443,7 @@ function cutQTI(content) {
 	content = content.replace(/<!-- (<gap[^>]*>[^<]*<\/gap>) --><span id="gap" class="mceNonEditable"[^>]*>([^<]*)<\/span>/gi, '');
 	
 	content = content.replace(/(?:<p>)?<!-- (<choiceInteraction[^>]*>) -->(?:<\/p>)?<div id="choiceInteraction" class="mceNonEditable"[^>]*>/gi, '');
-	content = content.replace(/<p id="choiceInteraction">([^<]*)<\/p><p id="choiceInteraction">/gi, '');
+	content = content.replace(/<p id="choiceInteraction">([^<]*)<\/p>/gi, '');
 	content = content.replace(/<!-- (<simpleChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleChoice>) --><br[^>]*><input id="choiceInteraction" [^>]*>(<img[^>]*>|[^<]*)/gi,'');
 	content = content.replace(/<\/p><\/div><!-- end of choiceInteraction -->/gi,'');
 	
@@ -365,6 +451,62 @@ function cutQTI(content) {
 	content = content.replace(/<!-- (<inlineChoice[^>]*>[^<]*<\/inlineChoice>) --><span id="inlineChoiceAnswer"[^>]*>[^<]*(?:<span[^>]*>[^<]*<\/span>)?<\/span>/gi,'');
 	content = content.replace(/<\/span>[^<]*(?:<\/p>)?[^<]*<!-- end of inlineChoiceInteraction -->/gi,'');
 	
+	content = content.replace(/(?:<p>)?<!-- (<orderInteraction[^>]*>) -->(?:<\/p>)?<div id="orderInteraction"[^>]*>/gi, '');
+	content = content.replace(/<!-- (<simpleChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleChoice>) -->(?:<\/p>)?<div id="orderOption" [^>]*>(<img[^>]*>|[^<]*)<\/div>/gi,'');
+	content = content.replace(/<\/div><!-- end of orderInteraction -->/gi,'');
+	
+	content = content.replace(/<!-- (<matchInteraction[^>]*>) --><div id="matchInteraction" class="mceNonEditable"[^>]*>/gi, '');
+	content = content.replace(/<p id="matchInteraction">([^<]*)<\/p><table[^>]*><tbody><tr[^>]*>/gi, '');
+	content = content.replace(/<td id="canvas_td"[^>]*><canvas[^>]*><\/canvas><\/td>/gi, '');
+	content = content.replace(/<!-- (<simpleMatchSet>) --><td[^>]*><table[^>]*><tbody>/gi, '');
+	content = content.replace(/(<tr id="canvas_tr"[^>]*><td[^>]*><canvas id="canvas"[^>]*><\/canvas><\/td><\/tr>)/gi,'');
+	content = content.replace(/<!-- (<simpleAssociableChoice[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/simpleAssociableChoice>) --><tr[^>]*><td[^>]*><span[^>]*>[^<]*<\/span><span[^>]*>[^<]*<\/span><span[^>]*>([^<]*|[^<]*<img[^>]*>[^<]*)<\/span><\/td><\/tr>/gi, '');
+	content = content.replace(/<!-- (<\/simpleMatchSet>) --><\/tbody><\/table><\/td>/gi, '');
+	content = content.replace(/<\/tr><\/tbody><\/table><\/div><!-- end of matchInteraction -->/gi, '');
+	
+	content = content.replace(/(<!-- (<modalFeedback [^>]*>[^<]*<\/modalFeedback>) -->)(?! -->)/gi, '');
+	
 	return content;
 	
 }
+
+//function reduceNumberOfSpans() {
+//	
+//	var ed = tinyMCE.activeEditor;
+//	var body = ed.selection.dom.doc.body;
+//	
+//	var spans = body.getElementsByTagName('span');
+//	console.log(spans.length);
+//	if(spans.length > 0) {
+//		var i = 0;
+//		while(spans[i] == undefined) {
+//			i++;
+//		}
+//		if(spans[i].attributes != undefined) {
+//			if(spans[i].getAttribute('class') == 'changestracking_new' || spans[i].getAttribute('class') == 'changestracking_original') {
+//				
+//				if(spans[i].nextSibling != undefined && spans[i].nextSibling.nodeName == 'SPAN' && spans[i].nextSibling.getAttribute('class') == spans[i].getAttribute('class')) {
+//					connectSiblings(spans[i], spans[i].nextSibling);
+//				} 
+//				
+//			} 
+//		}	
+//		reduceNumberOfSpans();
+//	}
+//
+//}
+
+//function connectSiblings(sl, sr) {
+//	
+//	//console.log('pair: ');
+//	//console.log(sl.innerHTML);
+//	//console.log(sr.innerHTML);
+//	
+//	var ed = tinyMCE.activeEditor;
+//	ed.selection.select(sr);
+//	var common = '<span class="' + sr.getAttribute('class') + '" style="' + sr.getAttribute('style') + '" title="' + sr.getAttribute('title') + '">' + sl.innerHTML + sr.innerHTML + '</span>';
+//	tinyMCE.activeEditor.dom.remove(sr);
+//	tinyMCE.activeEditor.dom.remove(sl);
+//	tinyMCE.execCommand('mceInsertContent', false, common);
+//	
+//}

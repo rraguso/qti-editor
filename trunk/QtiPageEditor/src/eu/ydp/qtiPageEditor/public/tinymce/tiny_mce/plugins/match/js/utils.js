@@ -1,9 +1,9 @@
 function add_answer_row(form, side) {
 	
-	var feedbacksButton = document.getElementById('feedbacks_button');
-	if(feedbacksButton != undefined) {
-		feedbacksButton.parentNode.removeChild(feedbacksButton);
-	}
+	//var feedbacksButton = document.getElementById('feedbacks_button');
+	//if(feedbacksButton != undefined) {
+	//	feedbacksButton.parentNode.removeChild(feedbacksButton);
+	//}
 	
 	var randid = Math.random();
 	randid = String(randid);
@@ -20,10 +20,10 @@ function add_answer_row(form, side) {
 	newDiv.setAttribute('id', id);
 	if(form.images.checked == true) {
 		if(side == 'left') {
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;"/></td><td width="200px" style="" align="right"><input type="hidden" id="" name="ids_left[]" value="' + id + '"/><input type="hidden" id="" name="answers_left[]" style="width: 100%; margin-right: 5px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""></div></td></tr></table>';
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;"/></td><td width="200px" style="" align="right"><input type="hidden" id="" name="ids_left[]" value="' + id + '"/><input type="hidden" id="" name="answers_left[]" style="width: 100%; margin-right: 5px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""/></div></td></tr></table>';
 		}
 		if(side == 'right') {
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="" name="ids_right[]" value="' + id + '"/><input type="hidden" id="" name="answers_right[]" style="width: 100%; margin-right: 15px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""></div></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;"/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="" name="ids_right[]" value="' + id + '"/><input type="hidden" id="" name="answers_right[]" style="width: 100%; margin-right: 15px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""/></div></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;"/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
 		}
 	} else {
 		if(side == 'left') {
@@ -70,10 +70,10 @@ function add_answer_row(form, side) {
 
 function remove_answer_row(row) {
 	
-	var feedbacksButton = document.getElementById('feedbacks_button');
-	if(feedbacksButton != undefined) {
-		feedbacksButton.parentNode.removeChild(feedbacksButton);
-	}
+	//var feedbacksButton = document.getElementById('feedbacks_button');
+	//if(feedbacksButton != undefined) {
+	//	feedbacksButton.parentNode.removeChild(feedbacksButton);
+	//}
 	
 	// remove element
 	var div = row.parentNode.parentNode.parentNode.parentNode.parentNode;
@@ -153,7 +153,7 @@ function switch_text_images(checkbox) {
 				var div = document.createElement('div');
 				div.setAttribute('style', 'width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;');
 				div.setAttribute('onclick', 'tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});');
-				div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + inputs[i].value + '">'
+				div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + inputs[i].value + '"/>'
 				inputs[i].parentNode.appendChild(div);
 				leftEl.push(inputs[i]);
 			}
@@ -170,7 +170,7 @@ function switch_text_images(checkbox) {
 				var div = document.createElement('div');
 				div.setAttribute('style', 'width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;');
 				div.setAttribute('onclick', 'tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});');
-				div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + inputs[i].value + '">'
+				div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + inputs[i].value + '"/>'
 				inputs[i].parentNode.appendChild(div);
 				rightEl.push(inputs[i]);
 			}
@@ -209,5 +209,53 @@ function switch_text_images(checkbox) {
 	matchDialog.remakeConnectionLines(checkbox.checked);
 	
 	return true;
+	
+}
+
+function runFeedbacks() {
+	
+		var form = document.forms[0];
+		var formData = new Array();
+		var leftAns = new Array;
+		var leftIds = new Array;
+		var rightAns = new Array;
+		var rightIds = new Array;
+		
+		var i = 0;
+		while(form.elements[i] != undefined) {
+			if(form.elements[i].getAttribute('name') == 'images') {
+				formData[0] = form.elements[i].checked;
+			}
+			if(form.elements[i].getAttribute('name') == 'identifier') {
+				formData[1] = form.elements[i].value;
+			}
+			if(form.elements[i].getAttribute('name') == 'answers_left[]') {
+				leftAns.push(form.elements[i].value);
+			}
+			if(form.elements[i].getAttribute('name') == 'ids_left[]') {
+				leftIds.push(form.elements[i].value);
+			}
+			if(form.elements[i].getAttribute('name') == 'answers_right[]') {
+				rightAns.push(form.elements[i].value);
+			}
+			if(form.elements[i].getAttribute('name') == 'ids_right[]') {
+				rightIds.push(form.elements[i].value);
+			}
+			i++;
+		}
+		
+		formData[3] = leftAns;
+		formData[4] = leftIds;
+		formData[5] = rightAns;
+		formData[6] = rightIds;
+			
+		if(tinyMCE.feedback == undefined) {
+			tinyMCE.feedback = new Array;
+		}
+		if(tinyMCE.feedback[formData[1]] == undefined) {
+			tinyMCE.feedback[formData[1]] = new Array;
+		}
+		
+		tinyMCE.execCommand('mceMatchFeedbacks',false,formData);
 	
 }

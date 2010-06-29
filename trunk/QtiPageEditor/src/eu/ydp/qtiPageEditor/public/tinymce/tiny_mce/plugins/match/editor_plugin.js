@@ -67,7 +67,7 @@
 				ed.windowManager.open({
 					file : url + '/feedback.htm',
 					width : 600,
-					height : 300,
+					height : 400,
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
