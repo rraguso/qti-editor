@@ -11,6 +11,8 @@ public class Constances {
 	public static final String PAGES_LOADED = "pagesLoaded";
 	public static final String LOAD_PAGE_ERROR = "loadPageError";
 	
+	public static final String RELOAD_PAGE = "reloadPage";	
+	
 	public static final String INIT_EMPTY_PAGE = "initEmptyPage";
 	
 	public static final String SHOW_PAGE = "showPage";
@@ -32,5 +34,7 @@ public class Constances {
 	public static final String UPDATE_PAGE_STATE = "updatePageState";	
 	
 	public static final String SET_MODEL_SELECTED_INDEX = "setModelSelectedIndex";	
+	
+	public static final String SET_PAGE_PATH = "setModelSelectedIndex";	
 
 }

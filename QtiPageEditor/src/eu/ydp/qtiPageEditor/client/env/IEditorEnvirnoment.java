@@ -7,6 +7,8 @@ public interface IEditorEnvirnoment {
 	
 	String getBasePath();
 	
+	void setBasePath(String path);
+	
 	String getMediaDirectory();
 	
 	IStorage getStorage();

@@ -21,6 +21,11 @@ public class EditorEnvirnoment implements IEditorEnvirnoment {
 		reg.setEnv(this);
 	}
 	
+	@Override
+	public void setBasePath(String path) {		
+		_basePath = path;
+	}
+	
 	
 	@Override
 	public String getBasePath() {		

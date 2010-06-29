@@ -74,12 +74,55 @@ public class QTIPageModelProxy extends QtiProxyBase{
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
+	public void reload(int ix){
+		final ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
+		final QTIPageModel page = pages.get(ix);
+		String path = page.getPath();		
+		IResource resource = _storage.getResource(path);
+		resource.load(new IResourceTextCallback() {
+			
+			@Override
+			public void onRequestError(IResource resource, String command, IApiError error) {				
+				sendNotification(Constances.LOAD_PAGE_ERROR, error);
+			}
+			
+			@Override
+			public void onRequestComplete(IResource resource, String command, String content) {				
+				page.setContent(content);
+				
+				String[] titles = new String[pages.size()];
+				int i;
+				for(i = 0;i < pages.size(); i++)
+					titles[i] = pages.get(i).getTitle();
+				
+				sendNotification(Constances.PAGES_LOADED, titles);
+			}
+		});
+
+		
+	}
+	
 	public void setSelectedIndex(int ix){
 		_selectedIndex = ix;
 	}
 	
 	public int getSelectedIndex(){
 		return _selectedIndex;
+	}
+	
+	public void setPagePath(String path){
+		setPagePath(path,-1);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setPagePath(String path, int ix){
+		_testPath = path;
+		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
+		int n = (ix > -1) ? ix : 0;
+		
+		pages.get(n).setPath(path);
+		
 	}
 	
 	@SuppressWarnings("unchecked")
