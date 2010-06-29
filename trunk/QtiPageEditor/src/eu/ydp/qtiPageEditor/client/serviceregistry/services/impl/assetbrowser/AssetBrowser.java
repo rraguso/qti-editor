@@ -9,6 +9,7 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -45,17 +46,11 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	private String[] _fileFilter;
 	private AssetBrowserCallback _jsCallback;	
 	
-	private Boolean _pendingSelect;
-	
 	public AssetBrowser(){		
 		super(false, true);		
 		setText("Upload / insert media for qti");
 		
-		setGlassEnabled(true);
-		
-		_pendingSelect = false;
-		
-		
+		setGlassEnabled(true);		
 	}
 	
 	private void buildForm(){
@@ -81,7 +76,8 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 			public void onChange(ChangeEvent event) {
 				String path = _listBox.getValue(_listBox.getSelectedIndex());
 				_selectedFilePath = path;
-				_image.setUrl(path);				
+				showPreview(path);
+				//_image.setUrl(path);				
 			}
 		});
 		
@@ -131,6 +127,17 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 		setWidget(_contentPane);		
 	}
 	
+	private void showPreview(String path){
+		ImageResource res = IconProvider.getIcon(path);		
+		
+		if(res != null)
+			_image.setResource(res);
+		else 
+			_image.setUrl(path);	
+		
+		_image.setPixelSize(220, 180);
+	}
+	
 	
 	private void showSelectedFilePath(){		
 		if(_listBox.getItemCount() > 0){
@@ -138,7 +145,8 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 			for(i = 0; i < _listBox.getItemCount(); i++ ){
 				if(_listBox.getValue(i) == _selectedFilePath){
 					_listBox.setSelectedIndex(i);
-					_image.setUrl(_listBox.getValue(i));
+					showPreview(_listBox.getValue(i));
+					//_image.setUrl(_listBox.getValue(i));
 				}
 			}			
 		}
