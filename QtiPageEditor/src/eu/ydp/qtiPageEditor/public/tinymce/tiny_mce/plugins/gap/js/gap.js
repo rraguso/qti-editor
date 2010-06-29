@@ -49,14 +49,34 @@ var gapDialog = {
 			var ed = tinymce.EditorManager.activeEditor;
 			ed.selection.moveToBookmark(ed.selection.getBookmark());
 			if(form.addnew != undefined && form.addnew.getAttribute('value') == '1') {
-				var gapTag = '<!-- <gap identifier="' + identifier + '">' + gap + '</gap> --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">' + gap + '</span>';
+				
+				var gapTag = '<!-- <textEntryInteraction responseIdentifier="' + identifier + '" expectedLength="' + gap.length + '" /> --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">' + gap + '</span>';
 				tinyMCE.execCommand('mceInsertContent', false, gapTag);
+				responseDeclaration = '<!-- <responseDeclaration identifier="' + identifier + '" cardinality="single" baseType="string"><correctResponse>';
+				responseDeclaration += '<value>' + gap + '</value>';
+				responseDeclaration += '</correctResponse></responseDeclaration> -->';
+				
+				body = ed.selection.getNode();
+				while(body.nodeName != 'BODY') {
+					body = body.parentNode;
+				}
+				regexp = new RegExp('(<!-- <itemBody> -->)','gi');
+				body.innerHTML = body.innerHTML.replace(regexp, responseDeclaration + '$1');
+				
 			} else {
+			
 				var gapTag = ed.selection.getNode();
 				gapTag.innerHTML = gap;
-				gapTag.previousSibling.data = gapTag.previousSibling.data.replace(/<gap>/gi, ' <gap identifier="' + identifier + '">');
-				gapTag.previousSibling.data = gapTag.previousSibling.data.replace(/<gap identifier="">/gi, ' <gap identifier="' + identifier + '">');
-				gapTag.previousSibling.data = gapTag.previousSibling.data.replace(/ <gap identifier="([^"]*)">[^<]*<\/gap> /gi, ' <gap identifier="$1">' + gap + '</gap> ');
+				gapTag.previousSibling.data = gapTag.previousSibling.data.replace(/ <textEntryInteraction responseIdentifier="([^"]*)" expectedLength="([^"]*)" \/> /gi, ' <textEntryInteraction responseIdentifier="$1" expectedLength="' + gap.length + '" /> ');
+				responseDeclaration = '<value>' + gap + '</value>';
+				
+				body = ed.selection.getNode();
+				while(body.nodeName != 'BODY') {
+					body = body.parentNode;
+				}
+				regexp = new RegExp('(<!-- <responseDeclaration identifier="' + identifier + '"[^>]*>[^<]*<correctResponse>)(?:[^<]*<value>[^<]*<\/value>[^<]*)*(<\/correctResponse>[^>]*<\/responseDeclaration> -->)','gi');
+				body.innerHTML = body.innerHTML.replace(regexp, '$1' + responseDeclaration + '$2');
+				
 			}
 		}
 		

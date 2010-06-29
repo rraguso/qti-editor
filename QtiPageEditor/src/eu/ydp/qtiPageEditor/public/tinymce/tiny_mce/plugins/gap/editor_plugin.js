@@ -45,15 +45,17 @@
 				var selectedNode = ed.selection.getNode();
 				if(selectedNode.nodeName == 'SPAN' && selectedNode.id == 'gap') {
 					var gapComment = selectedNode.previousSibling;
-					var gapId = /<gap[^>]*identifier="([^"]*)"[^>]*>/i.exec(gapComment.data);
+					var gapId = /<textEntryInteraction[^>]*responseIdentifier="([^"]*)"[^>]*>/i.exec(gapComment.data);
 					gapId = gapId[1];
-					var rg = new RegExp('<!-- <modalFeedback[^>]*outcomeIdentifier="' + gapId + '"[^>]*>[^<]*<\/modalFeedback> -->','gi');
+					var rg_fdb = new RegExp('<!-- <modalFeedback[^>]*outcomeIdentifier="' + gapId + '"[^>]*>[^<]*<\/modalFeedback> -->','gi');
+					var rg_rdec = new RegExp('<!--[^<]*<responseDeclaration identifier="' + gapId + '"[^>]*>[^<]*<correctResponse>[^<]*(?:<value>[^<]*<\/value>[^<]*)*<\/correctResponse>[^<]*<\/responseDeclaration>[^-]*-->', 'gi');
 					
 					var gapContent = selectedNode.innerHTML;
 					selectedNode.parentNode.removeChild(selectedNode.previousSibling);
 					selectedNode.parentNode.removeChild(selectedNode);
 					tinyMCE.execCommand('mceInsertContent', false, gapContent);
-					tinyMCE.activeEditor.selection.dom.doc.body.innerHTML = tinyMCE.activeEditor.selection.dom.doc.body.innerHTML.replace(rg,'');
+					tinyMCE.activeEditor.selection.dom.doc.body.innerHTML = tinyMCE.activeEditor.selection.dom.doc.body.innerHTML.replace(rg_fdb,'');
+					tinyMCE.activeEditor.selection.dom.doc.body.innerHTML = tinyMCE.activeEditor.selection.dom.doc.body.innerHTML.replace(rg_rdec,'');
 				}
 				return true;
 			

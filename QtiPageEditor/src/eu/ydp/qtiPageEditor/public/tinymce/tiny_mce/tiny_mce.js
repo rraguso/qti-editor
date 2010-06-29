@@ -1969,7 +1969,13 @@ tinymce.create('static tinymce.util.XHR', {
 			h = h.replace(/(<\/itemBody>)(?! -->)/gi,'<!-- $1 -->');
 			
 			// Gaps support
-			h = h.replace(/(<gap[^>]*>([^<]*)<\/gap>)(?! -->)/gi, "<!-- $1 --><span id=\"gap\" class=\"mceNonEditable\" style=\"border: 1px solid blue; color: blue; background-color: #f0f0f0;\">$2</span>");
+			for(var i in answers) {
+				for(var j in answers[i][0]) {
+					var gap_rg = new RegExp('(<textEntryInteraction responseIdentifier="' + i + '"[^>]*\/>)(?! -->)', "gi");
+					h = h.replace(gap_rg, '<!-- $1 --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">' + answers[i][0][j] + '</span>');
+				}
+			}
+			h = h.replace(/(<textEntryInteraction[^>]*\/>)(?! -->)/gi, "<!-- $1 --><span id=\"gap\" class=\"mceNonEditable\" style=\"border: 1px solid blue; color: blue; background-color: #f0f0f0;\">$2</span>");
 			
 			//Order support
 			h = h.replace(/(<orderInteraction[^>]*>)(?! -->)/gi, '<!-- $1 --><div id="orderInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">');
@@ -2094,10 +2100,27 @@ tinymce.create('static tinymce.util.XHR', {
 		},
 		
 		processHTML : function(h) {
+		
 			var t = this, s = t.settings, codeBlocks = [];
 			
 			if (!s.process_html)
 					return h;
+			
+			if(h.match(/<assessmentItem [^>]*>/gi)) {
+				if(h.match(/<!-- <changesTracking state="on"> -->/gi)) {
+					tinyMCE.changesTracking = true;
+					tinyMCE.activeEditor.controlManager.setActive('enablechangestracking', true);
+				} else {
+					tinyMCE.changesTracking = false;
+					tinyMCE.activeEditor.controlManager.setActive('enablechangestracking', false);
+				}
+			}
+			
+			h = h.replace(/(<span[^>]*class="changestracking_original"[^>]*style=")("[^>]*>)/gi,'$1color: red; text-decoration: line-through;$2');
+			h = h.replace(/(<span[^>]*class="changestracking_new"[^>]*style=")[^"]*("[^>]*>)/gi,'$1color: red; text-decoration: underline;$2');
+			
+			h = h.replace(/<u[^>]*style="[^"]*"[^>]*>(.*?)<\/u>/gi,'<span class="changestracking_new" style="color: red; text-decoration: underline;" title="Changes tracking: new content">$1</span>');
+			h = h.replace(/<strike[^>]*style="[^"]*"[^>]*>(.*?)<\/strike>/gi,'<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">$1</span>');
 			
 			this.setCanvasParams();
 			
@@ -6464,7 +6487,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			h = h.replace(/<!-- (<\/itemBody>) -->/gi,'$1');
 			
 			// Gaps support
-			h = h.replace(/<!-- (<gap[^>]*>[^<]*<\/gap>) --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">([^<]*)<\/span>/gi, '$1');
+			h = h.replace(/<!-- (<textEntryInteraction[^>]*\/>) --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">([^<]*)<\/span>/gi, '$1');
 			
 			//Choices support
 			h = h.replace(/(?:<p>)?<!-- (<choiceInteraction[^>]*>) -->(?:<\/p>)?<div id="choiceInteraction" class="mceNonEditable" style="border: 1px solid blue; color: blue; padding: 5px; background-color: #f0f0f0;">/gi, '$1');
@@ -6474,7 +6497,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 			h = h.replace(/<\/div><!-- end of choiceInteraction -->/gi,'</choiceInteraction>');
 			
 			//Inline choices support
-			h = h.replace(/(?:<p>)?<!-- (<inlineChoiceInteraction[^>]*>) -->(?:<\/p>)?<span id="inlineChoiceInteraction" class="mceNonEditable" style="[^"]*">/gi, '$1');
+			h = h.replace(/(?:<p>)?<!-- (<inlineChoiceInteraction[^>]*>) -->(?:<\/?p>)?<span id="inlineChoiceInteraction" class="mceNonEditable" style="[^"]*">/gi, '$1');
 			h = h.replace(/<!-- (<inlineChoice[^>]*>[^<]*<\/inlineChoice>) --><span id="inlineChoiceAnswer" style="[^"]*">[^<]*(?:<span[^>]*>[^<]*<\/span>)?<\/span>/gi,'$1');
 			h = h.replace(/<\/span>[^<]*(?:<\/p>)?[^<]*<!-- end of inlineChoiceInteraction -->/gi,'</inlineChoiceInteraction>');
 			
@@ -6512,9 +6535,13 @@ window.tinymce.dom.Sizzle = Sizzle;
 		_postProcess : function(o) {
 			var t = this, s = t.settings, h = o.content, sc = [], p;
 			
-			h = this.parseToQTI(h);
+			s.entity_encoding = 'numeric';
 			
+			h = this.parseToQTI(h);
 			h = this.parseCommentsToQY(h);
+			
+			h = h.replace(/(<span[^>]*class="changestracking_original"[^>]*style=")[^"]*("[^>]*>)/gi,'$1$2');
+			h = h.replace(/(<span[^>]*class="changestracking_new"[^>]*style=")[^"]*("[^>]*>)/gi,'$1display: none;$2');
 			
 			if (o.format == 'html') {
 				// Protect some elements

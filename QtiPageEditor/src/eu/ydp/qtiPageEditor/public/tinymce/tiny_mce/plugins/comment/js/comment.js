@@ -56,7 +56,7 @@ var commentDialog = {
 			
 			ed.selection.moveToBookmark(ed.selection.getBookmark());
 			
-			commentTags = '<div id="ref_' + comment_id + '" class="mceNonEditable qy_comment" style="float: right; border: 1px solid red; background-color: #f0f0f0;">' + comment_content + '</div>';
+			commentTags = '<div id="ref_' + comment_id + '" class="mceNonEditable qy_comment" style="float: right; border: 1px solid red; background-color: #f0f0f0; max-width: 20%;">' + comment_content + '</div>';
 			commentTags += '<span id="' + comment_id + '" class="qy_comment" style="color: red; background-color: #f0f0f0">' + commented_text + '</span>';
 			
 			tinyMCE.execCommand('mceInsertContent', false, commentTags);
