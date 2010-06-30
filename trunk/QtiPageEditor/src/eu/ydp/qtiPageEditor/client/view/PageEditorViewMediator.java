@@ -12,8 +12,8 @@ import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
 
 public class PageEditorViewMediator extends Mediator implements TinyMceSaveEventHandler {
 	
-	public static final String NAME = "pageEditorViewMediator";	
-	
+	public static final String NAME = "pageEditorViewMediator";
+		
 	public PageEditorViewMediator(IEditorEnvirnoment env)
 	{		
 		super(NAME, new PageEditorView(env));		
@@ -28,8 +28,10 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	private void showPage(int ix){
 		QTIPageModelProxy pageProxy = (QTIPageModelProxy) getFacade().retrieveProxy(QTIPageModelProxy.NAME);
 		String page = pageProxy.getDataVO().get(ix).getContent();		
+		String pageBasePath = pageProxy.getDataVO().get(ix).getPath();
 		
 		((PageEditorView)getViewComponent()).setText(page);		
+		((PageEditorView)getViewComponent()).setPageBasePath(pageBasePath);
 	}
 	
 	
