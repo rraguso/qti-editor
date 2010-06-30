@@ -23,6 +23,7 @@ public class PageEditorView extends Composite {
 	 private TextArea _textArea;
 	 private String _id;
 	 private IEditorEnvirnoment _env;
+	 private String _pageBasePath;
 
 	
 	public PageEditorView(IEditorEnvirnoment env)
@@ -41,6 +42,10 @@ public class PageEditorView extends Composite {
         initWidget(panel);
         
         publish();
+	}
+	
+	public void setPageBasePath(String path){
+		_pageBasePath = path;
 	}
 	
 	/**
@@ -200,8 +205,11 @@ public class PageEditorView extends Composite {
     	    proxy.getAssetBrowser = function(){
     	    	return ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getAssetBrowser()()
     	    }
-    	 
     	    
+    	    proxy.getPageBasePath = function(){
+    	    	return ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::_pageBasePath;
+    	    }   	    
+    	        	    
     	    if(typeof($wnd.tinyMCE.gwtProxy) != "object")
     	    	$wnd.tinyMCE.gwtProxy = proxy;
    	}-*/;
