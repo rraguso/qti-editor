@@ -7,7 +7,10 @@ import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.ConfigurePageProxyCommand;
 import eu.ydp.qtiPageEditor.client.controller.InitEmptyPageCommand;
 import eu.ydp.qtiPageEditor.client.controller.LoadPagesCommand;
+import eu.ydp.qtiPageEditor.client.controller.ReloadPageCommand;
 import eu.ydp.qtiPageEditor.client.controller.SavePageCommand;
+import eu.ydp.qtiPageEditor.client.controller.SetPagePathCommand;
+import eu.ydp.qtiPageEditor.client.controller.SetSaveJSCallback;
 import eu.ydp.qtiPageEditor.client.controller.StartupCommand;
 import eu.ydp.qtiPageEditor.client.controller.UpdatePageCommand;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
@@ -54,6 +57,9 @@ public class ApplicationFasade extends Facade implements IFacade {
 		registerCommand(Constances.UPDATE_PAGE_STATE, new UpdatePageCommand());
 		registerCommand(Constances.SAVE_PAGE, new SavePageCommand());
 		registerCommand(Constances.INIT_EMPTY_PAGE, new InitEmptyPageCommand());
+		registerCommand(Constances.SET_PAGE_PATH, new SetPagePathCommand());
+		registerCommand(Constances.RELOAD_PAGE, new ReloadPageCommand());
+		registerCommand(Constances.SET_JS_SAVE_CALLBACK, new SetSaveJSCallback());
 		
 	}
 	

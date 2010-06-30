@@ -35,6 +35,8 @@ public class Constances {
 	
 	public static final String SET_MODEL_SELECTED_INDEX = "setModelSelectedIndex";	
 	
-	public static final String SET_PAGE_PATH = "setModelSelectedIndex";	
+	public static final String SET_PAGE_PATH = "setPagePath";	
+	
+	public static final String SET_JS_SAVE_CALLBACK = "setSaveJsCallback";	
 
 }

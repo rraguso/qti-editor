@@ -8,8 +8,8 @@ public class SaveCallback extends JavaScriptObject {
 		
 	}
 	
-	public final native void onSaveComplete(String content)/*-{
-		this.onSaveComplete(content)
+	public final native void onSaveComplete()/*-{
+		this.onSaveComplete()
 	}-*/;
 
 	public final native void onSaveError(JavaScriptObject error)/*-{

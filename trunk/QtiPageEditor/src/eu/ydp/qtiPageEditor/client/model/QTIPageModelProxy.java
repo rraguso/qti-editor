@@ -3,13 +3,13 @@ package eu.ydp.qtiPageEditor.client.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.google.gwt.user.client.Window;
-
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.model.jso.SaveCallback;
 import eu.ydp.webapistorage.client.storage.IResource;
 import eu.ydp.webapistorage.client.storage.apierror.IApiError;
 import eu.ydp.webapistorage.client.storage.callback.IResourceCallback;
 import eu.ydp.webapistorage.client.storage.callback.IResourceTextCallback;
+import eu.ydp.webapistorage.client.util.ApiErrorToJs;
 
 public class QTIPageModelProxy extends QtiProxyBase{
 	
@@ -17,9 +17,15 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	
 	private int _selectedIndex;
 	
+	private SaveCallback _jsSaveCallback;
+	
 	public QTIPageModelProxy() {
 		super(NAME, new ArrayList<QTIPageModel>());
 		_selectedIndex = -1;
+	}
+	
+	public void setSaveCallback(SaveCallback jsSaveCallback){
+		_jsSaveCallback = jsSaveCallback;
 	}
 	
 	public void load(String[] hrefs){		
@@ -202,15 +208,18 @@ public class QTIPageModelProxy extends QtiProxyBase{
 		resource.save(page.getContent(), new IResourceCallback() {
 			
 			@Override
-			public void onRequestError(IResource resource, String command,
-					IApiError error) {
+			public void onRequestError(IResource resource, String command,IApiError error) {
 				sendNotification(Constances.SAVE_PAGE_ERROR, error);
+				if(_jsSaveCallback != null)
+					_jsSaveCallback.onSaveError(ApiErrorToJs.toJs(error));
 				
 			}
 				
 			@Override
 			public void onRequestComplete(IResource resource, String command) {
 				// TODO Auto-generated method stub
+				if(_jsSaveCallback != null)
+					_jsSaveCallback.onSaveComplete();
 									
 			}
 		});						

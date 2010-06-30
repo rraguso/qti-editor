@@ -50,12 +50,9 @@ public class QtiPageEditor implements EntryPoint {
 					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::loadPage()();
 				}
 				
-				$wnd.qti_page_editor.setSaveCallBack = function(callback){					
+				$wnd.qti_page_editor.setSaveCallback = function(callback){					
 					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::setJsSaveCallback(Leu/ydp/qtiPageEditor/client/model/jso/SaveCallback;)(callback);	
-				}
-				
-						
-				
+				}				
 			}
 			
 			if(typeof($wnd.qti_page_editor.onModuleLoaded) == "function")
@@ -90,7 +87,7 @@ public class QtiPageEditor implements EntryPoint {
 	private void setJsSaveCallback(SaveCallback callback){
 		ApplicationFasade facade = ApplicationFasade.getInstance(ApplicationFasade.KEY);
 		if(facade != null){
-			
+			facade.sendNotification(Constances.SET_JS_SAVE_CALLBACK, callback);
 		}	
 	}
 }
