@@ -12,7 +12,7 @@ public class MainView extends Composite {
 	HorizontalPanel _panel;
 	VerticalPanel _pageListContainer;
 	
-	public MainView(){
+	public MainView(){		
 		_panel = new HorizontalPanel();
 		
 		_pageListContainer = new VerticalPanel();		

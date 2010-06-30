@@ -3,24 +3,28 @@ package eu.ydp.qtitesteditor.client.view.component;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.PushButton;
+
+import eu.ydp.qtitesteditor.client.bundle.AssetsTestEditor;
 
 public class PageListBarView extends Composite {
 	
 	private HorizontalPanel _panel;
 		
-	private Button _addPageButton;
-	private Button _removePageButton;
-	private Button _moveDownPageButton;
-	private Button _moveUpPageButton;
+	private PushButton _addPageButton;
+	private PushButton _removePageButton;
+	private PushButton _moveDownPageButton;
+	private PushButton _moveUpPageButton;
 	
 	public PageListBarView(){
 		
 		_panel = new HorizontalPanel();		
 		
-		_addPageButton = new Button("+");
-		_removePageButton = new Button("-");
-		_moveUpPageButton = new Button(">");
-		_moveDownPageButton = new Button("<");		
+		_addPageButton = new PushButton(new Image(AssetsTestEditor.INSTANCE.addPage()));
+		_removePageButton = new PushButton(new Image(AssetsTestEditor.INSTANCE.deletePage()));
+		_moveUpPageButton = new PushButton(new Image(AssetsTestEditor.INSTANCE.upArrow()));
+		_moveDownPageButton = new PushButton(new Image(AssetsTestEditor.INSTANCE.downArrow()));		
 				
 		_panel.add(_addPageButton);
 		_panel.add(_removePageButton);
@@ -31,19 +35,19 @@ public class PageListBarView extends Composite {
 		
 	}
 	
-	public Button getAddPageButton(){
+	public PushButton getAddPageButton(){
 		return _addPageButton;
 	}
 	
-	public Button getRemovePageButton(){
+	public PushButton getRemovePageButton(){
 		return _removePageButton;
 	}
 	
-	public Button getMoveDownButton(){
+	public PushButton getMoveDownButton(){
 		return _moveDownPageButton;
 	}
 	
-	public Button getMoveUpButton(){
+	public PushButton getMoveUpButton(){
 		return _moveUpPageButton;
 	}
 

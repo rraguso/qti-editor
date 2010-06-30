@@ -36,6 +36,8 @@ public class MainViewMediator extends Mediator implements IMediator {
 		MainView mv = (MainView)getViewComponent();		
 		RootPanel.get(_startupData.getCellId()).add(mv);
 		
+		//mv.setSize("100%", "100%");
+		
 		getFacade().registerMediator(new PageListBarMediator());
 		getFacade().registerMediator(new PageListMediator());
 		getFacade().registerMediator(new PageEditorViewMediator(_startupData.getEnv()));
