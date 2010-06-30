@@ -208,6 +208,11 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 		showSelectedFilePath();		
 
 	}
+	@Override
+	public void setSelectedFile(String fileName){		
+		_selectedFilePath = _mediaPath + "/" + fileName;
+		showSelectedFilePath();
+	}
 	
 	//--------------------- IResourceCallback-------------------------
 	@Override
@@ -302,7 +307,12 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 			
 			this.getSelectedAssetPath = function(){
 				doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::getSelectedAssetPath()();
-			}    				
+			}
+			
+			this.setSelectedFile = function(fileName){
+				doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::setSelectedFile(Ljava/lang/String;)(fileName);
+			}
+			    				
 		}
 		
 		return new AssetBrowser();	
