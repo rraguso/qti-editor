@@ -33,6 +33,7 @@ public class MainView extends Composite {
 	}
 	
 	public void addTinyEditor(PageEditorView editor){		
-		_panel.add(editor);		
+		_panel.add(editor);
+		_panel.setCellWidth(editor, "85%");
 	}	
 }
