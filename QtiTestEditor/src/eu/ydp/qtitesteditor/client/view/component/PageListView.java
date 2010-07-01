@@ -9,7 +9,7 @@ public class PageListView extends Composite {
 	
 	public PageListView(){		
 		_listBox = new ListBox();
-		_listBox.setWidth("150px");
+		_listBox.setWidth("100%");
 		_listBox.setVisibleItemCount(14);
 		initWidget(_listBox);		
 	}
