@@ -2100,13 +2100,26 @@ tinymce.create('static tinymce.util.XHR', {
 		},
 		
 		processHTML : function(h) {
-		
+			
 			var t = this, s = t.settings, codeBlocks = [];
 			
 			if (!s.process_html)
 					return h;
 			
+			
 			if(h.match(/<assessmentItem [^>]*>/gi)) {
+				
+				basePagePath = tinyMCE.gwtProxy.getPageBasePath();
+				if(basePagePath != undefined && basePagePath != '') {
+					
+					basePagePath = basePagePath.split('/');
+					basePagePath.pop();
+					basePagePath = basePagePath.join('/');
+					basePagePath += '/';
+					h = h.replace(/src="(media\/[^\/"]*)"/gi, 'src="' + basePagePath + '$1"');
+					
+				} 
+				
 				if(h.match(/<!-- <changesTracking state="on"> -->/gi)) {
 					tinyMCE.changesTracking = true;
 					tinyMCE.activeEditor.controlManager.setActive('enablechangestracking', true);
@@ -2247,7 +2260,7 @@ tinymce.create('static tinymce.util.XHR', {
 					return codeBlocks[idx];
 				});
 			}
-
+			
 			return h;
 		},
 
@@ -6543,6 +6556,8 @@ window.tinymce.dom.Sizzle = Sizzle;
 			h = h.replace(/(<span[^>]*class="changestracking_original"[^>]*style=")[^"]*("[^>]*>)/gi,'$1$2');
 			h = h.replace(/(<span[^>]*class="changestracking_new"[^>]*style=")[^"]*("[^>]*>)/gi,'$1display: none;$2');
 			
+			h = h.replace(/src="[^"]+(media\/[^\/"]*)"/gi, 'src="$1"');
+			
 			if (o.format == 'html') {
 				// Protect some elements
 				p = t._protect({
@@ -6639,6 +6654,7 @@ window.tinymce.dom.Sizzle = Sizzle;
 					return '<noscript' + attribs + '>' + t.dom.decode(text.replace(/<!--|-->/g, '')) + '</noscript>';
 				});
 			}
+			
 			o.content = h;
 		},
 

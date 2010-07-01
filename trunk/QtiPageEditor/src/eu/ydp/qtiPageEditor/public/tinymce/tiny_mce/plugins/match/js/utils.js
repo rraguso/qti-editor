@@ -20,10 +20,10 @@ function add_answer_row(form, side) {
 	newDiv.setAttribute('id', id);
 	if(form.images.checked == true) {
 		if(side == 'left') {
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;"/></td><td width="200px" style="" align="right"><input type="hidden" id="" name="ids_left[]" value="' + id + '"/><input type="hidden" id="" name="answers_left[]" style="width: 100%; margin-right: 5px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""/></div></td></tr></table>';
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_left[]" style="margin: 0; padding: 0;"/></td><td width="200px" style="" align="right"><input type="hidden" id="" name="ids_left[]" value="' + id + '"/><input type="hidden" id="" name="answers_left[]" style="width: 100%; margin-right: 5px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceAppendImageToExercise\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""/></div></td></tr></table>';
 		}
 		if(side == 'right') {
-			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="" name="ids_right[]" value="' + id + '"/><input type="hidden" id="" name="answers_right[]" style="width: 100%; margin-right: 15px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""/></div></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;"/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
+			newDiv.innerHTML = '<table cellpadding=0 cellspacing=0><tr><td width="200px" style="" align="left"><input type="hidden" id="" name="ids_right[]" value="' + id + '"/><input type="hidden" id="" name="answers_right[]" style="width: 100%; margin-right: 15px;" value=""/><div style="width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;" onclick="tinyMCE.execCommand(\'mceAppendImageToExercise\', false, {src:\'\',div:this});"><img style="max-height: 40px; max-width: 80px;" src=""/></div></td><td width="50px" align="center"><input id="" type="checkbox" name="fixed_right[]" style="margin: 0; padding: 0;"/></td><td width="70px"><input type="button" id="remove_answer" name="remove_answer" value="Remove" onclick="remove_answer_row(this);" /></td></tr></table>';
 		}
 	} else {
 		if(side == 'left') {
@@ -152,7 +152,7 @@ function switch_text_images(checkbox) {
 				src = src[src.length - 1];
 				var div = document.createElement('div');
 				div.setAttribute('style', 'width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;');
-				div.setAttribute('onclick', 'tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});');
+				div.setAttribute('onclick', 'tinyMCE.execCommand(\'mceAppendImageToExercise\', false, {src:\'' + src + '\',div:this});');
 				div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + inputs[i].value + '"/>'
 				inputs[i].parentNode.appendChild(div);
 				leftEl.push(inputs[i]);
@@ -169,7 +169,7 @@ function switch_text_images(checkbox) {
 				src = src[src.length - 1];
 				var div = document.createElement('div');
 				div.setAttribute('style', 'width: 80px; height: 40px; cursor: pointer; border: 1px solid #b0b0b0;');
-				div.setAttribute('onclick', 'tinyMCE.execCommand(\'mceImgChoice\', false, {src:\'' + src + '\',div:this});');
+				div.setAttribute('onclick', 'tinyMCE.execCommand(\'mceAppendImageToExercise\', false, {src:\'' + src + '\',div:this});');
 				div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + inputs[i].value + '"/>'
 				inputs[i].parentNode.appendChild(div);
 				rightEl.push(inputs[i]);

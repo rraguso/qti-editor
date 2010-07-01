@@ -72,7 +72,6 @@
 					form = form.parentNode;
 				}
 				if(tinyMCE.feedback != undefined) {
-					console.log(tinyMCE.feedback);
 					var tempArr = new Array;
 					for(i in tinyMCE.feedback) {
 						if(i != form.identifier.value) {
