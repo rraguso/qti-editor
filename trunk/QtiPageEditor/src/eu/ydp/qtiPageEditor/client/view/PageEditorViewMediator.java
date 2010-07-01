@@ -35,10 +35,18 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	}
 	
 	
+	private void setTinySize(String size, String type){
+		PageEditorView view = (PageEditorView)getViewComponent();		
+		if(type == "width")
+			view.setTinyWidth(size);
+		else if(type == "height")
+			view.setTinyHeight(size);
+	}
+	
 	
 	@Override
 	public String[] listNotificationInterests() {
-		return new String[]{Constances.SHOW_PAGE};				 
+		return new String[]{Constances.SHOW_PAGE, Constances.SET_TINY_CELL_SIZE};				 
 	}
 	
 	@Override
@@ -46,6 +54,8 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 		String n = notification.getName();		
 		if(n == Constances.SHOW_PAGE)
 			showPage((Integer)notification.getBody());
+		else if(n == Constances.SET_TINY_CELL_SIZE)
+			setTinySize((String)notification.getBody(), notification.getType());
 	}
 	
 	//-------- TinyMceSaveEventHandler impl--------------------

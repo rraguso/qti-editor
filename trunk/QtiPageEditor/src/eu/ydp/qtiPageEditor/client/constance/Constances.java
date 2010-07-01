@@ -38,5 +38,7 @@ public class Constances {
 	public static final String SET_PAGE_PATH = "setPagePath";	
 	
 	public static final String SET_JS_SAVE_CALLBACK = "setSaveJsCallback";	
+	
+	public static final String SET_TINY_CELL_SIZE = "setTinyMceCellSize";
 
 }

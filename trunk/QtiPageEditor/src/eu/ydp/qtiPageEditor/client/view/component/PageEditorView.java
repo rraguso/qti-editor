@@ -31,12 +31,12 @@ public class PageEditorView extends Composite {
 		super();			
 		_env = env;
 		FormPanel panel = new FormPanel();
-        panel.setWidth("100%");
+        panel.setWidth("100%");        
 
         _id = HTMLPanel.createUniqueId();
         _textArea = new TextArea();      
         DOM.setElementAttribute(_textArea.getElement(), "id", _id);
-        DOM.setStyleAttribute(_textArea.getElement(), "width", "100%");
+        DOM.setStyleAttribute(_textArea.getElement(), "width", "100%");        
         panel.add(_textArea);
 
         initWidget(panel);
@@ -71,6 +71,22 @@ public class PageEditorView extends Composite {
     public String getText() {        
     	return getEditorContents(getID());
     }
+    
+    public native void setTinyWidth(String width)/*-{    	
+    	var id = this.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getID()();
+   
+    	$wnd.document.getElementById(id+'_tbl').style.width = width;
+        $wnd.document.getElementById(id+'_ifr').style.width = width;
+        
+    }-*/;
+    
+    public native void setTinyHeight(String height)/*-{
+    	var id = this.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getID()();
+    	
+    	$wnd.document.getElementById(id+'_tbl').style.height = height;
+        $wnd.document.getElementById(id+'_ifr').style.height = height;
+        
+    }-*/;
 
     /**
      * @see com.google.gwt.user.client.ui.Widget#onLoad()
@@ -80,7 +96,7 @@ public class PageEditorView extends Composite {
 
         DeferredCommand.addCommand(new Command() {			
             public void execute() {
-                setWidth("100%");
+                setWidth("100%");               
                 setTextAreaToTinyMCE(_id);
                 focusMCE(_id);
             }
