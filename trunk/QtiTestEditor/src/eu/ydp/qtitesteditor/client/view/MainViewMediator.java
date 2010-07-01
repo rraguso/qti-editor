@@ -36,7 +36,7 @@ public class MainViewMediator extends Mediator implements IMediator {
 		MainView mv = (MainView)getViewComponent();		
 		RootPanel.get(_startupData.getCellId()).add(mv);
 		
-		//mv.setSize("100%", "100%");
+		mv.setSize("100%", "100%");
 		
 		getFacade().registerMediator(new PageListBarMediator());
 		getFacade().registerMediator(new PageListMediator());
@@ -88,7 +88,6 @@ public class MainViewMediator extends Mediator implements IMediator {
 				n == Constances.SAVE_PAGE_ERROR ||
 				n == Constances.SAVE_TEST_ERROR)
 			showErrorPopup((IApiError)notification.getBody());
-		
-		
+
 	}
 }
