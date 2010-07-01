@@ -2,7 +2,8 @@ package eu.ydp.qtiPageEditor.client.constance;
 
 public class Constances {
 	
-	public static final String CONFIGURE_PROXY = "configureProxy";	
+	public static final String CONFIGURE_PROXY = "configureProxy";
+	public static final String CONFIGURE_PAGE_EDITOR_VIEW = "configurePageEditorView";
 	
 	public static final String LOAD_TEST = "loadTest";
 	public static final String LOAD_TEST_ERROR = "loadTestError";

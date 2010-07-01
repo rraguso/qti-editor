@@ -37,8 +37,10 @@ public class ApplicationFasade extends Facade implements IFacade {
 		
 		sendNotification( STARTUP, startupData);		
 		sendNotification(CONFIGURE_PROXY, startupData.getEnv());
-		if(base != null)
+		if(base != null){
 			sendNotification(Constances.LOAD_PAGES, hrefs);
+			sendNotification(Constances.CONFIGURE_PAGE_EDITOR_VIEW, base );
+		}			
 		else{
 			sendNotification(Constances.INIT_EMPTY_PAGE);
 			sendNotification(Constances.SHOW_PAGE,0);

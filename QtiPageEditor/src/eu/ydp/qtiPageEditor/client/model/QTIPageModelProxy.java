@@ -30,8 +30,12 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	
 	public void load(String[] hrefs){		
 		
+		
+		
 		if(hrefs.length > 0){		
-			loadPages(hrefs);
+			String path = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
+			String pagePath = path + hrefs[0];			
+			loadPages(hrefs);		
 		}
 		
 	}
