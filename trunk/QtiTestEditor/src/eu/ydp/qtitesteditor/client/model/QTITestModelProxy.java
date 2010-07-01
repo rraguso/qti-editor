@@ -33,8 +33,14 @@ public class QTITestModelProxy extends QtiProxyBase {
 				
 				String[] hrefs = getVO().getItemsHrefs();
 				
-				if(hrefs.length > 0)					
+				if(hrefs.length > 0)
+				{
+					String base = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
+					String pagePath = base + hrefs[0];
+					sendNotification(Constances.CONFIGURE_PAGE_EDITOR_VIEW, pagePath);
 					sendNotification(Constances.LOAD_PAGES, hrefs);
+					
+				}
 				else				
 					sendNotification(Constances.ADD_NEW_PAGE_TO_MODEL);				
 				
