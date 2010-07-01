@@ -52,6 +52,14 @@ public class QtiPageEditor implements EntryPoint {
 				
 				$wnd.qti_page_editor.setSaveCallback = function(callback){					
 					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::setJsSaveCallback(Leu/ydp/qtiPageEditor/client/model/jso/SaveCallback;)(callback);	
+				}
+				
+				$wnd.qti_page_editor.setTinyMCECellWidth = function(width){
+					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::onSetTinyMceWidth(Ljava/lang/String;)(width);
+				}
+				
+				$wnd.qti_page_editor.setTinyMCECellHeight = function(height){
+					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::onSetTinyMceHeight(Ljava/lang/String;)(height);
 				}				
 			}
 			
@@ -89,5 +97,19 @@ public class QtiPageEditor implements EntryPoint {
 		if(facade != null){
 			facade.sendNotification(Constances.SET_JS_SAVE_CALLBACK, callback);
 		}	
+	}
+	
+	private void onSetTinyMceWidth(String width){
+		
+		ApplicationFasade facade = ApplicationFasade.getInstance(ApplicationFasade.KEY);
+		if(facade != null)
+			facade.sendNotification(Constances.SET_TINY_CELL_SIZE, width, "width");
+		
+	}
+	
+	private void onSetTinyMceHeight(String height){
+		ApplicationFasade facade = ApplicationFasade.getInstance(ApplicationFasade.KEY);
+		if(facade != null)
+			facade.sendNotification(Constances.SET_TINY_CELL_SIZE, height, "height");
 	}
 }
