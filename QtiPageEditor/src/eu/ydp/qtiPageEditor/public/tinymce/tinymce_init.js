@@ -6,7 +6,7 @@ tinyMCE.init({
 	elements : "content",  
 	plugins : "safari,spellchecker,pagebreak,style,layer,table,save,advhr,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,"
 		+"searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,imagemanager,"
-		+"filemanager,noneditable,asciimath,asciimathcharmap,asciisvg,choice,gap,inlinechoice,order,match,imglib,comment,trackchanges",
+		+"filemanager,noneditable,asciimath,asciimathcharmap,asciisvg,choice,gap,inlinechoice,order,match,fileuploadlib,comment,trackchanges",
 	
 	theme_advanced_toolbar_location : "top",
 	theme_advanced_toolbar_align : "left",
@@ -15,7 +15,7 @@ tinyMCE.init({
 	theme_advanced_buttons1 : "save,uploadertest,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",  
 	theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,applink,cleanup,help,|,insertdate,inserttime,preview,|,forecolor,backcolor",  
 	theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
-	theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|,code,asciimath,asciimathcharmap,|,gap,inlinechoice,choice,order,match,|,imglib,|,comment,|,enablechangestracking,disablechangestracking",
+	theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,spellchecker,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,blockquote,pagebreak,|,code,asciimath,asciimathcharmap,|,gap,inlinechoice,choice,order,match,|,fileuploadlib_image,|,comment,|,enablechangestracking,disablechangestracking",
 	
 	extended_valid_elements : "canvas[id|style|width|height],gap[identifier],choiceInteraction[shuffle|maxChoices|responseIdentifier],"
 		+"orderInteracion[shuffle|responseIdentifier],matchInteraction[shuffle|maxAssociations|responseIdentifier],prompt,"
@@ -34,12 +34,12 @@ tinyMCE.init({
 	apply_source_formatting : true, 
 	entity_encoding : "",
 	dialog_type : "modal",
-	height:"85%",  
+	height:"100%",  
 	width:"100%", 
 	object_resizing: false,
 	spellchecker_rpc_url : "/work/tools/qtitesteditor/tinymce/tiny_mce/plugins/spellchecker/rpc.php",
 	spellchecker_languages : "+English=en",
-			
+	
 	paste_auto_cleanup_on_paste : true,
 	paste_preprocess : function(pl, o) {
 		o.content = cutQTI(o.content);

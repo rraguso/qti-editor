@@ -110,9 +110,9 @@ function actionOnQTI(e) {
 		//Imglib
 		if(ed.selection.getNode().nodeName == 'IMG') {
 			var src = ed.selection.getNode().attributes['src'].value;
-			src = src.split('/');
-			src = src[src.length - 1];
-			tinyMCE.execCommand('mceImglib', false, src);
+			//src = src.split('/');
+			//src = src[src.length - 1];
+			tinyMCE.execCommand('mceAppendImageToPage', false, src);
 		}
 		
 		//Gap
@@ -272,6 +272,7 @@ function actionOnQTI(e) {
 			data.push(fixed);
 			data.push(maxChoices[1]);
 			data.push(fdb);
+			
 			tinyMCE.execCommand('mceChoice', false, data);
 		}
 		
