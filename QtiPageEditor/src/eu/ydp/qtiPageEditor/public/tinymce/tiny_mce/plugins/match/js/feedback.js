@@ -357,6 +357,16 @@ var feedbackDialog = {
 			ctx_temp.closePath();
 			ctx_temp.fill();
 			
+			if(tinyMCE.feedback[feedbackDialog.matchIdentifier] == undefined) {
+				tinyMCE.feedback[feedbackDialog.matchIdentifier] = {text: new Array, sound: new Array};
+			}
+			if(tinyMCE.feedback[feedbackDialog.matchIdentifier].text == undefined) {
+				tinyMCE.feedback[feedbackDialog.matchIdentifier].text = new Array;
+			}
+			if(tinyMCE.feedback[feedbackDialog.matchIdentifier].sound == undefined) {
+				tinyMCE.feedback[feedbackDialog.matchIdentifier].sound = new Array;
+			}
+			
 			tinyMCE.feedback[feedbackDialog.matchIdentifier].text[identifier] = '';
 			tinyMCE.feedback[feedbackDialog.matchIdentifier].sound[identifier] = '';
 			$('#middle_container').append('<input id="' + identifier + '" type="hidden" name="pair[]" value="' + identifier + '">');
