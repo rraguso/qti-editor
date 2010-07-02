@@ -1,4 +1,4 @@
-package eu.ydp.qtiPageEditor.client.model.jso;
+package eu.ydp.qtiPageEditor.client.appcallback;
 
 import com.google.gwt.core.client.JavaScriptObject;
 
