@@ -15,10 +15,11 @@ public class QTIPageModel {
 		
 		Document doc = XMLParser.createDocument();
 		Element item = doc.createElement("assessmentItem");
-		
+
 		item.setAttribute("xmlns", "http://www.imsglobal.org/xsd/imsqti_v2p1");
-		item.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		item.setAttribute("xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");		
 		item.setAttribute("xsi:schemaLocation", "http://www.imsglobal.org/xsd/imsqti_v2p1 imsqti_v2p1.xsd");
+		item.setAttribute("xmlns:qy", "http://www.ydp.eu/qti/qti_ydp/");
 		item.setAttribute("identifier", "");
 		item.setAttribute("adaptive", "false");
 		item.setAttribute("timeDependent", "false");		
