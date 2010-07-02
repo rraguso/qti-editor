@@ -109,10 +109,15 @@ function actionOnQTI(e) {
 		
 		//Imglib
 		if(ed.selection.getNode().nodeName == 'IMG') {
-			var src = ed.selection.getNode().attributes['src'].value;
-			//src = src.split('/');
-			//src = src[src.length - 1];
-			tinyMCE.execCommand('mceAppendImageToPage', false, src);
+			if(ed.selection.getNode().getAttribute('id') == 'mceVideo') {
+				var src = ed.selection.getNode().previousSibling.getAttribute('src');
+				tinyMCE.execCommand('mceAddVideo', false, src);
+			} else {
+				var src = ed.selection.getNode().attributes['src'].value;
+				//src = src.split('/');
+				//src = src[src.length - 1];
+				tinyMCE.execCommand('mceAppendImageToPage', false, src);
+			}
 		}
 		
 		//Gap
