@@ -30,7 +30,7 @@ public class MainScreenMediator extends Mediator implements IMediator {
 	 {		
 		MainScreenView ms = (MainScreenView)getViewComponent();		
 		RootPanel.get(_startupData.getCellId()).add(ms);			
-		getFacade().registerMediator( new PageEditorViewMediator(_startupData.getEnv()));		
+		getFacade().registerMediator( new PageEditorViewMediator(_startupData));
 		PageEditorView editor = (PageEditorView)getFacade().retrieveMediator(PageEditorViewMediator.NAME).getViewComponent();
 		ms.add(editor);
 		

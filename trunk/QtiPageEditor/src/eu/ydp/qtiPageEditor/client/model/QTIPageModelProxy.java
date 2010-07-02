@@ -3,8 +3,8 @@ package eu.ydp.qtiPageEditor.client.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import eu.ydp.qtiPageEditor.client.appcallback.SaveCallback;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
-import eu.ydp.qtiPageEditor.client.model.jso.SaveCallback;
 import eu.ydp.webapistorage.client.storage.IResource;
 import eu.ydp.webapistorage.client.storage.apierror.IApiError;
 import eu.ydp.webapistorage.client.storage.callback.IResourceCallback;

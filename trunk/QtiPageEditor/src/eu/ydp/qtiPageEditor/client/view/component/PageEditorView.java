@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.TextArea;
 
+import eu.ydp.qtiPageEditor.client.appcallback.TinyMceCreatedCallback;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMceSaveEventHandler;
@@ -24,12 +25,18 @@ public class PageEditorView extends Composite {
 	 private String _id;
 	 private IEditorEnvirnoment _env;
 	 private String _pageBasePath;
+	 private TinyMceCreatedCallback _tinyMceCreatedCallback;
 
 	
-	public PageEditorView(IEditorEnvirnoment env)
+	public PageEditorView(IEditorEnvirnoment env, TinyMceCreatedCallback tinyMceCreatedCallback)
 	{
 		super();			
 		_env = env;
+		
+		if(tinyMceCreatedCallback != null)
+			_tinyMceCreatedCallback = tinyMceCreatedCallback;	
+		
+		
 		FormPanel panel = new FormPanel();
         panel.setWidth("100%");        
 
@@ -42,11 +49,12 @@ public class PageEditorView extends Composite {
         initWidget(panel);
         
         publish();
-	}
+	}	
 	
 	public void setPageBasePath(String path){
 		_pageBasePath = path;
 	}
+	
 	
 	/**
      * getID() -
@@ -80,7 +88,8 @@ public class PageEditorView extends Composite {
         
     }-*/;
     
-    public native void setTinyHeight(String height)/*-{
+    public native void setTinyHeight(String height)/*-{    	
+    	
     	var id = this.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getID()();
     	
     	$wnd.document.getElementById(id+'_tbl').style.height = height;
@@ -95,13 +104,16 @@ public class PageEditorView extends Composite {
         super.onLoad();
 
         DeferredCommand.addCommand(new Command() {			
-            public void execute() {
-                setWidth("100%");               
-                setTextAreaToTinyMCE(_id);
+            public void execute() {                
+            	setWidth("100%");               
+                setTextAreaToTinyMCE(_id);               
                 focusMCE(_id);
+                if(_tinyMceCreatedCallback != null)
+                	_tinyMceCreatedCallback.onTinyMceCreated();
             }
         });
-    }
+    }   
+    
     
     @Override
     protected void onUnload() {    	
@@ -111,8 +123,8 @@ public class PageEditorView extends Composite {
               unload();
             }
         });
-    }
-
+    }    
+   
     /**
      * focusMCE() -
      *

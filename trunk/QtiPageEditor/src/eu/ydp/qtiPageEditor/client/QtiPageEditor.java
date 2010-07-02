@@ -5,13 +5,13 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.DOM;
 
+import eu.ydp.qtiPageEditor.client.appcallback.SaveCallback;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.env.impl.EditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
 import eu.ydp.qtiPageEditor.client.model.jso.ModuleConfig;
-import eu.ydp.qtiPageEditor.client.model.jso.SaveCallback;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServiceFactory;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry;
 import eu.ydp.webapistorage.client.storage.impl.Storage;
@@ -51,7 +51,7 @@ public class QtiPageEditor implements EntryPoint {
 				}
 				
 				$wnd.qti_page_editor.setSaveCallback = function(callback){					
-					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::setJsSaveCallback(Leu/ydp/qtiPageEditor/client/model/jso/SaveCallback;)(callback);	
+					me.@eu.ydp.qtiPageEditor.client.QtiPageEditor::setJsSaveCallback(Leu/ydp/qtiPageEditor/client/appcallback/SaveCallback;)(callback);	
 				}
 				
 				$wnd.qti_page_editor.setTinyMCECellWidth = function(width){
@@ -73,7 +73,7 @@ public class QtiPageEditor implements EntryPoint {
 	{	
 		ServicesRegistry sr = new ServicesRegistry(new ServiceFactory());
 		_env = new EditorEnvirnoment(conf.getPageURL(),"media", Storage.getInstance(), sr);
-		StartupData startupData = new StartupData(_env, conf.getCellId());
+		StartupData startupData = new StartupData(_env, conf.getCellId(), conf.getTinyMceCreatedCallback());
 		ApplicationFasade.getInstance(ApplicationFasade.KEY).startup(startupData);			
 	}
 	

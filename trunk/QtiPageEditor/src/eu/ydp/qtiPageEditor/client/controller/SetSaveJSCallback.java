@@ -3,8 +3,8 @@ package eu.ydp.qtiPageEditor.client.controller;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.command.SimpleCommand;
 
+import eu.ydp.qtiPageEditor.client.appcallback.SaveCallback;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
-import eu.ydp.qtiPageEditor.client.model.jso.SaveCallback;
 
 public class SetSaveJSCallback extends SimpleCommand {
 	
