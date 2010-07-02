@@ -2135,6 +2135,8 @@ tinymce.create('static tinymce.util.XHR', {
 			h = h.replace(/<u[^>]*style="[^"]*"[^>]*>(.*?)<\/u>/gi,'<span class="changestracking_new" style="color: red; text-decoration: underline;" title="Changes tracking: new content">$1</span>');
 			h = h.replace(/<strike[^>]*style="[^"]*"[^>]*>(.*?)<\/strike>/gi,'<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">$1</span>');
 			
+			//h = h.replace(/(<embed type="[^"]*" src="[^"]*" \/?>(?:<\/embed>)?)/gi,'$1<img id="mceVideo" src="/work/tools/qtitesteditor/tinymce/tiny_mce/plugins/addvideo/img/addvideo.png" />');
+			
 			this.setCanvasParams();
 			
 			h = this.processQTI(h);
@@ -6555,6 +6557,8 @@ window.tinymce.dom.Sizzle = Sizzle;
 			
 			h = h.replace(/(<span[^>]*class="changestracking_original"[^>]*style=")[^"]*("[^>]*>)/gi,'$1$2');
 			h = h.replace(/(<span[^>]*class="changestracking_new"[^>]*style=")[^"]*("[^>]*>)/gi,'$1display: none;$2');
+			
+			//h = h.replace(/(<embed[^>]*>(?:<\/embed>)?)<img[^>]*id="mceVideo"[^>]*>/gi, '$1');
 			
 			h = h.replace(/src="[^"]+(media\/[^\/"]*)"/gi, 'src="$1"');
 			
