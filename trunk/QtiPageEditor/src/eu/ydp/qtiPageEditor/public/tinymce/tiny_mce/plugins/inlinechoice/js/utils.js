@@ -37,7 +37,7 @@ function feedback(row) {
 	}
 	if(identifier != undefined && exerciseId != undefined) {
 		if(tinyMCE.feedback != undefined && tinyMCE.feedback[exerciseId] != undefined) {
-			tinyMCE.execCommand('mceFeedbackInlinechoice', false, {identifier: identifier, exerciseid: exerciseId, feedback: tinyMCE.feedback[exerciseId][identifier]});
+			tinyMCE.execCommand('mceFeedbackInlinechoice', false, {identifier: identifier, exerciseid: exerciseId, feedback: tinyMCE.feedback[exerciseId].text[identifier], feedback_sound: tinyMCE.feedback[exerciseId].sound[identifier]});
 		} else {
 			tinyMCE.execCommand('mceFeedbackInlinechoice', false, {identifier: identifier, exerciseid: exerciseId});
 		}
@@ -61,5 +61,12 @@ function validateExercise(form) {
 		alert("Select correct answer");
 	}
 	return res;
+	
+}
+
+
+function assignSound(row) {
+	
+	tinyMCE.execCommand('mceAddFeedbackSound', false, {dest: row.previousSibling.previousSibling, src: row.previousSibling.previousSibling.value});
 	
 }

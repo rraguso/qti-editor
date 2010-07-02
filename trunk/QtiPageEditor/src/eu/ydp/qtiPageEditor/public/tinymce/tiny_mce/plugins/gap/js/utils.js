@@ -17,3 +17,9 @@ function feedback(row) {
 	}
 	
 }
+
+function assignSound(row) {
+	
+	tinyMCE.execCommand('mceAddFeedbackSound', false, {dest: row.previousSibling.previousSibling, src: row.previousSibling.previousSibling.value});
+	
+}

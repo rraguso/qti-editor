@@ -222,8 +222,12 @@ var choiceDialog = {
 			if(tinyMCE.feedback[identifier] != undefined) {
 				
 				var mf = '';
-				for (i in tinyMCE.feedback[identifier]) {
-					mf += '<!-- <modalFeedback senderIdentifier="' + identifier + '" identifier="' + i + '" showHide="show">' + tinyMCE.feedback[identifier][i] + '</modalFeedback> -->'
+				for (i in tinyMCE.feedback[identifier].text) {
+					mf += '<!-- <modalFeedback senderIdentifier="' + identifier + '" identifier="' + i + '" showHide="show"';
+					if(tinyMCE.feedback[identifier].sound[i] != undefined && tinyMCE.feedback[identifier].sound[i] != '') {
+						mf += ' sound="' + tinyMCE.feedback[identifier].sound[i] + '"';
+					}
+					mf += '>' + tinyMCE.feedback[identifier].text[i] + '</modalFeedback> -->'
 				}
 				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(/(<!-- <\/itemBody> -->)/i, '$1' + mf);
 				tinyMCE.feedback = new Array;

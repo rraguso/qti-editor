@@ -16,9 +16,13 @@
 			ed.addCommand('mceInlineChoice', function(ui, data) {
 				
 				if(data != undefined) {
+					tinyMCE.feedback = new Array;
+					tinyMCE.feedback[data[4]] = {text: new Array, sound: new Array}
 					if(data[7] != undefined ) {
-						tinyMCE.feedback = new Array;
-						tinyMCE.feedback[data[4]] = data[7];
+						tinyMCE.feedback[data[4]].text = data[7];
+					}
+					if(data[8] != undefined ) {
+						tinyMCE.feedback[data[4]].sound = data[8];
 					}
 				}
 				
@@ -68,7 +72,7 @@
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
-					data: {identifier: data.identifier, feedback: data.feedback, exerciseid: data.exerciseid}
+					data: {identifier: data.identifier, feedback: data.feedback, feedback_sound: data.feedback_sound, exerciseid: data.exerciseid}
 				});
 				
 			});

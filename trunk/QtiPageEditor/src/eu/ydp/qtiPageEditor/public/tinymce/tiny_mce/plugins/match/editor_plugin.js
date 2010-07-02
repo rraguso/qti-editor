@@ -17,10 +17,13 @@
 				
 				if(data != undefined) {
 					tinyMCE.feedback = new Array;
+					tinyMCE.feedback[data[1]] = {text: new Array, sound: new Array};
 					if(data[10] != undefined ) {
-						tinyMCE.feedback[data[1]] = data[10];
+						tinyMCE.feedback[data[1]].text = data[10];
+						tinyMCE.feedback[data[1]].sound = data[11];
 					} else {
-						tinyMCE.feedback[data[1]] = new Array;
+						tinyMCE.feedback[data[1]].text = new Array;
+						tinyMCE.feedback[data[1]].sound = new Array;
 					}
 				}
 				
