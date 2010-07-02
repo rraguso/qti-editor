@@ -81,14 +81,24 @@ function remove_answer_row(row) {
 	div.parentNode.removeChild(div);
 	
 	// remove feedbacks
-	var tempArr = new Array;
-	for(idx in tinyMCE.feedback[matchDialog.identifier]) {
-		elements = idx.split(' ');
-		if(elements[0] != removedId && elements[1] != removedId) {
-			tempArr[idx] = tinyMCE.feedback[matchDialog.identifier][idx]
+	if(tinyMCE.feedback[matchDialog.identifier] != undefined) {
+		var tempArr = new Array;
+		for(idx in tinyMCE.feedback[matchDialog.identifier].text) {
+			elements = idx.split(' ');
+			if(elements[0] != removedId && elements[1] != removedId) {
+				tempArr[idx] = tinyMCE.feedback[matchDialog.identifier].text[idx]
+			}
 		}
+		tinyMCE.feedback[matchDialog.identifier].text = tempArr;
+		
+		for(idx in tinyMCE.feedback[matchDialog.identifier].sound) {
+			elements = idx.split(' ');
+			if(elements[0] != removedId && elements[1] != removedId) {
+				tempArr[idx] = tinyMCE.feedback[matchDialog.identifier].sound[idx]
+			}
+		}
+		tinyMCE.feedback[matchDialog.identifier].sound = tempArr;
 	}
-	tinyMCE.feedback[matchDialog.identifier] = tempArr;
 	
 	// remove element connections
 	var connections = $('#middle_container').children();
