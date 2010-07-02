@@ -54,7 +54,7 @@ public class QtiTestEditor implements EntryPoint {
 	{
 		ServicesRegistry reg = new ServicesRegistry(new ServiceFactory());
 		IEditorEnvirnoment env = new EditorEnvirnoment(conf.getPageURL(), "script_00001/media", Storage.getInstance(), reg);		
-		StartupData startupData = new StartupData(env, conf.getCellId());
+		StartupData startupData = new StartupData(env, conf.getCellId(), conf.getTinyMceCreatedCallback());
 		QtiTestEditorFasade.getInstance(QtiTestEditorFasade.KEY).startup(startupData);
 	}
 	
