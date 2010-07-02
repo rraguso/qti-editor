@@ -93,8 +93,18 @@ var gapDialog = {
 			
 			if(tinyMCE.feedback[identifier] != undefined) {
 				
-				var mf_onok = '<!-- <modalFeedback outcomeIdentifier="' + identifier + '" identifier="' + gap + '" showHide="show">' + tinyMCE.feedback[identifier].onok + '</modalFeedback> -->'
-				var mf_onwrong = '<!-- <modalFeedback outcomeIdentifier="' + identifier + '" identifier="' + gap + '" showHide="hide">' + tinyMCE.feedback[identifier].onwrong + '</modalFeedback> -->'
+				var mf_onok = '<!-- <modalFeedback outcomeIdentifier="' + identifier + '" identifier="' + gap + '" showHide="show"';
+				if(tinyMCE.feedback[identifier].sound_onok != undefined && tinyMCE.feedback[identifier].sound_onok != '') {
+					console.log(tinyMCE.feedback[identifier].sound_onok);
+					mf_onok += ' sound="' + tinyMCE.feedback[identifier].sound_onok + '"';
+				}
+				mf_onok += '>' + tinyMCE.feedback[identifier].onok + '</modalFeedback> -->'
+				var mf_onwrong = '<!-- <modalFeedback outcomeIdentifier="' + identifier + '" identifier="' + gap + '" showHide="hide"';
+				if(tinyMCE.feedback[identifier].sound_onwrong != undefined && tinyMCE.feedback[identifier].sound_onwrong != '') {
+					console.log(tinyMCE.feedback[identifier].sound_onwrong);
+					mf_onwrong += ' sound="' + tinyMCE.feedback[identifier].sound_onwrong + '"';
+				}
+				mf_onwrong += '>' + tinyMCE.feedback[identifier].onwrong + '</modalFeedback> -->'
 				
 				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(/(<!-- <\/itemBody> -->)/i, '$1' + mf_onok + mf_onwrong);
 				tinyMCE.feedback = new Array;

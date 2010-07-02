@@ -59,7 +59,39 @@
 				var assetBrowser = tinyMCE.gwtProxy.getAssetBrowser();
 				
 				if(data.src != undefined && data.src != '') {
-					srcArr = src.split('/');
+					srcArr = data.src.split('/');
+					fileName = String(srcArr[srcArr.length-1]);
+					assetBrowser.setSelectedFile(fileName);
+				}
+				
+				assetBrowser.browse(browseCallback, extensions);
+			
+			});
+			
+			ed.addCommand('mceAddFeedbackSound', function(ui,data) {
+				
+				var browseCallback = {
+				
+					onBrowseComplete : function(filePath) {
+						filePath = filePath.split('/');
+						filePath = String(filePath[filePath.length-2] + '/' + filePath[filePath.length-1]);
+						data.dest.setAttribute('value', filePath);
+						return true;
+					},
+					
+					onBrowseError : function(error) {
+						alert(error);
+						return false;
+					}
+					
+				}
+				
+				var extensions = [".mp3"];
+				
+				var assetBrowser = tinyMCE.gwtProxy.getAssetBrowser();
+				
+				if(data.src != undefined && data.src != '') {
+					srcArr = data.src.split('/');
 					fileName = String(srcArr[srcArr.length-1]);
 					assetBrowser.setSelectedFile(fileName);
 				}

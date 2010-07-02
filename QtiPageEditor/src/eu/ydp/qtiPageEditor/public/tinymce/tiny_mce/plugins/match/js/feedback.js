@@ -83,7 +83,7 @@ var feedbackDialog = {
 		if(data != undefined && tinyMCE.feedback[data[1]] != undefined) {
 			
 			var pair = new Array;
-			var pairs = tinyMCE.feedback[data[1]];
+			var pairs = tinyMCE.feedback[data[1]].text;
 			var leftElements = data[4];
 			var rightElements = data[6];
 			
@@ -289,7 +289,8 @@ var feedbackDialog = {
 					///////////
 					$('#middle_container').append('<input id="' + pairId + '" type="hidden" name="pair[]" value="' + pairId + '">');
 					$('#feedback_pair').attr('value', pairId);
-					$('#feedback_text').attr('value', tinyMCE.feedback[feedbackDialog.matchIdentifier][pairId]);
+					$('#feedback_text').attr('value', tinyMCE.feedback[feedbackDialog.matchIdentifier].text[pairId]);
+					$('#fdb_sound').attr('value', tinyMCE.feedback[feedbackDialog.matchIdentifier].sound[pairId]);
 					$('#feedback_text').attr('style','width: 100%; background-color: #ffffff;');
 					$('#feedback_text').removeAttr('disabled');
 					$('#feedback_text').focus();
@@ -356,10 +357,12 @@ var feedbackDialog = {
 			ctx_temp.closePath();
 			ctx_temp.fill();
 			
-			tinyMCE.feedback[feedbackDialog.matchIdentifier][identifier] = '';
+			tinyMCE.feedback[feedbackDialog.matchIdentifier].text[identifier] = '';
+			tinyMCE.feedback[feedbackDialog.matchIdentifier].sound[identifier] = '';
 			$('#middle_container').append('<input id="' + identifier + '" type="hidden" name="pair[]" value="' + identifier + '">');
 			$('#feedback_pair').attr('value', identifier);
 			$('#feedback_text').attr('value', '');
+			$('#fdb_sound').attr('value', '');
 			$('#feedback_text').attr('style','width: 100%; background-color: #ffffff;');
 			$('#feedback_text').removeAttr('disabled');
 			$('#feedback_text').focus();
@@ -391,7 +394,9 @@ var feedbackDialog = {
 		
 		var pair = $('#feedback_pair').attr('value');
 		var text = $('#feedback_text').attr('value');
-		tinyMCE.feedback[feedbackDialog.matchIdentifier][pair] = text;
+		var sound = $('#fdb_sound').attr('value');
+		tinyMCE.feedback[feedbackDialog.matchIdentifier].text[pair] = text;
+		tinyMCE.feedback[feedbackDialog.matchIdentifier].sound[pair] = sound;
 		$('#feedback_text').attr('style','width: 100%; background-color: #f0f0f0;');
 		$('#feedback_text').attr('disabled','disabled');
 		$('#feedback_text').attr('value', '');

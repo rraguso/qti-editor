@@ -134,7 +134,13 @@ function actionOnQTI(e) {
 			} else {
 				var oo = '';
 			}
-			
+			rg = new RegExp('<modalFeedback[^>]*outcomeIdentifier="' + id + '"[^>]*showHide="show"[^>]*sound="([^"]*)"[^>]*>','gi');
+			var onok_sound = rg.exec(body);
+			if(onok_sound != undefined) {
+				var oo_snd = onok_sound[1];
+			} else {
+				var oo_snd = '';
+			}
 			rg = new RegExp('<modalFeedback[^>]*outcomeIdentifier="' + id + '"[^>]*showHide="hide"[^>]*>([^<]*)<\/modalFeedback>','gi');
 			var onwrong = rg.exec(body);
 			if(onwrong != undefined) {
@@ -142,8 +148,15 @@ function actionOnQTI(e) {
 			} else {
 				var ow = '';
 			}
+			rg = new RegExp('<modalFeedback[^>]*outcomeIdentifier="' + id + '"[^>]*showHide="hide"[^>]*sound="([^"]*)"[^>]*>','gi');
+			var onwrong_sound = rg.exec(body);
+			if(onwrong_sound != undefined) {
+				var ow_snd = onwrong_sound[1];
+			} else {
+				var ow_snd = '';
+			}
 			
-			var gapdata = {value: ed.selection.getNode().innerHTML, id: id, onok: oo, onwrong: ow};
+			var gapdata = {value: ed.selection.getNode().innerHTML, id: id, onok: oo, onwrong: ow, onok_sound: oo_snd, onwrong_sound: ow_snd};
 			tinyMCE.execCommand('mceGap', false, gapdata);
 		}
 		
@@ -215,7 +228,18 @@ function actionOnQTI(e) {
 					fd[arr[1]] = arr[2]
 				}
 				data.push(fd);
-			} 
+			}
+			rg = new RegExp('<modalFeedback[^>]*senderIdentifier="' + identifier[1] + '"[^>]*identifier="([^"]*)"[^>]*sound="([^"]*)"[^>]*>','gi');
+			var fdArr = body.match(rg);
+			if(fdArr != undefined) {
+				var fd = new Array;
+				for (i in fdArr) {
+					rg = new RegExp('<modalFeedback[^>]*senderIdentifier="' + identifier[1] + '"[^>]*identifier="([^"]*)"[^>]*sound="([^"]*)"[^>]*>','i');
+					var arr = rg.exec(fdArr[i]);
+					fd[arr[1]] = arr[2]
+				}
+				data.push(fd);
+			}			
 			
 			tinyMCE.execCommand('mceInlineChoice', false, data);
 		}
@@ -250,6 +274,7 @@ function actionOnQTI(e) {
 			for (ans in answers_paragraph) {
 				values.push(answers_paragraph[ans].match(/<!-- <simpleChoice identifier="([^"]*)"\s*(?:fixed="([^"]*)")?[^>]*>(?:[^<]*|<img[^>]*>)(?:<feedbackInline[^>]*>([^<]*)<\/feedbackInline>)?<\/simpleChoice> --><br[^>]*><input id="choiceInteraction" name="simpleChoice" (checked="checked" )?type="checkbox">(<img[^>]*>|[^<]*)/i));
 			}
+			console.dir(values);
 			var i=0;
 			while(values[i] != undefined) {
 				ids.push(values[i][1]);
@@ -260,9 +285,11 @@ function actionOnQTI(e) {
 					points.push('0');
 				}
 				fixed.push(values[i][2]);
-				fdb.push(values[i][3]);
+				fdb[values[i][1]] = values[i][3];
+				console.log(values[i][3]);
 				i++;
 			}
+			console.dir(fdb);
 			data.push(question[1]);
 			data.push(answers);
 			data.push(points);
@@ -272,6 +299,19 @@ function actionOnQTI(e) {
 			data.push(fixed);
 			data.push(maxChoices[1]);
 			data.push(fdb);
+			
+			var body = ed.selection.dom.doc.body.innerHTML;
+			rg = new RegExp('<modalFeedback[^>]*senderIdentifier="' + identifier[1] + '"[^>]*identifier="([^"]*)"[^>]*sound="([^"]*)"[^>]*>','gi');
+			var fdArr = body.match(rg);
+			var fd = new Array;
+			if(fdArr != undefined) {
+				for (i in fdArr) {
+					rg = new RegExp('<modalFeedback[^>]*senderIdentifier="' + identifier[1] + '"[^>]*identifier="([^"]*)"[^>]*sound="([^"]*)"[^>]*>','i');
+					var arr = rg.exec(fdArr[i]);
+					fd[arr[1]] = arr[2]
+				}
+			}
+			data.push(fd);	
 			
 			tinyMCE.execCommand('mceChoice', false, data);
 		}
@@ -420,6 +460,17 @@ function actionOnQTI(e) {
 				}
 				data.push(fd);
 			} 
+			rg = new RegExp('<modalFeedback[^>]*senderIdentifier="' + identifier[1] + '"[^>]*identifier="([^"]*)"[^>]*sound="([^"]*)"[^>]*>','gi');
+			var fdArr = body.match(rg);
+			if(fdArr != undefined) {
+				var fd = new Array;
+				for (i in fdArr) {
+					rg = new RegExp('<modalFeedback[^>]*senderIdentifier="' + identifier[1] + '"[^>]*identifier="([^"]*)"[^>]*sound="([^"]*)"[^>]*>','i');
+					var arr = rg.exec(fdArr[i]);
+					fd[arr[1]] = arr[2]
+				}
+				data.push(fd);
+			}			
 			
 			tinyMCE.execCommand('mceMatch', false, data);
 		}

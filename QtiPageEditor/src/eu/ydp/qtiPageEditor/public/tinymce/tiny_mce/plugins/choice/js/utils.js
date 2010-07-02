@@ -94,6 +94,11 @@ function switch_text_images(checkbox) {
 
 function feedback(row) {
 	
+	var tr = row;
+	while(tr.nodeName != 'FORM') {
+		tr = tr.parentNode;
+	}
+	var exerciseId = tr.identifier.value;
 	var tr = row.parentNode.parentNode;
 	var inputs = tr.getElementsByTagName('input');
 	for(i in inputs) {
@@ -102,12 +107,18 @@ function feedback(row) {
 			break;
 		}
 	}
-	if(identifier != undefined) {
-		if(tinyMCE.feedback != undefined && tinyMCE.feedback[identifier] != undefined) {
-			tinyMCE.execCommand('mceFeedbackChoice', false, {identifier: identifier, feedback: tinyMCE.feedback[identifier]});
+	if(identifier != undefined && exerciseId != undefined) {
+		if(tinyMCE.feedback != undefined && tinyMCE.feedback[exerciseId] != undefined) {
+			tinyMCE.execCommand('mceFeedbackChoice', false, {exerciseid: exerciseId, identifier: identifier, feedback: tinyMCE.feedback[exerciseId].text[identifier], feedback_sound:  tinyMCE.feedback[exerciseId].sound[identifier]});
 		} else {
-			tinyMCE.execCommand('mceFeedbackChoice', false, {identifier: identifier});
+			tinyMCE.execCommand('mceFeedbackChoice', false, {exerciseid: exerciseId, identifier: identifier});
 		}
 	}
+	
+}
+
+function assignSound(row) {
+	
+	tinyMCE.execCommand('mceAddFeedbackSound', false, {dest: row.previousSibling.previousSibling, src: row.previousSibling.previousSibling.value});
 	
 }

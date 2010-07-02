@@ -8,6 +8,7 @@
 	<script type="text/javascript" src="../../../jquery/jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="../../../jquery/jquery-ui-1.8.1.custom.min.js"></script>
 	<script type="text/javascript" src="js/feedback.js"></script>
+	<script type="text/javascript" src="js/utils.js"></script>
 	<link rel="stylesheet" type="text/css" href="css/choice.css" />
 </head>
 <body style="display:none;">
@@ -56,8 +57,15 @@
 					<strong>{#feedback_dlg.feedback_text}</strong>
 				</td>
 				<td>
+					<table width="100%"><tr>
+					<td>
 					<input type="text" id="feedback_text" name="feedback_text" value="" style="width: 100%; background-color: #f0f0f0;" disabled="disabled">
 					<input type="hidden" id="feedback_pair" name="feedback_pair" value="">
+					</td><td width="20px">
+					<input type="hidden" name="fdb_sound" id="fdb_sound" value="" />
+					<img src="img/sound.png" onclick="assignSound(this);" />
+					</td>
+					</tr></table>
 				</td>
 				<td width="100px">
 					<input type="button" id="add_text_feedback" name="add_text_feedback" value="{#feedback_dlg.feedback_set_text_button}" onclick="feedbackDialog.saveFeedback();" disabled="disabled">

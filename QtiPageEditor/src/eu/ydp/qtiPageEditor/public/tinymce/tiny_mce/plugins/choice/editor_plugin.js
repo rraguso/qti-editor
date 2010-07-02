@@ -15,6 +15,17 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			ed.addCommand('mceChoice', function(ui, data) {
 				
+				if(data != undefined) {
+					tinyMCE.feedback = new Array;
+					tinyMCE.feedback[data[4]] = {text: new Array, sound: new Array}
+					if(data[8] != undefined ) {
+						tinyMCE.feedback[data[4]].text = data[8];
+					}
+					if(data[9] != undefined ) {
+						tinyMCE.feedback[data[4]].sound = data[9];
+					}
+				}
+				
 				ed.windowManager.open({
 					file : url + '/choice.htm',
 					width : 500,
@@ -60,7 +71,7 @@
 					inline : 1
 				}, {
 					plugin_url : url, // Plugin absolute URL
-					data: {identifier: data.identifier, feedback: data.feedback}
+					data: {exerciseid: data.exerciseid, identifier: data.identifier, feedback: data.feedback, feedback_sound: data.feedback_sound}
 				});
 				
 			});

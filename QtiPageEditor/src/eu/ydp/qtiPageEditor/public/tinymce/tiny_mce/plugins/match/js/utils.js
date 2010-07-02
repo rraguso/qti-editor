@@ -259,3 +259,9 @@ function runFeedbacks() {
 		tinyMCE.execCommand('mceMatchFeedbacks',false,formData);
 	
 }
+
+function assignSound(row) {
+	
+	tinyMCE.execCommand('mceAddFeedbackSound', false, {dest: row.previousSibling.previousSibling, src: row.previousSibling.previousSibling.value});
+	
+}

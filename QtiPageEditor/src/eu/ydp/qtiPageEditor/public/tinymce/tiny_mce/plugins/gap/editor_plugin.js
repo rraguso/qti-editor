@@ -26,6 +26,12 @@
 					if(data.onwrong != undefined && data.onwrong != '') {
 						tinyMCE.feedback[data.id].onwrong = data.onwrong;
 					}
+					if(data.onok_sound != undefined && data.onok_sound != '') {
+						tinyMCE.feedback[data.id].onok_sound = data.onok_sound;
+					}
+					if(data.onwrong_sound != undefined && data.onwrong_sound != '') {
+						tinyMCE.feedback[data.id].onwrong_sound = data.onwrong_sound;
+					}
 				}
 				
 				ed.windowManager.open({

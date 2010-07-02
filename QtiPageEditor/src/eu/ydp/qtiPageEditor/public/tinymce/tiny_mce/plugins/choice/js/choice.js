@@ -63,11 +63,17 @@ var choiceDialog = {
 				}
 				document.getElementById('answer_list').appendChild(newDiv);
 				
+				if(tinyMCE.feedback == undefined) {
+					tinyMCE.feedback = new Array;
+				}
+				if(tinyMCE.feedback[data[3][q]] == undefined) {
+					tinyMCE.feedback[data[3][q]] = {text: new Array, sound: new Array};
+				}				
 				if(data[8][q] != undefined) {
-					if(tinyMCE.feedback == undefined) {
-						tinyMCE.feedback = new Array;
-					}
-					tinyMCE.feedback[data[3][q]] = data[8][q];
+					tinyMCE.feedback[data[3][q]].text = data[8][q];
+				}
+				if(data[9][q] != undefined) {
+					tinyMCE.feedback[data[3][q]].sound = data[9][q];
 				}
 				
 			}
@@ -199,8 +205,8 @@ var choiceDialog = {
 					choiceSection += ' fixed="true" ';
 				}
 				choiceSection += '>' + answers[i];
-				if(tinyMCE.feedback != undefined && tinyMCE.feedback[ids[i]] != undefined) {
-					choiceSection += '<feedbackInline identifier="' + ids[i] + '" showHide="show">' + tinyMCE.feedback[ids[i]] + '</feedbackInline>'
+				if(tinyMCE.feedback != undefined && tinyMCE.feedback[identifier] != undefined && tinyMCE.feedback[identifier].text[ids[i]] != undefined) {
+					choiceSection += '<feedbackInline identifier="' + ids[i] + '" showHide="show">' + tinyMCE.feedback[identifier].text[ids[i]] + '</feedbackInline>'
 				} 
 				choiceSection += '</simpleChoice> --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" ';
 				if(points[i] > 0) {
@@ -247,8 +253,8 @@ var choiceDialog = {
 					choiceSection += ' fixed="true" ';
 				}
 				choiceSection += '>' + answers[i];
-				if(tinyMCE.feedback != undefined && tinyMCE.feedback[ids[i]] != undefined) {
-					choiceSection += '<feedbackInline identifier="' + ids[i] + '" showHide="show">' + tinyMCE.feedback[ids[i]] + '</feedbackInline>'
+				if(tinyMCE.feedback != undefined && tinyMCE.feedback[identifier] != undefined && tinyMCE.feedback[identifier].text[ids[i]] != undefined) {
+					choiceSection += '<feedbackInline identifier="' + ids[i] + '" showHide="show">' + tinyMCE.feedback[identifier].text[ids[i]] + '</feedbackInline>'
 				} 
 				choiceSection += '</simpleChoice> --><br /><input id="choiceInteraction" name="simpleChoice" type="checkbox" ';
 				if(points[i] > 0) {
@@ -271,7 +277,27 @@ var choiceDialog = {
 		}
 		
 		if(tinyMCE.feedback != undefined) {
+			
+			var rg = new RegExp('<!-- <modalFeedback[^>]*senderIdentifier="' + identifier + '"[^>]*>[^<]*</modalFeedback> -->','gi');
+			if(rg.exec(tinyMCE.activeEditor.dom.doc.body.innerHTML) != '') {
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(rg,'');
+			}
+			
+			if(tinyMCE.feedback[identifier] != undefined) {
+				
+				var mf = '';
+				for (i in tinyMCE.feedback[identifier].sound) {
+					mf += '<!-- <modalFeedback senderIdentifier="' + identifier + '" identifier="' + i + '" showHide="show"';
+					if(tinyMCE.feedback[identifier].sound[i] != undefined && tinyMCE.feedback[identifier].sound[i] != '') {
+						mf += ' sound="' + tinyMCE.feedback[identifier].sound[i] + '"';
+					}
+					mf += '>' + '</modalFeedback> -->'
+				}
+				tinyMCE.activeEditor.dom.doc.body.innerHTML = tinyMCE.activeEditor.dom.doc.body.innerHTML.replace(/(<!-- <\/itemBody> -->)/i, '$1' + mf);
+				
+			}
 			tinyMCE.feedback = new Array;
+			
 		} 
 		
 		tinyMCEPopup.close();
