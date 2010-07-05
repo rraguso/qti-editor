@@ -15,6 +15,9 @@
 <form onsubmit="orderDialog.insertOrderSection(this);" action="#">
 	
 	<div style="border: 1px solid #999999; min-height: 400px;">
+		
+		<div id="validator_errors" style="color: red; font-weight: bold"></div>
+	
 		<fieldset style="margin: 10px;">
 			<legend>{#order_dlg.question_label}:</legend>
 			<input type="hidden" id="identifier" name="identifier" style="width: 100%;"/>
@@ -104,7 +107,7 @@
 
 		<div style="float: right">	
 			
-			<input type="submit" id="insert" name="insert" value="{#order_dlg.modify}" />
+			<input type="submit" id="insert" name="insert" value="{#order_dlg.modify}" onclick="return validateExercise(document.forms[0]);"/>
 			
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" style="
 				border: none; 

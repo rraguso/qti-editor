@@ -14,6 +14,8 @@
 <body style="display:none;">
 <form onsubmit="gapDialog.insertGap(this);" action="#">
 	
+		<div id="validator_errors" style="color: red; font-weight: bold"></div>
+	
 		<fieldset style="margin-bottom: 20px;" id="gap_content">
 			<legend>{#gap_dlg.answer_label}:</legend>
 			<input type="hidden" id="identifier" name="identifier"/>
@@ -39,7 +41,7 @@
 		</div>
 
 		<div style="float: right">	
-			<input type="submit" id="insert" name="insert" value="{#gap_dlg.modify}" />
+			<input type="submit" id="insert" name="insert" value="{#gap_dlg.modify}" onclick="return validateExercise(document.forms[0]);" />
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" style="
 				border: none; 
 				width: 94px; 

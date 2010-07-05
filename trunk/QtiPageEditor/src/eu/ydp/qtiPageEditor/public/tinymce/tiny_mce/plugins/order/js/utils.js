@@ -85,3 +85,57 @@ function switch_text_images(checkbox) {
 	return true;
 	
 }
+
+
+function validateExercise(form) {
+	
+	var i = 0;
+	var question = false;
+	var answers_contents = new Array;
+	var validator_errors = new Array;
+	
+	$("input[name='answers[]']").attr('style' , 'width: 100%; margin-right: 5px;');
+	$('#question').attr('style' , 'width: 100%;');
+	
+	while(form.elements[i] != undefined) {
+		if(form.elements[i].getAttribute('name') == 'answers[]') {
+			if(form.elements[i].value == '') {
+				answers_contents.push(form.elements[i]);
+			}
+		}
+		if(form.elements[i].getAttribute('name') == 'question') {
+			if(form.elements[i].value != '') {
+				question = true;
+			}
+		}
+		i++;
+	}
+	
+	if(question === false) {
+		$('#question').attr('style' , 'width: 100%; border: 2px solid red;');
+		validator_errors.push('Fill the question field');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
+	}
+	if(answers_contents.length > 0) {
+		for (i in answers_contents) {
+			if(answers_contents[i].attributes != undefined) {
+				answers_contents[i].setAttribute('style' , 'width: 100%; margin-right: 5px; border: 2px solid red;');
+			}
+		}
+		validator_errors.push('Fill the answers fields');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
+	}
+	
+	var errInf = '';
+	if(validator_errors.length > 0) {
+		errInf = '<ul>';
+		for(i in validator_errors) {
+			errInf += '<li>' + validator_errors[i] + '</li>';
+		}
+		errInf += '</ul>';
+	}
+	$('#validator_errors').html(errInf);
+	
+	return  question && (answers_contents.length == 0);
+	
+}

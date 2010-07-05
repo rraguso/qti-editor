@@ -16,6 +16,8 @@
 	
 	<div style="border: 1px solid #999999; min-height: 300px;">
 		
+		<div id="validator_errors" style="color: red; font-weight: bold"></div>
+		
 		<fieldset style="margin: 10px;">
 			<legend>{#inlinechoice_dlg.question_data}:</legend>
 			<input type="hidden" id="identifier" name="identifier" style="width: 100%;"/>
@@ -36,7 +38,7 @@
 				<table><tr><td style="width: 240px;">
 					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_content}:</div>
 				</td><td style="width: 40px;">
-					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_points}:</div>
+					<div id="div_points" style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_points}:</div>
 				</td><td style="width: 50px;">
 					<div style="width: 100%; font-weight: bold;">{#inlinechoice_dlg.answer_fixed}:</div>
 				</td><td style="width: 50px;">

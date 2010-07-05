@@ -279,7 +279,6 @@ function actionOnQTI(e) {
 			for (ans in answers_paragraph) {
 				values.push(answers_paragraph[ans].match(/<!-- <simpleChoice identifier="([^"]*)"\s*(?:fixed="([^"]*)")?[^>]*>(?:[^<]*|<img[^>]*>)(?:<feedbackInline[^>]*>([^<]*)<\/feedbackInline>)?<\/simpleChoice> --><br[^>]*><input id="choiceInteraction" name="simpleChoice" (checked="checked" )?type="checkbox">(<img[^>]*>|[^<]*)/i));
 			}
-			console.dir(values);
 			var i=0;
 			while(values[i] != undefined) {
 				ids.push(values[i][1]);
@@ -291,10 +290,8 @@ function actionOnQTI(e) {
 				}
 				fixed.push(values[i][2]);
 				fdb[values[i][1]] = values[i][3];
-				console.log(values[i][3]);
 				i++;
 			}
-			console.dir(fdb);
 			data.push(question[1]);
 			data.push(answers);
 			data.push(points);

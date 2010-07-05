@@ -23,3 +23,15 @@ function assignSound(row) {
 	tinyMCE.execCommand('mceAddFeedbackSound', false, {dest: row.previousSibling.previousSibling, src: row.previousSibling.previousSibling.value});
 	
 }
+
+function validateExercise(form) {
+	
+	if(form.gap.value == undefined || form.gap.value == '') {
+		$('#gap').attr('style' , 'width: 100%; border: 2px solid red;');
+		$('#validator_errors').html('<ul><li>Set gap correct answer</li></ul>');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
+		return false
+	}
+	return true;
+	
+}

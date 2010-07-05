@@ -15,6 +15,9 @@
 <form onsubmit="choiceDialog.insertChoiceSection(this);" action="#">
 	
 	<div style="border: 1px solid #999999; min-height: 400px;">
+		
+		<div id="validator_errors" style="color: red; font-weight: bold"></div>
+	
 		<fieldset style="margin: 10px;">
 			<legend>{#choice_dlg.question_label}:</legend>
 			<input type="hidden" id="identifier" name="identifier" style="width: 100%;"/>
@@ -60,7 +63,7 @@
 				<table><tr><td style="width: 255px;">
 					<div style="width: 100%; font-weight: bold;">{#choice_dlg.answer_content}:</div>
 				</td><td style="width: 40px;">
-					<div style="width: 100%; font-weight: bold;">{#choice_dlg.answer_points}:</div>
+					<div id="div_points" style="width: 100%; font-weight: bold;">{#choice_dlg.answer_points}:</div>
 				</td><td style="width: 50px;">
 					<div style="width: 100%; font-weight: bold;">{#choice_dlg.answer_fixed}:</div>
 				</td><td style="width: 50px;">
@@ -108,7 +111,7 @@
 
 		<div style="float: right">	
 			
-			<input type="submit" id="insert" name="insert" value="{#choice_dlg.modify}" />
+			<input type="submit" id="insert" name="insert" value="{#choice_dlg.modify}" onclick="return validateExercise(document.forms[0]);"/>
 			
 			<input type="button" id="cancel" name="cancel" value="{#cancel}" style="
 				border: none; 
