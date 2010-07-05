@@ -275,3 +275,72 @@ function assignSound(row) {
 	tinyMCE.execCommand('mceAddFeedbackSound', false, {dest: row.previousSibling.previousSibling, src: row.previousSibling.previousSibling.value});
 	
 }
+
+function validateExercise(form) {
+	
+	var i = 0;
+	var question = false;
+	var left_set_contents = new Array;
+	var right_set_contents = new Array;
+	var validator_errors = new Array;
+	
+	$("input[name='answers_left[]']").attr('style' , 'width: 100%; margin-right: 5px;');
+	$("input[name='answers_right[]']").attr('style' , 'width: 100%; margin-right: 5px;');
+	$('#question').attr('style' , 'width: 100%;');
+	
+	while(form.elements[i] != undefined) {
+		if(form.elements[i].getAttribute('name') == 'answers_left[]') {
+			if(form.elements[i].value == '') {
+				left_set_contents.push(form.elements[i]);
+			}
+		}
+		if(form.elements[i].getAttribute('name') == 'answers_right[]') {
+			if(form.elements[i].value == '') {
+				right_set_contents.push(form.elements[i]);
+			}
+		}
+		if(form.elements[i].getAttribute('name') == 'question') {
+			if(form.elements[i].value != '') {
+				question = true;
+			}
+		}
+		i++;
+	}
+	
+	if(question === false) {
+		$('#question').attr('style' , 'width: 100%; border: 2px solid red;');
+		validator_errors.push('Fill the question field');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
+	}
+	if(left_set_contents.length > 0) {
+		for (i in left_set_contents) {
+			if(left_set_contents[i].attributes != undefined) {
+				left_set_contents[i].setAttribute('style' , 'width: 100%; margin-right: 5px; border: 2px solid red;');
+			}
+		}
+		validator_errors.push('Fill the left set elements');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
+	}
+	if(right_set_contents.length > 0) {
+		for (i in right_set_contents) {
+			if(right_set_contents[i].attributes != undefined) {
+				right_set_contents[i].setAttribute('style' , 'width: 100%; margin-right: 5px; border: 2px solid red;');
+			}
+		}
+		validator_errors.push('Fill the right set elements');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
+	}
+	
+	var errInf = '';
+	if(validator_errors.length > 0) {
+		errInf = '<ul>';
+		for(i in validator_errors) {
+			errInf += '<li>' + validator_errors[i] + '</li>';
+		}
+		errInf += '</ul>';
+	}
+	$('#validator_errors').html(errInf);
+	
+	return  question && (left_set_contents.length == 0) && (right_set_contents.length == 0);
+	
+}

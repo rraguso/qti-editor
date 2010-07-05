@@ -58,7 +58,9 @@ function validateExercise(form) {
 		i++;
 	}
 	if(res === false) {
-		alert("Select correct answer");
+		$('#div_points').attr('style' , 'width: 100%; font-weight: bold; color: red;');
+		$('#validator_errors').html('<ul><li>Select correct answer</li></ul>');
+		tinyMCE.activeEditor.windowManager.resizeBy(0, 30, 'mce_0');
 	}
 	return res;
 	
