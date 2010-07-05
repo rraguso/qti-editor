@@ -14,7 +14,6 @@ import eu.ydp.qtiPageEditor.client.controller.SetSaveJSCallback;
 import eu.ydp.qtiPageEditor.client.controller.StartupCommand;
 import eu.ydp.qtiPageEditor.client.controller.UpdatePageCommand;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
-import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 
 public class ApplicationFasade extends Facade implements IFacade {
 

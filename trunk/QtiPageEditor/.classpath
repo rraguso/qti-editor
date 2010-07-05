@@ -6,5 +6,8 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="ivy-lib/PureMVC_Java_MultiCore.jar"/>
 	<classpathentry kind="lib" path="ivy-lib/webapistorageGWT.jar"/>
+	<classpathentry kind="lib" path="ivy-lib/qtiplayerlib.jar"/>
+	<classpathentry kind="lib" path="ivy-lib/gwt-graphics-0.9.6.jar"/>
+	<classpathentry kind="lib" path="ivy-lib/gwt-voices-1.7.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

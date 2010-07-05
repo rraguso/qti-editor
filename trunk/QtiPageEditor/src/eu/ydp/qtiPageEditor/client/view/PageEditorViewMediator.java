@@ -5,12 +5,14 @@ import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
+import eu.ydp.qtiPageEditor.client.events.TinyMcePreviewEvent;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
+import eu.ydp.qtiPageEditor.client.events.handler.TinyMcePreviewHandler;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMceSaveEventHandler;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
 import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
 
-public class PageEditorViewMediator extends Mediator implements TinyMceSaveEventHandler {
+public class PageEditorViewMediator extends Mediator implements TinyMceSaveEventHandler, TinyMcePreviewHandler {
 	
 	public static final String NAME = "pageEditorViewMediator";
 		
@@ -23,7 +25,8 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	
 	public void onRegister(){
 		PageEditorView view = (PageEditorView)getViewComponent();		
-		view.addTinyMceSaveHandler(this);		
+		view.addTinyMceSaveHandler(this);
+		view.addTinyMcePreviewHandler(this);
 	}
 	
 	private void showPage(int ix){
@@ -68,6 +71,7 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	}
 	
 	//-------- TinyMceSaveEventHandler impl--------------------
+	
 	public void onPageSave(TinyMceSaveEvent event){
 		PageEditorView view = (PageEditorView)getViewComponent();
 		String content = view.getText();
@@ -76,4 +80,8 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	} 
 	
 	//---------------------------------------------------------
+	
+	public void onShowPreview(TinyMcePreviewEvent event){
+		sendNotification(Constances.SHOW_PREVIEW);
+	}
 }
