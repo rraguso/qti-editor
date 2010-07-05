@@ -331,7 +331,6 @@ function actionOnQTI(e) {
 			while(sectionDiv.nodeName != 'DIV' || sectionDiv.id != 'orderInteraction') {
 				sectionDiv = sectionDiv.parentNode;
 			}
-			
 			var orderSectionHTML = sectionDiv.innerHTML;
 			var question = orderSectionHTML.match(/<p id="choiceInteraction">([^<]*)<\/p>/i);
 			if(sectionDiv.previousSibling.nodeName == "P") {
@@ -344,14 +343,15 @@ function actionOnQTI(e) {
 			var answers_paragraph = orderSectionHTML.match(/<!-- <simpleChoice identifier="[^"]*"[^>]*>([^<]*|<img[^>]*>)(?=<feedbackInline[^>]*>[^<]*<\/feedbackInline>)?<\/simpleChoice> -->(?:<\/p>)?<div id="orderOption" name="([0-9]+)"[^>]*>(<img[^>]*>|[^<]*)<\/div>/gi);
 			var values = new Array();
 			for (ans in answers_paragraph) {
-				values.push();
-				if(answers_paragraph[ans].match(/<feedbackInline[^>]*>[^<]*<\/feedbackInline>/i)) {
-					if(tinyMCE.feedback == undefined) {
-						tinyMCE.feedback = new Array;
-					}
-					var fd = answers_paragraph[ans].match(/<feedbackInline[^>]*identifier="([^"]*)"[^>]*>([^<]*)<\/feedbackInline>/i)
-					tinyMCE.feedback[fd[0]] = fd[1];
-				}
+				//values.push();
+				values.push(answers_paragraph[ans].match(/<!-- <simpleChoice identifier="([^"]*)"\s*(?:fixed="([^"]*)")?[^>]*>(?:[^<]*|<img[^>]*>)<\/simpleChoice> -->(?:<\/p>)?<div id="orderOption" name="([0-9]+)"[^>]*>(<img[^>]*>|[^<]*)<\/div>/i));
+				//if(answers_paragraph[ans].match(/<feedbackInline[^>]*>[^<]*<\/feedbackInline>/i)) {
+				//	if(tinyMCE.feedback == undefined) {
+				//		tinyMCE.feedback = new Array;
+				//	}
+				//	var fd = answers_paragraph[ans].match(/<feedbackInline[^>]*identifier="([^"]*)"[^>]*>([^<]*)<\/feedbackInline>/i)
+				//	tinyMCE.feedback[fd[0]] = fd[1];
+				//}
 			}
 			var i=0;
 			while(values[i] != undefined) {
@@ -370,6 +370,7 @@ function actionOnQTI(e) {
 			data.push(identifier[1]);
 			data.push(shuffle[1]);
 			data.push(fixed);
+			
 			tinyMCE.execCommand('mceOrder', false, data);
 		}
 		
