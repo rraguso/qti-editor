@@ -193,6 +193,10 @@ public class QTIPageModelProxy extends QtiProxyBase{
 		getDataVO().get(ix).setContent(content);
 	}
 	
+	public String getPageContent(int ix){
+		return getDataVO().get(ix).getContent();
+	}
+	
 	@SuppressWarnings("unchecked")
 	public void save(int ix){
 		
