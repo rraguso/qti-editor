@@ -1,4 +1,4 @@
-package eu.ydp.qtiPageEditor.client.model.vo;
+package eu.ydp.qtiPageEditor.client.model;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
