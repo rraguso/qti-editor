@@ -8,6 +8,9 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
+import eu.ydp.qtiPageEditor.client.view.PageEditorViewMediator;
+import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
 import eu.ydp.qtitesteditor.client.view.component.PageListView;
 
 public class PageListMediator extends Mediator implements IMediator, ChangeHandler {
@@ -34,7 +37,17 @@ public class PageListMediator extends Mediator implements IMediator, ChangeHandl
 	
 	
 	public void onChange(ChangeEvent event) {		
-		int ix = ((PageListView)getViewComponent()).getSelectedIndex();		
+		QTIPageModelProxy pagesProxy = (QTIPageModelProxy)getFacade().retrieveProxy(QTIPageModelProxy.NAME);
+		int oldIx = pagesProxy.getSelectedIndex();
+		int ix = ((PageListView)getViewComponent()).getSelectedIndex();	
+		
+		PageEditorView pev = (PageEditorView)getFacade().retrieveMediator(PageEditorViewMediator.NAME).getViewComponent();
+		String newState = pev.getText();		
+		String oldState = pagesProxy.getPageContent(oldIx);
+		
+		if(newState != oldState)
+			sendNotification(Constances.UPDATE_PAGE_STATE,newState);
+		
 		sendNotification(Constances.SET_MODEL_SELECTED_INDEX, ix); 
 		sendNotification(Constances.SHOW_PAGE, ix);
 		
