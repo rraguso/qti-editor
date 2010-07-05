@@ -15,7 +15,7 @@ public class StartupCommand extends SimpleCommand implements ICommand {
 	{  
 		StartupData data = (StartupData)notification.getBody();
 		
-		Facade facade = getFacade();
+		Facade facade = getFacade();		
 		facade.registerProxy(new QTIPageModelProxy());		
 		facade.registerMediator(new MainScreenMediator(data));
 		

@@ -13,7 +13,9 @@ import com.google.gwt.user.client.ui.TextArea;
 
 import eu.ydp.qtiPageEditor.client.appcallback.TinyMceCreatedCallback;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
+import eu.ydp.qtiPageEditor.client.events.TinyMcePreviewEvent;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
+import eu.ydp.qtiPageEditor.client.events.handler.TinyMcePreviewHandler;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMceSaveEventHandler;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IAssetBrowser;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IEditorService;
@@ -223,6 +225,15 @@ public class PageEditorView extends Composite {
     	_handlerManager.addHandler(TinyMceSaveEvent.TYPE, handler); 	
     }
     
+    public void addTinyMcePreviewHandler(TinyMcePreviewHandler handler){
+    	_handlerManager.addHandler(TinyMcePreviewEvent.TYPE, handler);
+    }
+    
+    protected void onShowPreview(){
+    	TinyMcePreviewEvent event = new TinyMcePreviewEvent();
+    	_handlerManager.fireEvent(event);
+    }
+    
     protected native void publish() /*-{
     	    var ctx = this;
     	    var proxy = new Object();
@@ -236,7 +247,12 @@ public class PageEditorView extends Composite {
     	    
     	    proxy.getPageBasePath = function(){
     	    	return ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::_pageBasePath;
-    	    }   	    
+    	    } 
+    	    
+    	    proxy.showPreview = function(){
+    	    	ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::onShowPreview()();
+    	    }  	 
+    	       
     	        	    
     	    if(typeof($wnd.tinyMCE.gwtProxy) != "object")
     	    	$wnd.tinyMCE.gwtProxy = proxy;

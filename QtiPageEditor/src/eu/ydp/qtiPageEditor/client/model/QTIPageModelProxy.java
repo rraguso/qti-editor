@@ -191,10 +191,18 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	
 	public void updatePageState(int ix, String content){
 		getDataVO().get(ix).setContent(content);
-	}
+	}	
 	
 	public String getPageContent(int ix){
 		return getDataVO().get(ix).getContent();
+	}
+	
+	public QTIPageModel getPage(int ix){
+		return getDataVO().get(ix);
+	}
+	
+	public QTIPageModel getCurrentPage(){
+		return getDataVO().get(_selectedIndex);
 	}
 	
 	@SuppressWarnings("unchecked")

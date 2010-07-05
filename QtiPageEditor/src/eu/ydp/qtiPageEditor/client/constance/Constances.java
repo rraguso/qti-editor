@@ -41,5 +41,9 @@ public class Constances {
 	public static final String SET_JS_SAVE_CALLBACK = "setSaveJsCallback";	
 	
 	public static final String SET_TINY_CELL_SIZE = "setTinyMceCellSize";
+	
+	public static final String SHOW_PREVIEW = "showPreview";
+	
+	
 
 }
