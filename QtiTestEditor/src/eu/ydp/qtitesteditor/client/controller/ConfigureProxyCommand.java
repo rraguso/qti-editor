@@ -5,8 +5,8 @@ import org.puremvc.java.multicore.patterns.command.SimpleCommand;
 
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
+import eu.ydp.qtiPageEditor.client.model.QTITestModelProxy;
 import eu.ydp.qtiPageEditor.client.model.QtiProxyBase;
-import eu.ydp.qtitesteditor.client.model.QTITestModelProxy;
 
 public class ConfigureProxyCommand extends SimpleCommand {
 	

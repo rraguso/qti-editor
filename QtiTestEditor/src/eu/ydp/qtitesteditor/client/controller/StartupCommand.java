@@ -5,8 +5,9 @@ import org.puremvc.java.multicore.patterns.command.SimpleCommand;
 import org.puremvc.java.multicore.patterns.facade.Facade;
 
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
+import eu.ydp.qtiPageEditor.client.model.AssessmentProviderProxy;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
-import eu.ydp.qtitesteditor.client.model.QTITestModelProxy;
+import eu.ydp.qtiPageEditor.client.model.QTITestModelProxy;
 import eu.ydp.qtitesteditor.client.view.MainViewMediator;
 
 public class StartupCommand extends SimpleCommand {
@@ -18,6 +19,7 @@ public class StartupCommand extends SimpleCommand {
 		Facade facade = getFacade();
 		facade.registerProxy(new QTITestModelProxy());
 		facade.registerProxy(new QTIPageModelProxy());
+		facade.registerProxy(new AssessmentProviderProxy());
 		facade.registerMediator(new MainViewMediator(startupData));
 		
 	}  
