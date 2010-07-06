@@ -44,6 +44,8 @@ public class Constances {
 	
 	public static final String SHOW_PREVIEW = "showPreview";
 	
+	public static final String ADD_PAGE_REF = "addPageRef";
+	
 	
 
 }

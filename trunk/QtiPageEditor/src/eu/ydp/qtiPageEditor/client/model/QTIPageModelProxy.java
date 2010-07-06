@@ -3,8 +3,11 @@ package eu.ydp.qtiPageEditor.client.model;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.google.gwt.user.client.Window;
+
 import eu.ydp.qtiPageEditor.client.appcallback.SaveCallback;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.model.vo.QTIPageModel;
 import eu.ydp.webapistorage.client.storage.IResource;
 import eu.ydp.webapistorage.client.storage.apierror.IApiError;
 import eu.ydp.webapistorage.client.storage.callback.IResourceCallback;
@@ -201,7 +204,7 @@ public class QTIPageModelProxy extends QtiProxyBase{
 		return getDataVO().get(ix);
 	}
 	
-	public QTIPageModel getCurrentPage(){
+	public QTIPageModel getCurrentPage(){		
 		return getDataVO().get(_selectedIndex);
 	}
 	
