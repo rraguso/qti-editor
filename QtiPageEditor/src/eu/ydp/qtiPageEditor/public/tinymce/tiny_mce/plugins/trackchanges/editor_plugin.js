@@ -14,11 +14,20 @@
 			// Register the command so that it can be invoked by using tinyMCE.activeEditor.execCommand('mceExample');
 			
 			ed.addCommand('mceEnableChangesTracking', function(ui, data) {
-
-				tinyMCE.originalBookmark = ed.selection.getBookmark();
-				tinyMCE.changesTracking = true;
-				ed.controlManager.setActive('enablechangestracking', true);
-				ed.selection.dom.doc.body.innerHTML = ed.selection.dom.doc.body.innerHTML.replace(/(<!-- <assessmentItem [^>]*> -->)/gi, '$1<!-- <changesTracking state="on"> -->');
+				
+				if(tinyMCE.changesTracking != undefined && tinyMCE.changesTracking === true) {
+					
+					tinyMCE.changesTracking = false;
+					ed.controlManager.setActive('enablechangestracking', false);
+					
+				} else {
+					
+					tinyMCE.originalBookmark = ed.selection.getBookmark();
+					tinyMCE.changesTracking = true;
+					ed.controlManager.setActive('enablechangestracking', true);
+					ed.selection.dom.doc.body.innerHTML = ed.selection.dom.doc.body.innerHTML.replace(/(<!-- <assessmentItem [^>]*> -->)/gi, '$1<!-- <changesTracking state="on"> -->');
+				
+				}
 				
 			});
 			
