@@ -229,7 +229,7 @@ public class PageEditorView extends Composite {
     	_handlerManager.addHandler(TinyMcePreviewEvent.TYPE, handler);
     }
     
-    protected void onShowPreview(){
+    protected void onShowPreview(){    	
     	TinyMcePreviewEvent event = new TinyMcePreviewEvent();
     	_handlerManager.fireEvent(event);
     }

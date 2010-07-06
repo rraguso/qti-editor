@@ -1,4 +1,4 @@
-package eu.ydp.qtiPageEditor.client.model;
+package eu.ydp.qtiPageEditor.client.model.vo;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -76,6 +76,10 @@ public class QTIPageModel {
 	public String getContent()
 	{
 		return _content;
+	}
+	
+	public Document getDocument(){
+		return XMLParser.parse(_content);
 	}
 	
 	

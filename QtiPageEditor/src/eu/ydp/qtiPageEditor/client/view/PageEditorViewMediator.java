@@ -2,7 +2,6 @@ package eu.ydp.qtiPageEditor.client.view;
 
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
-
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.events.TinyMcePreviewEvent;
@@ -81,7 +80,9 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	
 	//---------------------------------------------------------
 	
-	public void onShowPreview(TinyMcePreviewEvent event){
-		sendNotification(Constances.SHOW_PREVIEW);
+	public void onShowPreview(TinyMcePreviewEvent event){		
+		PageEditorView view = (PageEditorView)getViewComponent();
+		String content = view.getText();
+		sendNotification(Constances.SHOW_PREVIEW,content);
 	}
 }

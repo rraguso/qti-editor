@@ -51,24 +51,27 @@
             
             window.qti_page_editor = {}
             
-			
+			var tinyCallback = new Object();
+			tinyCallback.onTinyMceCreated = function(){
+				alert("jupi!");
+				window.qti_page_editor.setTinyMCECellHeight("600px");
+			}
            
             qti_page_editor.onModuleLoaded = function()
             { 	
 				var conf = new Object();
 				conf.pageBasePath= "http://ya.det/work/ctrl.php/7e7cf517d0af72e198c0231e86a5d04b,author/content/api/64/script_00001/page_14.utp"
 				conf.cellId="editorContainer";
+				conf.tinyMceCreatedCallback = tinyCallback
 				
 				this.register(conf);
-            	registry = new qti_page_editor.ServicesRegistry();
+				//this.setSaveCallback(saveListener);
+				//this.setTinyMCECellHeight("600px");
+            	
             }          
 
-			function onClick()
-			{
-				var s = registry.getService("simpleService")
-				s.runMe()
-				
-			}
+			
+			
 			
 			
     </script>    
@@ -78,7 +81,8 @@
         <td id="editorContainer"></td>        
       </tr> 	
     </table>  
-	<input type="button" onclick="onClick();">
+	<input type="button" onclick="onClick1();">
+	<input type="button" onclick="onClick2();">
    
   </body>
 </html>
