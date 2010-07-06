@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.view.PageEditorViewMediator;
+import eu.ydp.qtiPageEditor.client.view.PreviewMediator;
 import eu.ydp.qtiPageEditor.client.view.component.AlertWindow;
 import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
 import eu.ydp.qtitesteditor.client.view.component.MainView;
@@ -41,6 +42,7 @@ public class MainViewMediator extends Mediator implements IMediator {
 		getFacade().registerMediator(new PageListBarMediator());
 		getFacade().registerMediator(new PageListMediator());
 		getFacade().registerMediator(new PageEditorViewMediator(_startupData));
+		getFacade().registerMediator(new PreviewMediator());
 		
 		addView( retrieveView(PageEditorViewMediator.NAME));
 		addView( retrieveView(PageListBarMediator.NAME));

@@ -33,7 +33,8 @@
   	</target>
 	
 	<target name="libs" depends="resolve" description="Copy libs to WEB-INF/lib">
-	    <mkdir dir="${webinf.lib.dir}" />
+		<unzip src="${ivylib.dir}/qtiplayerLibs.zip" dest="${ivylib.dir}"></unzip>
+		<mkdir dir="${webinf.lib.dir}" />
 	    <copy todir="${webinf.lib.dir}">
 			<fileset dir="${ivylib.dir}" includes="**/*.jar"/>	    	  
 		</copy>	    

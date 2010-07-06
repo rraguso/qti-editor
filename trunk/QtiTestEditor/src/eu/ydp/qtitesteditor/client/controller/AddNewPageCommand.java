@@ -5,7 +5,7 @@ import org.puremvc.java.multicore.patterns.command.SimpleCommand;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
-import eu.ydp.qtitesteditor.client.model.QTITestModelProxy;
+import eu.ydp.qtiPageEditor.client.model.QTITestModelProxy;
 
 public class AddNewPageCommand extends SimpleCommand {
 	
