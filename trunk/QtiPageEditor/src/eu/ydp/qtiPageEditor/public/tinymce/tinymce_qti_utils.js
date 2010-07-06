@@ -3,6 +3,13 @@ function actionOnQTI(e) {
 	
 	var ed = tinymce.EditorManager.activeEditor;
 	
+	if(ed.selection.getRng().startContainer.nodeName == 'BODY') {
+		if(ed.selection.dom.doc.body.getElementsByTagName('p')[0] != undefined && tinyMCE.originalBookmark == undefined) {
+			ed.selection.select(ed.selection.dom.doc.body.getElementsByTagName('p')[0]);
+			ed.selection.moveToBookmark(ed.selection.getBookmark());
+		}
+	}
+	
 	if(tinyMCE.changesTracking != undefined) {
 		if(tinyMCE.changesTracking === true) {
 		
@@ -20,6 +27,7 @@ function actionOnQTI(e) {
 			
 			// On typing text or pasting
 			if(e.type=='keypress' && (e.charCode != 0 || e.keyCode == 86)) {
+				
 				if(ed.selection.getContent() != '') {
 					ed.windowManager.alert('Text replacing is not allowed in changes tracking mode');
 					return false;
