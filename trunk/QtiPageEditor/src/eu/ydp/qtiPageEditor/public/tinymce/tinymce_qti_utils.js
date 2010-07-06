@@ -3,85 +3,97 @@ function actionOnQTI(e) {
 	
 	var ed = tinymce.EditorManager.activeEditor;
 	
-	if(tinyMCE.changesTracking != undefined && tinyMCE.changesTracking) {
+	if(tinyMCE.changesTracking != undefined) {
+		if(tinyMCE.changesTracking === true) {
 		
-		if(tinyMCE.originalBookmark != undefined) {
-			ed.selection.moveToBookmark(tinyMCE.originalBookmark);
-			delete tinyMCE.originalBookmark;
-		}
-		
-		// Disable editing original content
-		if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().getAttribute('class') == 'changestracking_original') {
-			if(e.type == 'keypress' && (e.charCode != 0 || e.keyCode == 8 || e.keyCode == 88 || e.keyCode == 46 || e.keyCode == 86)) {
-				return false;
+			if(tinyMCE.originalBookmark != undefined) {
+				ed.selection.moveToBookmark(tinyMCE.originalBookmark);
+				delete tinyMCE.originalBookmark;
 			}
-		}
-		
-		// On typing text or pasting
-		if(e.type=='keypress' && (e.charCode != 0 || e.keyCode == 86)) {
-			if(ed.selection.getContent() != '') {
-				alert('Text replacing is not allowed in changes tracking mode');
-				return false;
-			} else if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().attributes != undefined && ed.selection.getNode().getAttribute('class') == 'changestracking_new') {
-				//reduceNumberOfSpans();
-				return true;
-			} else {
-				ed.selection.moveToBookmark(ed.selection.getBookmark());
-				tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_new" style="color: red; text-decoration: underline;" title="Changes tracking: new content">' + String.fromCharCode(e.charCode) + '</span>');
-				//reduceNumberOfSpans();
-				return false;
-			}
-		}
-		
-		// Actions on normal text
-		if(ed.selection.getNode().nodeName == undefined || ed.selection.getNode().nodeName != 'SPAN' || ed.selection.getNode().attributes == undefined || ed.selection.getNode().getAttribute('class') != 'changestracking_new') {
-		
-			// on backspace
-			if(e.type == 'keypress' && e.keyCode == 8) {
-				var content = ed.selection.getContent();
-				if(content != '') {
-					var myBookmark = ed.selection.getBookmark();
-					ed.selection.moveToBookmark(myBookmark);
-					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
-					myBookmark.end = myBookmark.start;
-					ed.selection.moveToBookmark(myBookmark);
-				} else {
-					var myBookmark = ed.selection.getBookmark();
-					myBookmark.start = myBookmark.start - 1;
-					ed.selection.moveToBookmark(myBookmark);
-					var content = ed.selection.getContent();
-					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
-					myBookmark.end = myBookmark.start;
-					ed.selection.moveToBookmark(myBookmark);
-				}
-				//reduceNumberOfSpans();
-				return false;
-			} // eof on backspace
 			
-			// on delete
-			if(e.type == 'keypress' && e.keyCode == 46) {
-				var content = ed.selection.getContent();
-				if(content != '') {
-					var myBookmark = ed.selection.getBookmark();
-					ed.selection.moveToBookmark(myBookmark);
-					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
-					myBookmark.start = myBookmark.end;
-					ed.selection.moveToBookmark(myBookmark);
-				} else {
-					alert('Delete button is not working properly in changes tracking mode, due to technical reasons');
-					//var myBookmark = ed.selection.getBookmark();
-					//myBookmark.end = myBookmark.end + 1;
-					//ed.selection.moveToBookmark(myBookmark);
-					//var content = ed.selection.getContent();
-					//tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
-					//myBookmark.start = myBookmark.end;
-					//ed.selection.moveToBookmark(myBookmark);
+			// Disable editing original content
+			if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().getAttribute('class') == 'changestracking_original') {
+				if(e.type == 'keypress' && (e.charCode != 0 || e.keyCode == 8 || e.keyCode == 88 || e.keyCode == 46 || e.keyCode == 86)) {
+					return false;
 				}
-				//reduceNumberOfSpans();
-				return false;
-			} // eof on delete
-		
-		} // eof actions on normal text
+			}
+			
+			// On typing text or pasting
+			if(e.type=='keypress' && (e.charCode != 0 || e.keyCode == 86)) {
+				if(ed.selection.getContent() != '') {
+					ed.windowManager.alert('Text replacing is not allowed in changes tracking mode');
+					return false;
+				} else if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().attributes != undefined && ed.selection.getNode().getAttribute('class') == 'changestracking_new') {
+					//reduceNumberOfSpans();
+					return true;
+				} else {
+					ed.selection.moveToBookmark(ed.selection.getBookmark());
+					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_new" style="color: red; text-decoration: underline;" title="Changes tracking: new content">' + String.fromCharCode(e.charCode) + '</span>');
+					//reduceNumberOfSpans();
+					return false;
+				}
+			}
+			
+			// Actions on normal text
+			if(ed.selection.getNode().nodeName == undefined || ed.selection.getNode().nodeName != 'SPAN' || ed.selection.getNode().attributes == undefined || ed.selection.getNode().getAttribute('class') != 'changestracking_new') {
+			
+				// on backspace
+				if(e.type == 'keypress' && e.keyCode == 8) {
+					var content = ed.selection.getContent();
+					if(content != '') {
+						var myBookmark = ed.selection.getBookmark();
+						ed.selection.moveToBookmark(myBookmark);
+						tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+						myBookmark.end = myBookmark.start;
+						ed.selection.moveToBookmark(myBookmark);
+					} else {
+						var myBookmark = ed.selection.getBookmark();
+						myBookmark.start = myBookmark.start - 1;
+						ed.selection.moveToBookmark(myBookmark);
+						var content = ed.selection.getContent();
+						tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+						myBookmark.end = myBookmark.start;
+						ed.selection.moveToBookmark(myBookmark);
+					}
+					//reduceNumberOfSpans();
+					return false;
+				} // eof on backspace
+				
+				// on delete
+				if(e.type == 'keypress' && e.keyCode == 46) {
+					var content = ed.selection.getContent();
+					if(content != '') {
+						var myBookmark = ed.selection.getBookmark();
+						ed.selection.moveToBookmark(myBookmark);
+						tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+						myBookmark.start = myBookmark.end;
+						ed.selection.moveToBookmark(myBookmark);
+					} else {
+						ed.windowManager.alert('Delete button is not working properly in changes tracking mode, due to technical reasons');
+						//var myBookmark = ed.selection.getBookmark();
+						//myBookmark.end = myBookmark.end + 1;
+						//ed.selection.moveToBookmark(myBookmark);
+						//var content = ed.selection.getContent();
+						//tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
+						//myBookmark.start = myBookmark.end;
+						//ed.selection.moveToBookmark(myBookmark);
+					}
+					//reduceNumberOfSpans();
+					return false;
+				} // eof on delete
+			
+			} // eof actions on normal text
+			
+		} else {
+			if(e.type == 'keypress' && (e.charCode != 0 || e.keyCode == 8 || e.keyCode == 46)) {
+				if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().attributes != undefined && ed.selection.getNode().getAttribute('class') == 'changestracking_new') {
+					return false;
+				}
+				if(ed.selection.getNode().nodeName != undefined && ed.selection.getNode().nodeName == 'SPAN' && ed.selection.getNode().attributes != undefined && ed.selection.getNode().getAttribute('class') == 'changestracking_original') {
+					return false;
+				}
+			}
+		}
 		
 	} // eof changesTracking
 
