@@ -1,5 +1,6 @@
 package eu.ydp.qtiPageEditor.client.model.vo;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 import com.qtitools.player.client.model.Assessment;
@@ -13,7 +14,7 @@ public class AssessmentProvider {
 		
 	}
 	
-	public Assessment getAssessment(String data, String basePath){
+	public Assessment getAssessment(String data, String basePath){		
 		
 		Document doc = XMLParser.parse(data);
 		XMLData xmldata = new XMLData(doc, basePath);
