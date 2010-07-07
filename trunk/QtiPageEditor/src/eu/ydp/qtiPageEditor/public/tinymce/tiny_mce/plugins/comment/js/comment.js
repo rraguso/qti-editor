@@ -51,11 +51,11 @@ var commentDialog = {
 		var comment_id = form.comment_id.value;
 		var comment_content = form.comment_content.value;
 		var commented_text = form.commented_text.value;
+		comment_content = comment_content.replace(/([a-zA-Z0-9]{20})/gi,'$1 ');
 		
 		if(form.addnew != undefined) {
 			
 			ed.selection.moveToBookmark(ed.selection.getBookmark());
-			
 			commentTags = '<div id="ref_' + comment_id + '" class="mceNonEditable qy_comment" style="float: right; border: 1px solid red; background-color: #f0f0f0; max-width: 20%;">' + comment_content + '</div>';
 			commentTags += '<span id="' + comment_id + '" class="qy_comment" style="color: red; background-color: #f0f0f0">' + commented_text + '</span>';
 			
