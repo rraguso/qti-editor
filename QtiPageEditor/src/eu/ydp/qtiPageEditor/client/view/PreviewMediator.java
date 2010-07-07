@@ -42,16 +42,20 @@ public class PreviewMediator extends Mediator {
 		QTIPageModel pageInfo = pageProxy.getCurrentPage();
 		QTITestModelProxy testProxy = (QTITestModelProxy)getFacade().retrieveProxy(QTITestModelProxy.NAME);
 		
+		String testPath = testProxy.getHref();
+		testPath = testPath.substring(0, testPath.lastIndexOf("/")+1);
+		String pagePath = pageInfo.getPath();
+		pagePath = pagePath.substring(0, pagePath.lastIndexOf("/")+1);
+		
 		AssessmentProviderProxy assessmentProxy = (AssessmentProviderProxy)getFacade().retrieveProxy(AssessmentProviderProxy.NAME);
-		Assessment assessment = assessmentProxy.getAssessment(testProxy.getContent(), testProxy.getHref());
+		Assessment assessment = assessmentProxy.getAssessment(testProxy.getContent(), testPath);
 		
 		content = notification.getBody() != null ? (String)notification.getBody() : pageInfo.getContent(); 
-		AssessmentItem  assessmentItem = assessmentProxy.getAssessmentItem(content, pageInfo.getPath(), new IStateChangedListener() {
+		AssessmentItem  assessmentItem = assessmentProxy.getAssessmentItem(content, pagePath, new IStateChangedListener() {
 			
 			@Override
 			public void onStateChanged(IInteractionModule sender) {
-				// TODO Auto-generated method stub
-				
+				// TODO Auto-generated method stub				
 			}
 		});		
 		
