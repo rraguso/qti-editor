@@ -6,7 +6,7 @@ function actionOnQTI(e) {
 	if(ed.selection.getRng().startContainer.nodeName == 'BODY') {
 		if(ed.selection.dom.doc.body.getElementsByTagName('p')[0] != undefined && tinyMCE.originalBookmark == undefined) {
 			ed.selection.select(ed.selection.dom.doc.body.getElementsByTagName('p')[0]);
-			ed.selection.moveToBookmark(ed.selection.getBookmark());
+			//ed.selection.moveToBookmark(ed.selection.getBookmark());
 		}
 	}
 	
@@ -35,8 +35,12 @@ function actionOnQTI(e) {
 					//reduceNumberOfSpans();
 					return true;
 				} else {
-					ed.selection.moveToBookmark(ed.selection.getBookmark());
+					var myBookmark = ed.selection.getBookmark();
+					ed.selection.moveToBookmark(myBookmark);
 					tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_new" style="color: red; text-decoration: underline;" title="Changes tracking: new content">' + String.fromCharCode(e.charCode) + '</span>');
+					myBookmark.start++;
+					myBookmark.end++;
+					ed.selection.moveToBookmark(myBookmark);
 					//reduceNumberOfSpans();
 					return false;
 				}
@@ -44,24 +48,29 @@ function actionOnQTI(e) {
 			
 			// Actions on normal text
 			if(ed.selection.getNode().nodeName == undefined || ed.selection.getNode().nodeName != 'SPAN' || ed.selection.getNode().attributes == undefined || ed.selection.getNode().getAttribute('class') != 'changestracking_new') {
-			
 				// on backspace
 				if(e.type == 'keypress' && e.keyCode == 8) {
 					var content = ed.selection.getContent();
 					if(content != '') {
+						
 						var myBookmark = ed.selection.getBookmark();
 						ed.selection.moveToBookmark(myBookmark);
 						tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
 						myBookmark.end = myBookmark.start;
 						ed.selection.moveToBookmark(myBookmark);
+						
 					} else {
+						
 						var myBookmark = ed.selection.getBookmark();
+						
 						myBookmark.start = myBookmark.start - 1;
 						ed.selection.moveToBookmark(myBookmark);
+						
 						var content = ed.selection.getContent();
 						tinyMCE.execCommand('mceInsertContent', false, '<span class="changestracking_original" style="color: red; text-decoration: line-through;" title="Changes tracking: original content">' + content + '</span>');
 						myBookmark.end = myBookmark.start;
 						ed.selection.moveToBookmark(myBookmark);
+						
 					}
 					//reduceNumberOfSpans();
 					return false;
@@ -90,7 +99,7 @@ function actionOnQTI(e) {
 					return false;
 				} // eof on delete
 			
-			} // eof actions on normal text
+			}// eof actions on normal text
 			
 		} else {
 			if(e.type == 'keypress' && (e.charCode != 0 || e.keyCode == 8 || e.keyCode == 46)) {

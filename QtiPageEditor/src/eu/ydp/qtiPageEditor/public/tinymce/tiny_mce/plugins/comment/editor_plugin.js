@@ -23,7 +23,7 @@
 				
 				} else { // dodawanie nowego komentarza
 					if(ed.selection.getContent() == undefined || ed.selection.getContent() == '') {
-						alert("Select text to be commented");
+						ed.windowManager.alert("Select text to be commented");
 						return false;
 					}
 					var commented_text = ed.selection.getContent();
