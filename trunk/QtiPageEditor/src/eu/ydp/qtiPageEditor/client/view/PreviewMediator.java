@@ -26,14 +26,10 @@ public class PreviewMediator extends Mediator {
 		super(NAME, new PreviewView());
 	}
 	
-	public void onRegister(){
-		
-		QTITestModelProxy testProxy = (QTITestModelProxy)getFacade().retrieveProxy(QTITestModelProxy.NAME);
-		AssessmentProviderProxy assessmentProxy = (AssessmentProviderProxy)getFacade().retrieveProxy(AssessmentProviderProxy.NAME);
-		Assessment assessment = assessmentProxy.getAssessment(testProxy.getContent(), testProxy.getHref());
+	public void onRegister(){	
 		
 		PreviewView preview = (PreviewView)getViewComponent();		
-		preview.init(assessment);		
+		preview.init();		
 	}
 	
 	private void showPreview(INotification notification){		
@@ -50,7 +46,6 @@ public class PreviewMediator extends Mediator {
 		Assessment assessment = assessmentProxy.getAssessment(testProxy.getContent(), testProxy.getHref());
 		
 		content = notification.getBody() != null ? (String)notification.getBody() : pageInfo.getContent(); 
-		
 		AssessmentItem  assessmentItem = assessmentProxy.getAssessmentItem(content, pageInfo.getPath(), new IStateChangedListener() {
 			
 			@Override
