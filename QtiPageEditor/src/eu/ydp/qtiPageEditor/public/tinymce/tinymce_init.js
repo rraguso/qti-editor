@@ -45,4 +45,46 @@ tinyMCE.init({
 		o.content = cutQTI(o.content);
 	},
 	
+	setup : function(ed) {
+        ed.makeReadOnly = function(ro) {
+            var t = this, s = t.settings, DOM = tinymce.DOM, d = t.getDoc();
+
+            if(!s.readonly && ro) {
+                if (!tinymce.isIE) {
+                    try {
+                        d.designMode = 'Off';
+                    } catch (ex) {
+                        
+                    }
+                } else {
+                    b = t.getBody();
+                    DOM.hide(b);
+                    b.contentEditable = false;
+                    DOM.show(b);
+                }
+                s.readonly = true;
+            } else if(s.readonly && !ro) {
+                if (!tinymce.isIE) {
+                    try {
+                        d.designMode = 'On';
+                        // Design mode must be set here once again to fix a bug where
+                        // Ctrl+A/Delete/Backspace didn't work if the editor was added using mceAddControl then removed then added again
+                        d.designMode = 'Off';
+                        d.designMode = 'On';
+                    } catch (ex) {
+                        
+                    }
+                } else {
+                    b = t.getBody();
+                    DOM.hide(b);
+                    b.contentEditable = true;
+                    DOM.show(b);
+                }
+                s.readonly = false;
+            }
+        };
+    }
+	
+	
+	
 }); 
