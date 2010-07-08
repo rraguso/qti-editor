@@ -9916,6 +9916,9 @@ var tinyMCE = window.tinyMCE = tinymce.EditorManager;
 			var t = this, s = t.selection, n = s.getNode() || t.getBody();
 
 			// Fix for bug #1896577 it seems that this can not be fired while the editor is loading
+			if(t.settings.readonly == true)
+					return; 
+			
 			if (t.initialized) {
 				t.onNodeChange.dispatch(
 					t,
