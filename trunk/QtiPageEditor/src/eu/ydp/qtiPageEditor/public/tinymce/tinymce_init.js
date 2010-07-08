@@ -15,7 +15,7 @@ tinyMCE.init({
 	theme_advanced_resizing : true,  
 	theme_advanced_buttons1 : "save,newdocument,print,preview,|,formatselect,fontselect,fontsizeselect,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull",  
 	theme_advanced_buttons2 : "undo,redo,|,cut,copy,|,paste,pastetext,pasteword,|,search,replace,|,forecolor,backcolor,|,bullist,numlist,|,outdent,indent,|,link,unlink,|,sub,sup,|,asciimath,asciimathcharmap,|,charmap",  
-	theme_advanced_buttons3 : "gap,inlinechoice,choice,order,match,|,fileuploadlib_image,addvideo,|,comment,|,enablechangestracking,disablechangestracking,|,tablecontrols,|,blockquote,|,help",
+	theme_advanced_buttons3 : "gap,inlinechoice,choice,order,match,|,fileuploadlib_image,addvideo,|,comment,|,enablechangestracking,disablechangestracking,|,tablecontrols,|,anchor,|,help",
 	
 	extended_valid_elements : "canvas[id|style|width|height],gap[identifier],choiceInteraction[shuffle|maxChoices|responseIdentifier],"
 		+"orderInteracion[shuffle|responseIdentifier],matchInteraction[shuffle|maxAssociations|responseIdentifier],prompt,"
