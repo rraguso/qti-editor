@@ -151,7 +151,7 @@ public class PageEditorView extends Composite {
     }-*/;  
     
     public void clearEditorContent() {
-    	setText("");    	
+    	setText("<p> </p>");    	
     }
     
    
