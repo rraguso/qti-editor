@@ -1,11 +1,13 @@
 package eu.ydp.qtiPageEditor.client.view.component;
 
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.DeferredCommand;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
@@ -46,10 +48,9 @@ public class PageEditorView extends Composite {
         _textArea = new TextArea();      
         DOM.setElementAttribute(_textArea.getElement(), "id", _id);
         DOM.setStyleAttribute(_textArea.getElement(), "width", "100%");        
-        panel.add(_textArea);
-
-        initWidget(panel);
+        panel.add(_textArea);        
         
+        initWidget(panel);        
         publish();
 	}	
 	
@@ -74,7 +75,7 @@ public class PageEditorView extends Composite {
      * @param text
      */
     public void setText(String text) {        
-    	_textArea.setText(text);
+    	_textArea.setText(text);    	
     	setEditorContents(getID(), text);
     }
 
@@ -114,9 +115,9 @@ public class PageEditorView extends Composite {
                 	_tinyMceCreatedCallback.onTinyMceCreated();
             }
         });
-    }   
+    }
     
-    
+   
     @Override
     protected void onUnload() {    	
     	super.onUnload();    	
@@ -124,8 +125,35 @@ public class PageEditorView extends Composite {
             public void execute() {
               unload();
             }
-        });
-    }    
+        });    	
+    }
+    
+    
+    
+    public native void setBlock(Boolean bool)/*-{
+    	
+    	var id = this.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::getID()();
+    	var Event = $wnd.tinymce.dom.Event;	    
+    	var ro = (bool == true || bool == "true") ? true : false
+    	    	
+    	function block(ed, e)
+	    {
+			return Event.cancel(e);
+		}   	
+      	
+    	$wnd.tinyMCE.get(id).makeReadOnly(ro);
+    	
+    	var ed = $wnd.tinyMCE.activeEditor
+	    	$wnd.tinymce.each(ed.controlManager.controls, function(c) {				
+					c.setDisabled(ro);
+				});    	    			  	
+    	
+    }-*/;  
+    
+    public void clearEditorContent() {
+    	setText("");    	
+    }
+    
    
     /**
      * focusMCE() -
@@ -199,15 +227,12 @@ public class PageEditorView extends Composite {
         $wnd.tinyMCE.execCommand('mceRemoveControl', true, id);
     }-*/;
     
-    protected static native String getEditorContents(
-    	String elementId) /*-{
+    protected static native String getEditorContents(String elementId) /*-{
     	return $wnd.tinyMCE.get(elementId).getContent();
     }-*/;
 
-    protected static native void setEditorContents(
-       String elementId, String html) /*-{
-       $wnd.tinyMCE.execInstanceCommand(
-         elementId, 'mceSetContent', false, html, false);
+    protected static native void setEditorContents(String elementId, String html) /*-{
+       $wnd.tinyMCE.execInstanceCommand(elementId, 'mceSetContent', false, html, false);
     }-*/;
     
     protected void onSavePage(){
