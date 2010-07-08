@@ -93,20 +93,28 @@ public class PageListMediator extends Mediator implements IMediator, ChangeHandl
 	
 	private void addPage(String title){
 		PageListView view = (PageListView)getViewComponent();
+		if(view.getItemCount() == 0)
+			sendNotification(Constances.BLOCK_EDITOR, false);
+		
 		view.addPage(title);
 		view.setSelectedIndex(view.getItemCount()-1);
-		sendNotification(Constances.SET_MODEL_SELECTED_INDEX,view.getItemCount()-1 );
+		sendNotification(Constances.SET_MODEL_SELECTED_INDEX,view.getItemCount()-1 );		
 		sendNotification(Constances.SHOW_PAGE, view.getSelectedIndex());
+		
 	}
 	
 	private void removePage(int ix){		
 		PageListView view = (PageListView)getViewComponent();
 		view.removePage(ix);
-		if(view.getItemCount() > 0)
-		{			
+		if(view.getItemCount() > 0)		{			
 			view.setSelectedIndex(ix-1);			
 			sendNotification(Constances.SHOW_PAGE, view.getSelectedIndex());
-		}		
+		}
+		else{
+			sendNotification(Constances.CLEAR_EDITOR);
+			sendNotification(Constances.BLOCK_EDITOR, true);
+		}
+			
 		sendNotification(Constances.SET_MODEL_SELECTED_INDEX, view.getSelectedIndex() );
 	}
 	
