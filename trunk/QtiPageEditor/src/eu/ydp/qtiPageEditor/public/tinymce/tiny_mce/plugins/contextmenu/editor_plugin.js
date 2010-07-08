@@ -17,9 +17,11 @@
 
 			ed.onContextMenu.add(function(ed, e) {
 				if (!e.ctrlKey) {
-					t._getMenu(ed).showMenu(e.clientX, e.clientY);
-					Event.add(ed.getDoc(), 'click', hide);
-					Event.cancel(e);
+					if(ed.settings.readonly != true) {
+						t._getMenu(ed).showMenu(e.clientX, e.clientY);
+						Event.add(ed.getDoc(), 'click', hide);
+						Event.cancel(e);
+					}
 				}
 			});
 			ed.addButton('insertgap', {title : 'Insert Gap', cmd : 'InsertGap'});
