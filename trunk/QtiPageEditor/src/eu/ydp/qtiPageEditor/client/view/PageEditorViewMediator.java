@@ -50,12 +50,21 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 		((PageEditorView)getViewComponent()).setPageBasePath(pageBasePath);
 	}
 	
+	private void blockEditor(Boolean bool){
+		((PageEditorView)getViewComponent()).setBlock(bool);
+	}
+	
+	private void clearEditorContent(){
+		((PageEditorView)getViewComponent()).clearEditorContent();
+	}
 	
 	@Override
 	public String[] listNotificationInterests() {
 		return new String[]{Constances.SHOW_PAGE, 
 				Constances.SET_TINY_CELL_SIZE,
-				Constances.CONFIGURE_PAGE_EDITOR_VIEW};				 
+				Constances.CONFIGURE_PAGE_EDITOR_VIEW,
+				Constances.BLOCK_EDITOR,
+				Constances.CLEAR_EDITOR};				 
 	}
 	
 	@Override
@@ -67,6 +76,11 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 			setTinySize((String)notification.getBody(), notification.getType());
 		else if(n == Constances.CONFIGURE_PAGE_EDITOR_VIEW)
 			configView((String)notification.getBody());
+		else if(n == Constances.BLOCK_EDITOR)
+			blockEditor((Boolean)notification.getBody());
+		else if(n == Constances.CLEAR_EDITOR)
+			clearEditorContent();
+			
 	}
 	
 	//-------- TinyMceSaveEventHandler impl--------------------

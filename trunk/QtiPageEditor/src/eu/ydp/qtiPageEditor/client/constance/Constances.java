@@ -46,6 +46,10 @@ public class Constances {
 	
 	public static final String ADD_PAGE_REF = "addPageRef";
 	
+	public static final String BLOCK_EDITOR = "blockEdior";
+	
+	public static final String CLEAR_EDITOR = "pageListEmpty";
+	
 	
 
 }
