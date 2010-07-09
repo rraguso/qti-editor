@@ -16,8 +16,10 @@ import com.google.gwt.user.client.ui.TextArea;
 import eu.ydp.qtiPageEditor.client.appcallback.TinyMceCreatedCallback;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.events.TinyMcePreviewEvent;
+import eu.ydp.qtiPageEditor.client.events.TinyMceResizeEvent;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMcePreviewHandler;
+import eu.ydp.qtiPageEditor.client.events.handler.TinyMceResizeHandler;
 import eu.ydp.qtiPageEditor.client.events.handler.TinyMceSaveEventHandler;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IAssetBrowser;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IEditorService;
@@ -110,7 +112,8 @@ public class PageEditorView extends Composite {
             public void execute() {                
             	setWidth("100%");               
                 setTextAreaToTinyMCE(_id);               
-                focusMCE(_id);
+                initResizeListener();
+                focusMCE(_id);                
                 if(_tinyMceCreatedCallback != null)
                 	_tinyMceCreatedCallback.onTinyMceCreated();
             }
@@ -235,6 +238,20 @@ public class PageEditorView extends Composite {
        $wnd.tinyMCE.execInstanceCommand(elementId, 'mceSetContent', false, html, false);
     }-*/;
     
+    protected native void initResizeListener() /*-{    	
+		var inst = $wnd.tinyMCE.activeEditor;
+		var ctx = this;
+		$wnd.tinymce.dom.Event.add(inst.getWin(), 'resize', function(e) {
+			ctx.@eu.ydp.qtiPageEditor.client.view.component.PageEditorView::onTinyResize()();
+    	});
+    	
+    }-*/;
+    
+    protected void onTinyResize(){    	
+    	TinyMceResizeEvent event = new TinyMceResizeEvent(getOffsetWidth(), getOffsetHeight());
+    	_handlerManager.fireEvent(event);
+    }
+    
     protected void onSavePage(){
     	TinyMceSaveEvent event = new TinyMceSaveEvent();
     	_handlerManager.fireEvent(event);    	
@@ -252,6 +269,10 @@ public class PageEditorView extends Composite {
     
     public void addTinyMcePreviewHandler(TinyMcePreviewHandler handler){
     	_handlerManager.addHandler(TinyMcePreviewEvent.TYPE, handler);
+    }
+    
+    public void addTinyMceResizeHandler(TinyMceResizeHandler handler){
+    	_handlerManager.addHandler(TinyMceResizeEvent.TYPE, handler);
     }
     
     protected void onShowPreview(){    	

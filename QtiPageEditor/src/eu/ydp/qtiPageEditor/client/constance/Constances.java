@@ -50,6 +50,8 @@ public class Constances {
 	
 	public static final String CLEAR_EDITOR = "pageListEmpty";
 	
+	public static final String TINY_RESIZE = "tinyResize";
+	
 	
 
 }
