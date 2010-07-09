@@ -97,13 +97,8 @@
 				}
 				
 			});
-
-			// Register example button
-			ed.addButton('inlinechoice', {
-				title : 'Insert inline choice element',
-				cmd : 'mceInlineChoice',
-				image : url + '/img/inlinechoice_add.png'
-			});
+			
+			ed.addButton('insertinlinechoice', {title : 'Insert inline choice activity', cmd : 'mceInlineChoice'});
 			
 		},
 

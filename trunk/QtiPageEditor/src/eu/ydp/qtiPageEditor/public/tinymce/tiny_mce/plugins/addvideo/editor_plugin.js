@@ -43,11 +43,7 @@
 				
 			});
 			
-			ed.addButton('addvideo', {
-				title : 'Add video / flash movie',
-				cmd : 'mceAddVideo',
-				image : url + '/img/addvideo.png'
-			});
+			ed.addButton('addvideo', {title : 'Add video / flash movie', cmd : 'mceAddVideo'});
 			
 		},
 

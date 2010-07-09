@@ -63,17 +63,8 @@
 				}
 			});
 			
-			ed.addButton('enablechangestracking', {
-				title : 'Changes tracking',
-				cmd : 'mceEnableChangesTracking',
-				image : url + '/img/enable_changes_tracking.png'
-			});
-
-			ed.addButton('disablechangestracking', {
-				title : 'Accept changes',
-				cmd : 'mceDisableChangesTracking',
-				image : url + '/img/disable_changes_tracking.png'
-			});
+			ed.addButton('enablechangestracking', {title : 'Changes tracking', cmd : 'mceEnableChangesTracking'});
+			ed.addButton('disablechangestracking', {title : 'Accept changes', cmd : 'mceDisableChangesTracking'});
 			
 		},
 
