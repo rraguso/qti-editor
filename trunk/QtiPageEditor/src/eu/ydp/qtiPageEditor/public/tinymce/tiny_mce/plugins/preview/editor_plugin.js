@@ -21,7 +21,7 @@
 		getInfo : function() {
 			return {
 				longname : 'Preview with QTI Player',
-				author : 'Moxiecode Systems AB / Young Digital Planet',
+				author : '<a target="_blank" href="http://tinymce.moxiecode.com">Moxiecode Systems AB</a> / <a target="_blank" href="http://www.ydp.eu">Young Digital Planet</a>',
 				authorurl : '',
 				infourl : '',
 				version : tinymce.majorVersion + "." + tinymce.minorVersion
