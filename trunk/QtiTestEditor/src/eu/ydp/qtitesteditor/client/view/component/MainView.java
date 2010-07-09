@@ -18,7 +18,7 @@ public class MainView extends Composite {
 		_pageListContainer = new VerticalPanel();		
 		_panel.add(_pageListContainer);		
 		_panel.setCellWidth(_pageListContainer, "15%");		
-		_pageListContainer.setWidth("100%");
+		_pageListContainer.setSize("100%","100%");
 		
 		initWidget(_panel);
 		
@@ -30,6 +30,7 @@ public class MainView extends Composite {
 	
 	public void addPageList(PageListView pageList){
 		_pageListContainer.add(pageList);
+		_pageListContainer.setCellHeight(pageList, "100%");
 	}
 	
 	public void addTinyEditor(PageEditorView editor){		
