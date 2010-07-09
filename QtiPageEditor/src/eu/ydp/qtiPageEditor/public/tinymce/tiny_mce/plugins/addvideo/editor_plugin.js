@@ -49,8 +49,8 @@
 
 		getInfo : function() {
 			return {
-				longname : 'Plugin uploading video',
-				author : 'Young Digital Planet',
+				longname : 'Plugin for uploading movies and flash',
+				author : '<a target="_blank" href="http://www.ydp.eu">Young Digital Planet</a>',
 				authorurl : '',
 				infourl : '',
 				version : "1.0"

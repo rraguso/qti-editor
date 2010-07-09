@@ -92,8 +92,8 @@
 		 */
 		getInfo : function() {
 			return {
-				longname : 'Plugin for creating and managing QTI',
-				author : 'Olaf Galazka',
+				longname : 'Plugin for creating and managing match activities',
+				author : '<a target="_blank" href="http://www.ydp.eu">Young Digital Planet</a>',
 				authorurl : '',
 				infourl : '',
 				version : "1.0"

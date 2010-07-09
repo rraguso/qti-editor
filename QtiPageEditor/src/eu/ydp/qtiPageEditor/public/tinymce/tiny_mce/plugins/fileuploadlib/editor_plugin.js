@@ -106,11 +106,11 @@
 
 		getInfo : function() {
 			return {
-				longname : 'Plugin managing uploads',
-				author : 'Young Digital Planet',
+				longname : 'Plugin managing picture uploads',
+				author : '<a target="_blank" href="http://www.ydp.eu">Young Digital Planet</a>',
 				authorurl : '',
 				infourl : '',
-				version : "1.0"
+				version : "2.0"
 			};
 		}
 	});

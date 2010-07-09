@@ -70,7 +70,7 @@
 		getInfo : function() {
 			return {
 				longname : 'Plugin for creating and managing Applinks',
-				author : 'Olaf Galazka',
+				author : '<a target="_blank" href="http://www.ydp.eu">Young Digital Planet</a>',
 				authorurl : '',
 				infourl : '',
 				version : "1.0"
