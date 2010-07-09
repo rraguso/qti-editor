@@ -1,18 +1,17 @@
 package eu.ydp.qtitesteditor.client.view.component;
 
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
-
 public class PageListView extends Composite {
 		
 	private ListBox _listBox;	
 	
 	public PageListView(){		
-		_listBox = new ListBox();
-		_listBox.setWidth("100%");
-		_listBox.setVisibleItemCount(14);
+		_listBox = new ListBox(true);
+		_listBox.setSize("100%", "100%");			
 		initWidget(_listBox);		
-	}
+	}	
 	
 	public ListBox  getListBox(){
 		return _listBox;
@@ -59,6 +58,18 @@ public class PageListView extends Composite {
 			swapItems(ix, 0);
 			
 		
+	}
+	
+	public int getLastSelectedIndex(){
+		int i;
+		int lastIndex = -1;
+		for(i = 0; i < _listBox.getItemCount() ; i++){
+			if(_listBox.isItemSelected(i) == true)
+				lastIndex = i;
+			
+		}
+		
+		return lastIndex;
 	}
 	
 	private void swapItems(int n0, int n1){

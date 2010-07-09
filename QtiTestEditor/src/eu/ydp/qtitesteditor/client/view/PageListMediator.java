@@ -6,11 +6,15 @@ import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.events.TinyMceResizeEvent;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
 import eu.ydp.qtiPageEditor.client.view.PageEditorViewMediator;
 import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
+import eu.ydp.qtitesteditor.client.view.component.PageListBarView;
 import eu.ydp.qtitesteditor.client.view.component.PageListView;
 
 public class PageListMediator extends Mediator implements IMediator, ChangeHandler {
@@ -25,6 +29,7 @@ public class PageListMediator extends Mediator implements IMediator, ChangeHandl
 		
 		PageListView view = (PageListView)getViewComponent();		
 		view.getListBox().addChangeHandler(this);		
+			
 	}
 	
 	public int getSelectedIndex(){
@@ -33,14 +38,14 @@ public class PageListMediator extends Mediator implements IMediator, ChangeHandl
 	
 	public int getItemCount(){
 		return ((PageListView)getViewComponent()).getItemCount();
-	}
-	
+	}	
 	
 	public void onChange(ChangeEvent event) {		
+		PageListView view = (PageListView)getViewComponent();
 		QTIPageModelProxy pagesProxy = (QTIPageModelProxy)getFacade().retrieveProxy(QTIPageModelProxy.NAME);
-		int oldIx = pagesProxy.getSelectedIndex();
-		int ix = ((PageListView)getViewComponent()).getSelectedIndex();	
-		
+		int oldIx = pagesProxy.getSelectedIndex();		
+		int ix = view.getSelectedIndex();
+		view.setSelectedIndex(ix);
 		PageEditorView pev = (PageEditorView)getFacade().retrieveMediator(PageEditorViewMediator.NAME).getViewComponent();
 		String newState = pev.getText();		
 		String oldState = pagesProxy.getPageContent(oldIx);
@@ -52,8 +57,6 @@ public class PageListMediator extends Mediator implements IMediator, ChangeHandl
 		sendNotification(Constances.SHOW_PAGE, ix);
 		
 	}
-	
-	
 	
 	@Override
 	public void handleNotification(INotification notification) {		
@@ -68,7 +71,7 @@ public class PageListMediator extends Mediator implements IMediator, ChangeHandl
 		else if(n == Constances.MOVE_PAGE_UP_LIST)
 			moveUpPage((Integer)notification.getBody());
 		else if(n == Constances.MOVE_PAGE_DOWN_LIST)
-			moveDownPage((Integer)notification.getBody());
+			moveDownPage((Integer)notification.getBody());			
 		
 	}
 	
