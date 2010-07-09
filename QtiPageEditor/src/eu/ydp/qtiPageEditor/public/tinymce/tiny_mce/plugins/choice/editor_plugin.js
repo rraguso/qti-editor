@@ -94,12 +94,7 @@
 				
 			});
 
-			// Register example button
-			ed.addButton('choice', {
-				title : 'Insert choice section',
-				cmd : 'mceChoice',
-				image : url + '/img/choice_add.png'
-			});
+			ed.addButton('insertchoicesection', {title : 'Insert choice activity', cmd : 'mceChoice'});			
 			
 		},
 

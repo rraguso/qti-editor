@@ -71,13 +71,8 @@
 				return true;
 			
 			});
-
-			// Register example button
-			ed.addButton('comment', {
-				title : 'Insert comment',
-				cmd : 'mceComment',
-				image : url + '/img/comment_add.png'
-			});
+			
+			ed.addButton('insertcomment', {title : 'Insert comment', cmd : 'mceComment'});
 
 		},
 

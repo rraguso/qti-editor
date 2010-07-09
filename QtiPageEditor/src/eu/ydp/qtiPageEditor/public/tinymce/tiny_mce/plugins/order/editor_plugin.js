@@ -51,12 +51,7 @@
 				
 			});
 
-			// Register example button
-			ed.addButton('order', {
-				title : 'Insert order section',
-				cmd : 'mceOrder',
-				image : url + '/img/order_add.png'
-			});
+			ed.addButton('insertordersection', {title : 'Insert order activity', cmd : 'mceOrder'});
 			
 		},
 

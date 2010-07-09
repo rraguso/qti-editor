@@ -79,12 +79,7 @@
 				
 			});
 			
-			// Register example button
-			ed.addButton('match', {
-				title : 'Insert match section',
-				cmd : 'mceMatch',
-				image : url + '/img/match_add.png'
-			});
+			ed.addButton('insertmatchsection', {title : 'Insert match activity', cmd : 'mceMatch'});
 			
 		},
 

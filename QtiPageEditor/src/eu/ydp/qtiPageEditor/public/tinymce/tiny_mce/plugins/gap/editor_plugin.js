@@ -98,13 +98,8 @@
 				}
 				
 			});
-
-			// Register example button
-			ed.addButton('gap', {
-				title : 'Insert gap',
-				cmd : 'mceGap',
-				image : url + '/img/gap_add.png'
-			});
+			
+			ed.addButton('insertgap', {title : 'Insert gap activity', cmd : 'mceGap'});
 
 		},
 

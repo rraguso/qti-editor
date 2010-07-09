@@ -100,11 +100,7 @@
 			
 			});
 			
-			ed.addButton('fileuploadlib_image', {
-				title : 'Upload / insert image',
-				cmd : 'mceAppendImageToPage',
-				image : url + '/img/imglib.png'
-			});
+			ed.addButton('fileuploadlib_image', {title : 'Upload / insert image', cmd : 'mceAppendImageToPage'});
 			
 		},
 
