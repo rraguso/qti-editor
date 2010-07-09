@@ -16,7 +16,7 @@
 								embed.parentNode.removeChild(embed);
 							}
 						}
-						var videotag = '<embed type="" src="' + String(srcArr[srcArr.length-2] + '/' + srcArr[srcArr.length-1]) + '" /><img id="mceVideo" src="/work/tools/qtitesteditor/tinymce/tiny_mce/plugins/addvideo/img/addvideo.png" />';
+						var videotag = '<embed type="" src="' + String(srcArr[srcArr.length-2] + '/' + srcArr[srcArr.length-1]) + '" /><img id="mceVideo" src="/work/tools/qtitesteditor/tinymce/tiny_mce/plugins/addvideo/img/movie.png" />';
 						ed.selection.moveToBookmark(ed.selection.getBookmark());
 						tinyMCE.execCommand('mceInsertContent', false, videotag);
 						return true;
