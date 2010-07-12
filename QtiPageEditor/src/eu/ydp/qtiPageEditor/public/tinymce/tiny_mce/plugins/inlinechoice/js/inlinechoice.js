@@ -159,7 +159,7 @@ var choiceDialog = {
 				}
 			}
 			responseDeclaration += '</correctResponse></responseDeclaration> -->';
-			choiceSection += '</span><!-- end of inlineChoiceInteraction -->';
+			choiceSection += '</span><!-- end of inlineChoiceInteraction -->&nbsp;';
 			
 			var ed = tinymce.EditorManager.activeEditor;
 			ed.selection.moveToBookmark(ed.selection.getBookmark());
