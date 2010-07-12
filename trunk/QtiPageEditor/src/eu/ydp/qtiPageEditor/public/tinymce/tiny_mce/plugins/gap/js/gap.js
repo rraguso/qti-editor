@@ -50,7 +50,7 @@ var gapDialog = {
 			ed.selection.moveToBookmark(ed.selection.getBookmark());
 			if(form.addnew != undefined && form.addnew.getAttribute('value') == '1') {
 				
-				var gapTag = '<!-- <textEntryInteraction responseIdentifier="' + identifier + '" expectedLength="' + gap.length + '" /> --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">' + gap + '</span>';
+				var gapTag = '<!-- <textEntryInteraction responseIdentifier="' + identifier + '" expectedLength="' + gap.length + '" /> --><span id="gap" class="mceNonEditable" style="border: 1px solid blue; color: blue; background-color: #f0f0f0;">' + gap + '</span>&nbsp;';
 				tinyMCE.execCommand('mceInsertContent', false, gapTag);
 				responseDeclaration = '<!-- <responseDeclaration identifier="' + identifier + '" cardinality="single" baseType="string"><correctResponse>';
 				responseDeclaration += '<value>' + gap + '</value>';
