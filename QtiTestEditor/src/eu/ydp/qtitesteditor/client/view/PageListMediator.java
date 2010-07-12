@@ -6,15 +6,10 @@ import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
-import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
-
 import eu.ydp.qtiPageEditor.client.constance.Constances;
-import eu.ydp.qtiPageEditor.client.events.TinyMceResizeEvent;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
 import eu.ydp.qtiPageEditor.client.view.PageEditorViewMediator;
 import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
-import eu.ydp.qtitesteditor.client.view.component.PageListBarView;
 import eu.ydp.qtitesteditor.client.view.component.PageListView;
 
 public class PageListMediator extends Mediator implements IMediator, ChangeHandler {
