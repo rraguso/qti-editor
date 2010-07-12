@@ -3,22 +3,26 @@ package eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.uibinder.client.UiBinder;
+import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FormPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
+
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IAssetBrowser;
 import eu.ydp.qtiPageEditor.client.serviceregistry.services.IEditorService;
@@ -31,100 +35,57 @@ import eu.ydp.webapistorage.client.storage.resource.listdir.IListDirItemDescript
 
 public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResourceUploadCallback, IEditorService {
 	
+	interface AssetBrowserBinder extends UiBinder<Widget, AssetBrowser> {}
+	
+	private static AssetBrowserBinder uiBinder = GWT.create(AssetBrowserBinder.class);	
+	
+	@UiField VerticalPanel _contentPane;
+	@UiField HorizontalPanel _hFormUploadPanel;
+	@UiField  ListBox _listBox;
+	@UiField  Image _image;
+	@UiField  Button _okButton;
+	@UiField Button _cancelButton;
+	@UiField HorizontalPanel _hListPanel;
+	@UiField HorizontalPanel _hButtonPanel;			
+	@UiField TextBox _txtTitle;			
+	
+	
+	
 	private String _selectedFilePath;
-	private String _mediaPath;
-	
+	private String _mediaPath;	
 	private IEditorEnvirnoment _env;
-	
-	private VerticalPanel _contentPane;
-	private HorizontalPanel _hFormUploadPanel;
-	private FormPanel _uploadPanel;
-	private ListBox _listBox;
-	private Image _image;
-	private Button _okButton;
-	private Button _cancelButton;
+	private FormPanel _uploadPanel;	
 	private String[] _fileFilter;
 	private AssetBrowserCallback _jsCallback;	
 	
 	public AssetBrowser(){		
 		super(false, true);		
 		setText("Upload / insert media for qti");
-		
 		setGlassEnabled(true);		
+		setWidget(uiBinder.createAndBindUi(this));	
+		
 	}
 	
-	private void buildForm(){
-		_contentPane = new VerticalPanel();	
-		_contentPane.setSize("500px", "380px");
-		_contentPane.setSpacing(4);
-		_contentPane.setBorderWidth(1);
-		_contentPane.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		
-		
-		_hFormUploadPanel = new HorizontalPanel();		
-		_hFormUploadPanel.setSpacing(4);
-		
-		HorizontalPanel hListPanel = new HorizontalPanel();
-		HorizontalPanel hButtonPanel = new HorizontalPanel();				
-				
-		_listBox = new ListBox(false);
-		_listBox.setWidth("200px");
-		_listBox.setVisibleItemCount(10);
-		_listBox.addChangeHandler(new ChangeHandler() {
-			
-			@Override
-			public void onChange(ChangeEvent event) {
-				String path = _listBox.getValue(_listBox.getSelectedIndex());
-				_selectedFilePath = path;
-				showPreview(path);
-				//_image.setUrl(path);				
-			}
-		});
-		
-		_image = new Image();
-		_image.setPixelSize(220, 180);
-		
-		hListPanel.setSpacing(4);		
-		hListPanel.add(_listBox);
-		hListPanel.add(_image);
-		hListPanel.setCellWidth(_listBox, "225px");
-		
-		
-		_okButton = new Button("Ok");
-		_okButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				if(_listBox.getSelectedIndex() > -1){
-					String filePath = _listBox.getValue(_listBox.getSelectedIndex());
-					_jsCallback.onBrowseComplete(filePath);
-				}				
-				hide();			
-			}
-		});
-		
-		
-		_cancelButton = new Button("Cancel");		
-		_cancelButton.addClickHandler(new ClickHandler() {
-			
-			@Override
-			public void onClick(ClickEvent event) {
-				onButtonClick(event);
-				
-			}
-		});
-		
-		hButtonPanel.setSpacing(4);
-		
-		hButtonPanel.add(_okButton);
-		hButtonPanel.add(_cancelButton);		
-		hButtonPanel.setCellWidth(_okButton, "100%");
-		
-		_contentPane.add(_hFormUploadPanel);
-		_contentPane.add(hListPanel);
-		_contentPane.add(hButtonPanel);	
-		
-		setWidget(_contentPane);		
+	@UiHandler("_listBox")
+	protected void onChange(ChangeEvent event){
+		String path = _listBox.getValue(_listBox.getSelectedIndex());
+		_selectedFilePath = path;
+		setTitle("");
+		showPreview(path);		
+	}
+	
+	@UiHandler("_okButton")
+	protected void onClickOk(ClickEvent event){
+		if(_listBox.getSelectedIndex() > -1){
+			String filePath = _listBox.getValue(_listBox.getSelectedIndex());
+			_jsCallback.onBrowseComplete(filePath, getTitle());
+		}				
+		hide();		
+	}
+	
+	@UiHandler("_cancelButton")
+	protected void onClickCancel(ClickEvent event){
+		hide();
 	}
 	
 	private void showPreview(String path){
@@ -143,7 +104,7 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 		if(_listBox.getItemCount() > 0){
 			int i;
 			for(i = 0; i < _listBox.getItemCount(); i++ ){
-				if(_listBox.getValue(i) == _selectedFilePath){
+				if(_listBox.getValue(i).toLowerCase() == _selectedFilePath.toLowerCase()){
 					_listBox.setSelectedIndex(i);
 					showPreview(_listBox.getValue(i));
 					//_image.setUrl(_listBox.getValue(i));
@@ -157,8 +118,7 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	public void setEnvironment(IEditorEnvirnoment env){
 		_env = env;
 		String basePath = _env.getBasePath();
-		_mediaPath = basePath.substring(0,basePath.lastIndexOf("/")+1) + _env.getMediaDirectory();
-		buildForm();
+		_mediaPath = basePath.substring(0,basePath.lastIndexOf("/")+1) + _env.getMediaDirectory();		
 	}	
 	
 	@Override
@@ -212,6 +172,15 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 	public void setSelectedFile(String fileName){		
 		_selectedFilePath = _mediaPath + "/" + fileName;
 		showSelectedFilePath();
+	}
+	@Override
+	public void setTitle(String title){
+		_txtTitle.setText(title);			
+	}
+	
+	@Override
+	public String getTitle(){
+		return _txtTitle.getText();
 	}
 	
 	//--------------------- IResourceCallback-------------------------
@@ -306,11 +275,19 @@ public class AssetBrowser extends DialogBox  implements IAssetBrowser, IResource
 			}
 			
 			this.getSelectedAssetPath = function(){
-				doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::getSelectedAssetPath()();
+				return doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::getSelectedAssetPath()();
 			}
 			
 			this.setSelectedFile = function(fileName){
 				doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::setSelectedFile(Ljava/lang/String;)(fileName);
+			}
+			
+			this.setTitle = function(title){
+				doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::setTitle(Ljava/lang/String;)(title)
+			}
+			
+			this.getTitle = function(){
+				return doc.@eu.ydp.qtiPageEditor.client.serviceregistry.services.impl.assetbrowser.AssetBrowser::getTitle()();
 			}
 			    				
 		}

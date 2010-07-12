@@ -10,7 +10,8 @@
   <!--<inherits name='com.google.gwt.user.theme.chrome.Chrome'/>-->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
-  <!-- Other module inherits                                      -->
+  <!-- Other module inherits-->   
+  <inherits name="com.google.gwt.uibinder.UiBinder"/>
   <inherits name="eu.ydp.webapistorage.WebApiStorageGWT" />
   <inherits name="org.puremvc.PureMVC_Java_MultiCore" />
   <inherits name="com.qtitools.player.Player" />
