@@ -6,8 +6,8 @@ public class AssetBrowserCallback extends JavaScriptObject {
 	
 	protected AssetBrowserCallback(){};
 	
-	public final native void onBrowseComplete(String filePath)/*-{
-		this.onBrowseComplete(filePath);
+	public final native void onBrowseComplete(String filePath, String title)/*-{
+		this.onBrowseComplete(filePath, title);
 	}-*/;
 	
 	public final native void onBrowseError(Object error)/*-{
