@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="ivy-lib/qtiplayerlib.jar"/>
 	<classpathentry kind="lib" path="ivy-lib/gwt-graphics-0.9.6.jar"/>
 	<classpathentry kind="lib" path="ivy-lib/gwt-voices-1.7.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/3"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

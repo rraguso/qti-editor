@@ -33,8 +33,8 @@ public class PageEditorViewMediator extends Mediator implements TinyMceSaveEvent
 	
 	private void showPage(int ix){
 		QTIPageModelProxy pageProxy = (QTIPageModelProxy) getFacade().retrieveProxy(QTIPageModelProxy.NAME);
-		String page = pageProxy.getDataVO().get(ix).getContent();		
-		String pageBasePath = pageProxy.getDataVO().get(ix).getPath();
+		String page = pageProxy.getDataVO().getPage(ix).getContent();		
+		String pageBasePath = pageProxy.getDataVO().getPage(ix).getPath();
 		
 		((PageEditorView)getViewComponent()).setText(page);		
 		((PageEditorView)getViewComponent()).setPageBasePath(pageBasePath);
