@@ -4,12 +4,20 @@
 		
 		init : function(ed, url) {
 			
-			ed.addCommand('mceAppendImageToPage', function(ui, src) {
+			ed.addCommand('mceAppendImageToPage', function(ui, data) {
+				
+				var node = ed.selection.getNode();
+				if(node.nodeName == 'IMG') {
+					node = node.parentNode;
+				}
 				
 				var browseCallback = {
 				
-					onBrowseComplete : function(filePath) {
-						var imgTag = '<img src="' + filePath + '" border="0" />';
+					onBrowseComplete : function(filePath, title) {
+						if(data != undefined && data.src != undefined && data.src != '') {
+							node.parentNode.removeChild(node);
+						}
+						var imgTag = '<div id="runFileUploadLib" class="mceNonEditable"><img src="' + filePath + '" border="0" title="' + title + '" alt="' + title + '"/><br>' + title + '</div>';
 						ed.selection.moveToBookmark(ed.selection.getBookmark());
 						tinyMCE.execCommand('mceInsertContent', false, imgTag);
 						return true;
@@ -26,10 +34,15 @@
 				
 				var assetBrowser = tinyMCE.gwtProxy.getAssetBrowser();
 				
-				if(src != undefined && src != '') {
-					srcArr = src.split('/');
-					fileName = String(srcArr[srcArr.length-1]);
-					assetBrowser.setSelectedFile(fileName);
+				if(data != undefined) {
+					if(data.src != undefined && data.src != '') {
+						srcArr = data.src.split('/');
+						fileName = String(srcArr[srcArr.length-1]);
+						assetBrowser.setSelectedFile(fileName);
+					}
+					if(data.title != undefined && data.title != '') {
+						assetBrowser.setTitle(data.title);
+					}
 				}
 				
 				assetBrowser.browse(browseCallback, extensions);
@@ -40,7 +53,7 @@
 			
 				var browseCallback = {
 				
-					onBrowseComplete : function(filePath) {
+					onBrowseComplete : function(filePath,title) {
 						var imgSrc = $('#thumb > img').attr('src');
 						data.div.innerHTML = '<img style="max-height: 40px; max-width: 80px;" src="' + filePath + '">';
 						data.div.previousSibling.setAttribute('value',filePath);
