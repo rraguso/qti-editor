@@ -3,6 +3,11 @@ function actionOnQTI(e) {
 	
 	var ed = tinymce.EditorManager.activeEditor;
 	
+	// fix for writing content before xml tamplate
+	if(ed.selection.getStart().attributes != undefined && ed.selection.getStart().hasAttribute('_moz_editor_bogus_node')) {
+		ed.selection.dom.doc.body.innerHTML = ed.selection.dom.doc.body.innerHTML.replace(/(.*)(<!-- \?xml[^\?]*\? -->[^<]*<!-- <assessmentItem[^>]*> -->[^<]*<!-- <itemBody> -->)/gi,'$2$1');
+	}
+	
 	if(ed.selection.getRng().startContainer.nodeName == 'BODY') {
 		if(ed.selection.dom.doc.body.getElementsByTagName('p')[0] != undefined && tinyMCE.originalBookmark == undefined) {
 			ed.selection.select(ed.selection.dom.doc.body.getElementsByTagName('p')[0]);
