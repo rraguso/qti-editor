@@ -142,15 +142,28 @@ function actionOnQTI(e) {
 		}
 		
 		//Imglib
-		if(ed.selection.getNode().nodeName == 'IMG') {
-			if(ed.selection.getNode().getAttribute('id') == 'mceVideo') {
-				var src = ed.selection.getNode().previousSibling.getAttribute('src');
-				tinyMCE.execCommand('mceAddVideo', false, src);
+		if(ed.selection.getNode().nodeName == 'IMG' || (ed.selection.getNode().nodeName == 'DIV' && ed.selection.getNode().id == 'runFileUploadLib')) {
+			if(ed.selection.getNode().nodeName == 'IMG') {
+				var node = ed.selection.getNode();
 			} else {
-				var src = ed.selection.getNode().attributes['src'].value;
+				var node = ed.selection.getNode().getElementsByTagName('img')[0];
+			}
+			
+			if(node.getAttribute('id') == 'mceVideo') {
+				var src = node.previousSibling.getAttribute('src');
+				var title = node.previousSibling.getAttribute('title');
+				tinyMCE.execCommand('mceAddVideo', false, {src: src, title: title});
+			} else {
+				var src = node.attributes['src'].value;
+				if(node.attributes['title'] != undefined) {
+					var title = node.attributes['title'].value;
+				} else {
+					var title = '';
+				}
+				var data = {src: src, title: title};
 				//src = src.split('/');
 				//src = src[src.length - 1];
-				tinyMCE.execCommand('mceAppendImageToPage', false, src);
+				tinyMCE.execCommand('mceAppendImageToPage', false, data);
 			}
 		}
 		

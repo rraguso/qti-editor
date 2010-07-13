@@ -4,19 +4,21 @@
 		
 		init : function(ed, url) {
 			
-			ed.addCommand('mceAddVideo', function(ui, src) {
+			ed.addCommand('mceAddVideo', function(ui, data) {
+				
+				var node = ed.selection.getNode();
+				if(node.nodeName != 'DIV') {
+					node = node.parentNode;
+				}
 				
 				var browseCallback = {
 				
-					onBrowseComplete : function(filePath) {
+					onBrowseComplete : function(filePath, title) {
 						srcArr = filePath.split('/');
-						if(src != undefined && src != '') {
-							var embed = ed.selection.getNode().previousSibling;
-							if(embed.nodeName == 'EMBED') {
-								embed.parentNode.removeChild(embed);
-							}
+						if(data != undefined && data.src != undefined && data.src != '') {
+								node.parentNode.removeChild(node);
 						}
-						var videotag = '<embed type="" src="' + String(srcArr[srcArr.length-2] + '/' + srcArr[srcArr.length-1]) + '" /><img id="mceVideo" src="/work/tools/qtitesteditor/tinymce/tiny_mce/plugins/addvideo/img/movie.png" />';
+						var videotag = '<div><embed type="" src="' + String(srcArr[srcArr.length-2] + '/' + srcArr[srcArr.length-1]) + '" title="' + title + '"/><img id="mceVideo" src="/work/tools/qtitesteditor/tinymce/tiny_mce/plugins/addvideo/img/movie.png" /><br>' + title + '<div>';
 						ed.selection.moveToBookmark(ed.selection.getBookmark());
 						tinyMCE.execCommand('mceInsertContent', false, videotag);
 						return true;
@@ -33,12 +35,16 @@
 				
 				var assetBrowser = tinyMCE.gwtProxy.getAssetBrowser();
 				
-				if(src != undefined && src != '') {
-					srcArr = src.split('/');
-					fileName = String(srcArr[srcArr.length-1]);
-					assetBrowser.setSelectedFile(fileName);
+				if(data != undefined) {
+					if(data.src != undefined && data.src != '') {
+						srcArr = data.src.split('/');
+						fileName = String(srcArr[srcArr.length-1]);
+						assetBrowser.setSelectedFile(fileName);
+					}
+					if(data.title != undefined && data.title != '') {
+						assetBrowser.setTitle(data.title);
+					}
 				}
-				
 				assetBrowser.browse(browseCallback, extensions);
 				
 			});
