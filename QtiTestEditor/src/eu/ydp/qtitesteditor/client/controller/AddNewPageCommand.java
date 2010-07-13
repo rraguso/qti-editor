@@ -19,7 +19,7 @@ public class AddNewPageCommand extends SimpleCommand {
 		hrefs = testProxy.getVO().getItemsHrefs();
 		pagesProxy.addPage(hrefs[hrefs.length-1]);
 		
-		String title = pagesProxy.getDataVO().get(pagesProxy.getDataVO().size()-1).getTitle();
+		String title = pagesProxy.getDataVO().getPage(pagesProxy.getDataVO().getPageCount()-1).getTitle();
 		sendNotification(Constances.ADD_PAGE_TO_LIST, title);
 		sendNotification(Constances.SAVE_TEST);
 		sendNotification(Constances.SAVE_PAGE,hrefs.length-1);
