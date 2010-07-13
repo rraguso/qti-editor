@@ -7,6 +7,7 @@ import com.google.gwt.user.client.Window;
 
 import eu.ydp.qtiPageEditor.client.appcallback.SaveCallback;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
+import eu.ydp.qtiPageEditor.client.model.vo.ModelPageList;
 import eu.ydp.qtiPageEditor.client.model.vo.QTIPageModel;
 import eu.ydp.webapistorage.client.storage.IResource;
 import eu.ydp.webapistorage.client.storage.apierror.IApiError;
@@ -23,7 +24,7 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	private SaveCallback _jsSaveCallback;
 	
 	public QTIPageModelProxy() {
-		super(NAME, new ArrayList<QTIPageModel>());
+		super(NAME, new ModelPageList());
 		_selectedIndex = -1;
 	}
 	
@@ -33,18 +34,18 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	
 	public void load(String[] hrefs){		
 		if(hrefs.length > 0){		
-			String path = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
+			//String path = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
 			//String pagePath = path + hrefs[0];			
 			loadPages(hrefs);		
 		}
 		
 	}
-	@SuppressWarnings("unchecked")
+	
 	private void loadPages(final String[] hrefs){
 		
-		final ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();		
+		final ModelPageList pages = getDataVO();		
 		String path = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
-		String pagePath = path + hrefs[pages.size()];
+		String pagePath = path + hrefs[pages.getPageCount()];
 		IResource resource = _storage.getResource(pagePath);
 		resource.load(new IResourceTextCallback() {
 			
@@ -63,17 +64,17 @@ public class QTIPageModelProxy extends QtiProxyBase{
 				page.setContent(content);
 				page.setPath(resource.getPath());
 				
-				pages.add(page);			
+				pages.addPage(page);			
 				
-				if(pages.size() < hrefs.length){
+				if(pages.getPageCount() < hrefs.length){
 					loadPages(hrefs);
 				}
 				else
 				{					
-					String[] titles = new String[pages.size()];
+					String[] titles = new String[pages.getPageCount()];
 					int i;
-					for(i = 0;i < pages.size(); i++)
-						titles[i] = pages.get(i).getTitle();
+					for(i = 0;i < pages.getPageCount(); i++)
+						titles[i] = pages.getPage(i).getTitle();
 					
 					_selectedIndex = 0;		
 					sendNotification(Constances.PAGES_LOADED, titles);
@@ -86,8 +87,8 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	
 	@SuppressWarnings("unchecked")
 	public void reload(int ix){
-		final ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
-		final QTIPageModel page = pages.get(ix);
+		final ModelPageList pages = getDataVO();
+		final QTIPageModel page = pages.getPage(ix);
 		String path = page.getPath();		
 		IResource resource = _storage.getResource(path);
 		resource.load(new IResourceTextCallback() {
@@ -101,10 +102,10 @@ public class QTIPageModelProxy extends QtiProxyBase{
 			public void onRequestComplete(IResource resource, String command, String content) {				
 				page.setContent(content);
 				
-				String[] titles = new String[pages.size()];
+				String[] titles = new String[pages.getPageCount()];
 				int i;
-				for(i = 0;i < pages.size(); i++)
-					titles[i] = pages.get(i).getTitle();
+				for(i = 0;i < pages.getPageCount(); i++)
+					titles[i] = pages.getPage(i).getTitle();
 				
 				sendNotification(Constances.PAGES_LOADED, titles);
 			}
@@ -128,97 +129,80 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	@SuppressWarnings("unchecked")
 	public void setPagePath(String path, int ix){
 		_testPath = path;
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
+		ModelPageList pages = getDataVO();
 		int n = (ix > -1) ? ix : 0;
 		
-		pages.get(n).setPath(path);
+		pages.getPage(n).setPath(path);
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void addPage(String href){		
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
+		ModelPageList pages = getDataVO();
 		
 		QTIPageModel page = new QTIPageModel();
 		String basePath = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
 		page.setPath(basePath + href);
 		page.setTitle(href.substring(href.lastIndexOf("/")+1));
 		
-		pages.add(page);		
+		pages.addPage(page);		
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void addPage(){		
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
+		ModelPageList pages = getDataVO();
 		
 		QTIPageModel page = new QTIPageModel();		
-		pages.add(page);		
+		pages.addPage(page);		
+	}	
+	
+	public void removePage(int ix){		
+		getDataVO().removePage(ix);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void removePage(int ix){
-		
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
-		pages.remove(ix);
-	}
 	
-	@SuppressWarnings("unchecked")
 	public void swapItems(int from, int to){
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
-		Collections.swap(pages, from, to);
-		
-	}
-	@SuppressWarnings("unchecked")
+		getDataVO().swapItems(from, to);		
+	}	
+
 	public void moveDown(int ix){
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
-		if(ix+1 <pages.size())
-			swapItems(ix, ix+1);
-		else
-			swapItems(0, ix);
+		getDataVO().moveDown(ix);
+	
 	}
-	@SuppressWarnings("unchecked")
-	public void moveUp(int ix){
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
-		if(ix > 0)
-			swapItems(ix, ix-1);
-		else
-			swapItems(pages.size()-1, ix);
+	
+	public void moveUp(int ix){		
+		getDataVO().moveUp(ix);
 	}
 	
 	
 	@SuppressWarnings("unchecked")
-	public ArrayList<QTIPageModel> getDataVO(){
-		return (ArrayList<QTIPageModel>)getData();
+	public ModelPageList getDataVO(){
+		return (ModelPageList)getData();
 	}
 	
 	public void updatePageState(int ix, String content){
-		getDataVO().get(ix).setContent(content);
+		getDataVO().getPage(ix).setContent(content);
 	}	
 	
 	public String getPageContent(int ix){
-		return getDataVO().get(ix).getContent();
+		return getDataVO().getPage(ix).getContent();
 	}
 	
 	public QTIPageModel getPage(int ix){
-		return getDataVO().get(ix);
+		return getDataVO().getPage(ix);
 	}
 	
 	public QTIPageModel getCurrentPage(){		
-		return getDataVO().get(_selectedIndex);
+		return getDataVO().getPage(_selectedIndex);
 	}
 	
-	@SuppressWarnings("unchecked")
+	
 	public void save(int ix){
 		
-		//String basePath = _testPath.substring(0, _testPath.lastIndexOf("/")+1);
 		String path;
-		ArrayList<QTIPageModel> pages = (ArrayList<QTIPageModel>)getData();
-		QTIPageModel page = pages.get(ix);
+		ModelPageList pages = getDataVO();
+		QTIPageModel page = pages.getPage(ix);
 			
-		path = page.getPath();
-		//path = basePath + page.getPath();
-		//Window.alert(basePath + "\n" + path);
+		path = page.getPath();		
 		IResource resource = _storage.getResource(path);		
 		
 		resource.save(page.getContent(), new IResourceCallback() {
