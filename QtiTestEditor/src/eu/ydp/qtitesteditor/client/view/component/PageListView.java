@@ -47,17 +47,22 @@ public class PageListView extends Composite {
 	public void moveUpPage(int ix){
 		if(ix > 0)
 			swapItems(ix, ix-1);
-		else
-			swapItems(getItemCount()-1, 0);
+		else{
+			String item = _listBox.getItemText(0);
+			_listBox.removeItem(0);
+			_listBox.addItem(item);
+		}
+			
 	}
 	
 	public void moveDownPage(int ix){
 		if(ix + 1 < getItemCount())
 			swapItems(ix, ix+1);
-		else
-			swapItems(ix, 0);
-			
-		
+		else{
+			String item = _listBox.getItemText(ix);
+			_listBox.removeItem(ix);
+			_listBox.insertItem(item, 0);
+		}	
 	}
 	
 	public int getLastSelectedIndex(){
