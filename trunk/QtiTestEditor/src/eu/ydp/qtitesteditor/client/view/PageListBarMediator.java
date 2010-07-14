@@ -8,8 +8,12 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.events.DialogYesNoEvent;
 import eu.ydp.qtiPageEditor.client.events.handler.DialogYesNoHandler;
+import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
+import eu.ydp.qtiPageEditor.client.view.PageEditorViewMediator;
+import eu.ydp.qtiPageEditor.client.view.component.PageEditorView;
 import eu.ydp.qtiPageEditor.client.view.component.yesno.YesNoDialog;
 import eu.ydp.qtitesteditor.client.view.component.PageListBarView;
+import eu.ydp.qtitesteditor.client.view.component.PageListView;
 
 public class PageListBarMediator extends Mediator implements ClickHandler {
 	
@@ -35,7 +39,7 @@ public class PageListBarMediator extends Mediator implements ClickHandler {
 		 Object b = event.getSource();
 		 
 		 if(b.equals(view.getAddPageButton()))
-		 	 sendNotification(Constances.ADD_NEW_PAGE_TO_MODEL);
+		 	 onAddPage();
 		 else if(b.equals(view.getRemovePageButton()))
 			 onRemovePage();			 
 		 else if(b.equals(view.getMoveUpButton()))
@@ -63,6 +67,22 @@ public class PageListBarMediator extends Mediator implements ClickHandler {
 			 
 			 dialog.showDialog("Warning", message);
 		 }
+	 }
+	 
+	 private void onAddPage(){		
+		 int ix = ((PageListView)getFacade().retrieveMediator(PageListMediator.NAME).getViewComponent()).getSelectedIndex();
+		 String content = ((PageEditorView)getFacade().retrieveMediator(PageEditorViewMediator.NAME).getViewComponent()).getText();
+		 String oldContent = null;
+		 QTIPageModelProxy proxy = (QTIPageModelProxy)getFacade().retrieveProxy(QTIPageModelProxy.NAME);		 
+		 
+		 if(proxy.getDataVO().getPageCount() > 0)
+			 oldContent = proxy.getPageContent(ix);
+			 
+		 if(oldContent != content)
+			 sendNotification(Constances.UPDATE_PAGE_STATE, content);
+		 
+		 sendNotification(Constances.ADD_NEW_PAGE_TO_MODEL);
+		
 	 }
 	 
 	 
