@@ -99,15 +99,29 @@ public class QtiTestModel {
 	public void moveDown(int ix){
 		if(ix+1 < getItemsHrefs().length)
 			swapItems(ix, ix+1);
-		else
-			swapItems(0, ix);
+		else{
+			Node page = _content.getElementsByTagName("assessmentItemRef").item(ix);
+			Node pageOld = _content.getElementsByTagName("assessmentItemRef").item(0);
+			Node section = _content.getElementsByTagName("assessmentSection").item(0);			
+			
+			section.removeChild(page);			
+			section.insertBefore(page, pageOld);
+			
+		}
 	}
 	
 	public void moveUp(int ix){
 		if(ix > 0)
 			swapItems(ix, ix-1);
-		else
-			swapItems(getItemsHrefs().length -1, ix);
+		else{
+			Node page = _content.getElementsByTagName("assessmentItemRef").item(0);			
+			Node section = _content.getElementsByTagName("assessmentSection").item(0);		
+			
+			section.removeChild(page);			
+			section.appendChild(page);
+			
+		}
+			
 	}
 	
 	public String getContent(){

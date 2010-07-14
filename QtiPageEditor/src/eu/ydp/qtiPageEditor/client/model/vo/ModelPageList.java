@@ -36,15 +36,24 @@ public class ModelPageList {
 		if(ix+1 <_pageList.size())
 			swapItems(ix, ix+1);
 		else
-			swapItems(0, ix);
+		{
+			QTIPageModel page = _pageList.get(getPageCount()-1);
+			_pageList.remove(getPageCount()-1);
+			_pageList.add(0, page);			
+		}
 		
 	}
 	
 	public void moveUp(int ix){
 		if(ix > 0)
 			swapItems(ix, ix-1);
-		else
-			swapItems(_pageList.size()-1, ix);
+		else{
+			QTIPageModel page = _pageList.get(0);
+			_pageList.remove(0);
+			_pageList.add(page);				
+			
+		}
+		
 	}
 
 }
