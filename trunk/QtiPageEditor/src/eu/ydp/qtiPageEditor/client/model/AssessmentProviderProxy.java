@@ -3,8 +3,8 @@ package eu.ydp.qtiPageEditor.client.model;
 import org.puremvc.java.multicore.patterns.proxy.Proxy;
 
 import com.qtitools.player.client.model.Assessment;
-import com.qtitools.player.client.model.AssessmentItem;
-import com.qtitools.player.client.module.IStateChangedListener;
+import com.qtitools.player.client.model.Item;
+import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 
 import eu.ydp.qtiPageEditor.client.model.vo.AssessmentProvider;
 
@@ -20,7 +20,7 @@ public class AssessmentProviderProxy extends Proxy {
 		return getVO().getAssessment(data, basePath);
 	}
 	
-	public AssessmentItem getAssessmentItem(String data, String basePath, IStateChangedListener stateChangedListener){
+	public Item getAssessmentItem(String data, String basePath, ModuleStateChangedEventsListener stateChangedListener){
 		return getVO().getAssessmentItem(data, basePath, stateChangedListener);
 	}
 	
