@@ -26,6 +26,10 @@
 						ed.windowManager.alert("Select text to be commented");
 						return false;
 					}
+					if(/<\/?qy:comment[^>]*>/i.test(ed.selection.getContent()) || (/<span[^>]*class="qy_comment"[^>]*>/i.test(ed.selection.getContent()))) {
+						ed.windowManager.alert("Comments cannot be nested");
+						return false;
+					}
 					var commented_text = ed.selection.getContent();
 					var comment_content = '';
 					var comment_id = '';
