@@ -20,8 +20,11 @@ public class ModuleConfig extends JavaScriptObject {
 		return this.tinyMceCreatedCallback
 	}-*/;
 	
-	
-
-	
-
+	public final native int getPing()/*-{
+		var p = -1;
+		if(this.ping)
+			p = this.ping;
+			
+		return p;	
+	}-*/;
 }

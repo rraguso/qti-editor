@@ -10,10 +10,15 @@ import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.env.impl.EditorEnvirnoment;
+import eu.ydp.qtiPageEditor.client.events.SessionSustainerErrorEvent;
 import eu.ydp.qtiPageEditor.client.events.TinyMceSaveEvent;
+import eu.ydp.qtiPageEditor.client.events.handler.SessionSustainerErrorHandler;
 import eu.ydp.qtiPageEditor.client.model.jso.ModuleConfig;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServiceFactory;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry;
+import eu.ydp.qtiPageEditor.client.session.SessionSustainer;
+import eu.ydp.qtiPageEditor.client.view.component.AlertWindow;
+import eu.ydp.webapistorage.client.storage.apierror.IApiError;
 import eu.ydp.webapistorage.client.storage.impl.Storage;
 
 
@@ -70,11 +75,32 @@ public class QtiPageEditor implements EntryPoint {
 	}-*/;
 	
 	private void register(ModuleConfig conf )
-	{	
-		ServicesRegistry sr = new ServicesRegistry(new ServiceFactory());
-		_env = new EditorEnvirnoment(conf.getPageURL(),"media", Storage.getInstance(), sr);
+	{		
+		ServicesRegistry sr = new ServicesRegistry(new ServiceFactory());		
+		_env = new EditorEnvirnoment(conf.getPageURL(),"media", Storage.getInstance(), sr);		
+		SessionSustainer sessionSustainer = new SessionSustainer(_env.getBasePath(), _env.getStorage());
+		
+		sessionSustainer.addErrorHandler(new SessionSustainerErrorHandler() {			
+			@Override
+			public void onSessionSustainerError(SessionSustainerErrorEvent event) {
+				onSessionPingError(event.getError());				
+			}
+		});
+		
+		if(conf.getPing() > -1)
+			sessionSustainer.start(conf.getPing());
+		else
+			sessionSustainer.start();
+		
 		StartupData startupData = new StartupData(_env, conf.getCellId(), conf.getTinyMceCreatedCallback());
 		ApplicationFasade.getInstance(ApplicationFasade.KEY).startup(startupData);			
+	}
+	
+	private void onSessionPingError(IApiError error){
+		AlertWindow alert = new AlertWindow();
+		alert.showErrorMessage(error.getType(), error.getDetails(), error.getErrorCode());
+		alert.center();
+		
 	}
 	
 	private void setPath(String path){		
