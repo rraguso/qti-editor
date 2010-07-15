@@ -160,13 +160,33 @@ var orderDialog = {
 			responseDeclaration = '<!-- <responseDeclaration identifier="' + identifier + '" cardinality="ordered" baseType="identifier"><correctResponse>';
 			var responseOrder = new Array;
 			for(i in answers) {
+				responseOrder[points[i]] = ids[i];
+			}
+			var i = answers.length;
+			if (i > 0) {
+				while (--i) {
+					var j = Math.floor(Math.random() * (i + 1));
+					var tempi = answers[i];
+					var tempj = answers[j];
+					answers[i] = tempj;
+					answers[j] = tempi;
+					var tempi = ids[i];
+					var tempj = ids[j];
+					ids[i] = tempj;
+					ids[j] = tempi;
+					var tempi = points[i];
+					var tempj = points[j];
+					points[i] = tempj;
+					points[j] = tempi;
+				}
+			}
+			for(i in answers) {
 				orderSection += '<!-- <simpleChoice identifier="' + ids[i] + '"';
 				if(fixed[i] == 1) {
 					orderSection += ' fixed="true" ';
 				}
 				orderSection += '>' + answers[i] + '</simpleChoice> --><div id="orderOption" name="' + points[i] + '"  style="border: 1px solid green; margin: 2px;"';
 				orderSection += '>' + answers[i] + '</div>';
-				responseOrder[points[i]] = ids[i];
 			}
 			for(i in responseOrder) {
 				responseDeclaration += '<value>' + responseOrder[i] + '</value>';
@@ -202,15 +222,37 @@ var orderDialog = {
 			}
 			orderSection = '<p id="choiceInteraction">' + question + '</p>';
 			var responseOrder = new Array;
+			
+			for(i in answers) {
+				responseOrder[points[i]] = ids[i];
+			}
+			
+			var i = answers.length;
+			if (i > 0) {
+				while (--i) {
+					var j = Math.floor(Math.random() * (i + 1));
+					var tempi = answers[i];
+					var tempj = answers[j];
+					answers[i] = tempj;
+					answers[j] = tempi;
+					var tempi = ids[i];
+					var tempj = ids[j];
+					ids[i] = tempj;
+					ids[j] = tempi;
+					var tempi = points[i];
+					var tempj = points[j];
+					points[i] = tempj;
+					points[j] = tempi;
+				}
+			}
+			
 			for(i in answers) {
 				orderSection += '<!-- <simpleChoice identifier="' + ids[i] + '"';
 				if(fixed[i] == 1) {
 					orderSection += ' fixed="true" ';
 				}
-				responseOrder[points[i]] = ids[i];
 				orderSection += '>' + answers[i] + '</simpleChoice> --><div id="orderOption" name="' + points[i] + '" style="border: 1px solid green; margin: 2px;"'; 
 				orderSection += '>' + answers[i] + '</div>';
-				
 			}
 			for(i in responseOrder) {
 				responseDeclaration += '<value>' + responseOrder[i] + '</value>';
