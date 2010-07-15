@@ -83,9 +83,8 @@ public class QTIPageModelProxy extends QtiProxyBase{
 			}
 			
 		});
-	}
+	}	
 	
-	@SuppressWarnings("unchecked")
 	public void reload(int ix){
 		final ModelPageList pages = getDataVO();
 		final QTIPageModel page = pages.getPage(ix);
@@ -126,7 +125,6 @@ public class QTIPageModelProxy extends QtiProxyBase{
 		setPagePath(path,-1);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void setPagePath(String path, int ix){
 		_testPath = path;
 		ModelPageList pages = getDataVO();
@@ -174,7 +172,6 @@ public class QTIPageModelProxy extends QtiProxyBase{
 	}
 	
 	
-	@SuppressWarnings("unchecked")
 	public ModelPageList getDataVO(){
 		return (ModelPageList)getData();
 	}

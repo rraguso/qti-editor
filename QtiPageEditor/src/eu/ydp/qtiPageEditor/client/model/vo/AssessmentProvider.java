@@ -3,8 +3,8 @@ package eu.ydp.qtiPageEditor.client.model.vo;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 import com.qtitools.player.client.model.Assessment;
-import com.qtitools.player.client.model.AssessmentItem;
-import com.qtitools.player.client.module.IStateChangedListener;
+import com.qtitools.player.client.model.Item;
+import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.xml.document.XMLData;
 
 public class AssessmentProvider {
@@ -23,10 +23,10 @@ public class AssessmentProvider {
 		return assessment;
 	}
 	
-	public AssessmentItem getAssessmentItem(String data, String basePath, IStateChangedListener stateChangedListener){
+	public Item getAssessmentItem(String data, String basePath,  ModuleStateChangedEventsListener stateChangedListener){
 		Document doc = XMLParser.parse(data);
 		XMLData xmldata = new XMLData(doc, basePath);
-		AssessmentItem item = new AssessmentItem(xmldata, stateChangedListener);
+		Item item = new Item(xmldata, stateChangedListener);
 		
 		return item;
 	}

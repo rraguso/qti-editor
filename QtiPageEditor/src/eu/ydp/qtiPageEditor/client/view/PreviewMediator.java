@@ -3,19 +3,20 @@ package eu.ydp.qtiPageEditor.client.view;
 import org.puremvc.java.multicore.interfaces.INotification;
 import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
-
-import com.google.gwt.user.client.Window;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.XMLParser;
 import com.qtitools.player.client.model.Assessment;
-import com.qtitools.player.client.model.AssessmentItem;
+import com.qtitools.player.client.model.Item;
 import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.IStateChangedListener;
+import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
+import com.qtitools.player.client.util.xml.document.XMLData;
 
 import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.model.AssessmentProviderProxy;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
 import eu.ydp.qtiPageEditor.client.model.QTITestModelProxy;
 import eu.ydp.qtiPageEditor.client.model.vo.QTIPageModel;
-import eu.ydp.qtiPageEditor.client.view.component.PreviewView;
+import eu.ydp.qtiPageEditor.client.view.component.preview.PreviewView;
 
 public class PreviewMediator extends Mediator {	
 	 
@@ -29,14 +30,15 @@ public class PreviewMediator extends Mediator {
 	public void onRegister(){	
 		
 		PreviewView preview = (PreviewView)getViewComponent();		
-		preview.init();		
 	}
 	
 	private void showPreview(INotification notification){		
 		
-		String content;
-		
 		PreviewView preview = (PreviewView)getViewComponent();
+		
+		String content = (String)notification.getBody();
+		Document liveDoc = XMLParser.parse(content);
+		
 		
 		QTIPageModelProxy pageProxy = (QTIPageModelProxy)getFacade().retrieveProxy(QTIPageModelProxy.NAME);
 		QTIPageModel pageInfo = pageProxy.getCurrentPage();
@@ -45,21 +47,14 @@ public class PreviewMediator extends Mediator {
 		String testPath = testProxy.getHref();
 		testPath = testPath.substring(0, testPath.lastIndexOf("/")+1);
 		String pagePath = pageInfo.getPath();
-		pagePath = pagePath.substring(0, pagePath.lastIndexOf("/")+1);
+		pagePath = pagePath.substring(0, pagePath.lastIndexOf("/")+1);		
 		
-		AssessmentProviderProxy assessmentProxy = (AssessmentProviderProxy)getFacade().retrieveProxy(AssessmentProviderProxy.NAME);
-		Assessment assessment = assessmentProxy.getAssessment(testProxy.getContent(), testPath);
+		XMLData assessment = new XMLData(testProxy.getDocument(), testPath);
+		XMLData[] items = new XMLData[]{new XMLData(liveDoc, pagePath)};
 		
-		content = notification.getBody() != null ? (String)notification.getBody() : pageInfo.getContent(); 
-		AssessmentItem  assessmentItem = assessmentProxy.getAssessmentItem(content, pagePath, new IStateChangedListener() {
-			
-			@Override
-			public void onStateChanged(IInteractionModule sender) {
-				// TODO Auto-generated method stub				
-			}
-		});		
 		
-		preview.showPreview(assessment, assessmentItem, pageProxy.getSelectedIndex());
+		//preview.showPreview();
+		preview.showPreview(assessment, items);
 	}
 	
 	@Override
@@ -74,6 +69,7 @@ public class PreviewMediator extends Mediator {
 	public String[] listNotificationInterests() {
 		return new String[]{Constances.SHOW_PREVIEW};
 	}
+	
 	
 	
 }
