@@ -7,9 +7,14 @@ import eu.ydp.qtiPageEditor.client.constance.Constances;
 import eu.ydp.qtiPageEditor.client.controller.startupdata.StartupData;
 import eu.ydp.qtiPageEditor.client.env.IEditorEnvirnoment;
 import eu.ydp.qtiPageEditor.client.env.impl.EditorEnvirnoment;
+import eu.ydp.qtiPageEditor.client.events.SessionSustainerErrorEvent;
+import eu.ydp.qtiPageEditor.client.events.handler.SessionSustainerErrorHandler;
 import eu.ydp.qtiPageEditor.client.model.jso.ModuleConfig;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServiceFactory;
 import eu.ydp.qtiPageEditor.client.serviceregistry.ServicesRegistry;
+import eu.ydp.qtiPageEditor.client.session.SessionSustainer;
+import eu.ydp.qtiPageEditor.client.view.component.AlertWindow;
+import eu.ydp.webapistorage.client.storage.apierror.IApiError;
 import eu.ydp.webapistorage.client.storage.impl.Storage;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -54,6 +59,22 @@ public class QtiTestEditor implements EntryPoint {
 	{
 		ServicesRegistry reg = new ServicesRegistry(new ServiceFactory());
 		IEditorEnvirnoment env = new EditorEnvirnoment(conf.getPageURL(), "script_00001/media", Storage.getInstance(), reg);		
+		
+		SessionSustainer sessionSustainer = new SessionSustainer(env.getBasePath(), env.getStorage());
+		
+		sessionSustainer.addErrorHandler(new SessionSustainerErrorHandler() {			
+			@Override
+			public void onSessionSustainerError(SessionSustainerErrorEvent event) {
+				onSessionPingError(event.getError());				
+			}
+		});
+		
+		if(conf.getPing() > -1)
+			sessionSustainer.start(conf.getPing());
+		else
+			sessionSustainer.start();
+		
+		
 		StartupData startupData = new StartupData(env, conf.getCellId(), conf.getTinyMceCreatedCallback());
 		QtiTestEditorFasade.getInstance(QtiTestEditorFasade.KEY).startup(startupData);
 	}
@@ -70,6 +91,14 @@ public class QtiTestEditor implements EntryPoint {
 		QtiTestEditorFasade facade = QtiTestEditorFasade.getInstance(QtiTestEditorFasade.KEY);
 		if(facade != null)
 			facade.sendNotification(Constances.SET_TINY_CELL_SIZE, height, "height");
+	}
+	
+	
+	private void onSessionPingError(IApiError error){
+		AlertWindow alert = new AlertWindow();
+		alert.showErrorMessage(error.getType(), error.getDetails(), error.getErrorCode());
+		alert.center();
+		
 	}
 
 }
