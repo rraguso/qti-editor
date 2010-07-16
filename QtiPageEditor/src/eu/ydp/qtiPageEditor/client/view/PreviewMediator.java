@@ -5,14 +5,8 @@ import org.puremvc.java.multicore.patterns.mediator.Mediator;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
-import com.qtitools.player.client.model.Assessment;
-import com.qtitools.player.client.model.Item;
-import com.qtitools.player.client.module.IInteractionModule;
-import com.qtitools.player.client.module.ModuleStateChangedEventsListener;
 import com.qtitools.player.client.util.xml.document.XMLData;
-
 import eu.ydp.qtiPageEditor.client.constance.Constances;
-import eu.ydp.qtiPageEditor.client.model.AssessmentProviderProxy;
 import eu.ydp.qtiPageEditor.client.model.QTIPageModelProxy;
 import eu.ydp.qtiPageEditor.client.model.QTITestModelProxy;
 import eu.ydp.qtiPageEditor.client.model.vo.QTIPageModel;
@@ -27,9 +21,8 @@ public class PreviewMediator extends Mediator {
 		super(NAME, new PreviewView());
 	}
 	
-	public void onRegister(){	
-		
-		PreviewView preview = (PreviewView)getViewComponent();		
+	public void onRegister(){		
+			
 	}
 	
 	private void showPreview(INotification notification){		
