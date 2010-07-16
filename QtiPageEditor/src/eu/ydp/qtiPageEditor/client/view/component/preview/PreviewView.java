@@ -40,10 +40,6 @@ public class PreviewView extends DialogBox {
 		setText("Preview");
 		setWidget(uiBinder.createAndBindUi(this));		
 		
-	}	
-	
-	public void showPreview(){
-		center();
 	}
 	
 	public void showPreview(XMLData assessmentData , XMLData[] itemsData){
