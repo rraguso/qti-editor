@@ -2042,7 +2042,7 @@ tinymce.create('static tinymce.util.XHR', {
 		processQYComments : function(h) {
 			
 			h = h.replace(/<span (id="[0-9]+" class="qy_comment") style="">/gi, '<span $1 style="color: red; background-color: #f0f0f0">');
-			h = h.replace(/<qy:comment idref="([0-9]+)">([^<]*)<\/qy:comment>/gi, '<div id="ref_$1" class="mceNonEditable qy_comment" style="float: right; border: 1px solid red; background-color: #f0f0f0;">$2</div>');
+			h = h.replace(/<qy:comment idref="([0-9]+)">([^<]*)<\/qy:comment>/gi, '<div id="ref_$1" class="mceNonEditable qy_comment" style="float: right; clear: both; border: 1px solid red; background-color: #f0f0f0; max-width: 20%;">$2</div>');
 			return h;
 			
 		},
